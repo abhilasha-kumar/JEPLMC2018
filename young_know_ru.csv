@@ -1,0 +1,401 @@
+,Subject,AgeGroup,StudyNo,PrimeCondition,Accuracy,Question.RESP,Trials,Experiment,Count
+1,9,Young,1,R,0,1,6,Young 48 ms,1
+2,9,Young,1,R,1,1,1,Young 48 ms,1
+3,9,Young,1,U,0,1,1,Young 48 ms,1
+4,9,Young,1,U,1,1,7,Young 48 ms,1
+5,10,Young,1,R,0,1,8,Young 48 ms,1
+6,10,Young,1,R,1,1,7,Young 48 ms,1
+7,10,Young,1,U,0,1,12,Young 48 ms,1
+8,10,Young,1,U,1,1,3,Young 48 ms,1
+9,11,Young,1,R,0,1,6,Young 48 ms,1
+10,11,Young,1,R,1,1,3,Young 48 ms,1
+11,11,Young,1,U,0,1,1,Young 48 ms,1
+12,11,Young,1,U,1,1,2,Young 48 ms,1
+13,12,Young,1,R,0,1,5,Young 48 ms,1
+14,12,Young,1,R,1,1,3,Young 48 ms,1
+15,12,Young,1,U,0,1,2,Young 48 ms,1
+16,12,Young,1,U,1,1,4,Young 48 ms,1
+17,13,Young,1,R,0,1,11,Young 48 ms,1
+18,13,Young,1,R,1,1,3,Young 48 ms,1
+19,13,Young,1,U,0,1,7,Young 48 ms,1
+20,13,Young,1,U,1,1,8,Young 48 ms,1
+21,14,Young,1,R,0,1,2,Young 48 ms,1
+22,14,Young,1,R,1,1,2,Young 48 ms,1
+23,14,Young,1,U,0,1,1,Young 48 ms,1
+24,15,Young,1,R,0,1,6,Young 48 ms,1
+25,15,Young,1,R,1,1,10,Young 48 ms,1
+26,15,Young,1,U,0,1,4,Young 48 ms,1
+27,15,Young,1,U,1,1,2,Young 48 ms,1
+28,16,Young,1,R,0,1,11,Young 48 ms,1
+29,16,Young,1,R,1,1,3,Young 48 ms,1
+30,16,Young,1,U,0,1,2,Young 48 ms,1
+31,16,Young,1,U,1,1,3,Young 48 ms,1
+32,17,Young,1,R,1,1,1,Young 48 ms,1
+33,17,Young,1,U,0,1,1,Young 48 ms,1
+34,17,Young,1,U,1,1,5,Young 48 ms,1
+35,18,Young,1,R,0,1,2,Young 48 ms,1
+36,18,Young,1,R,1,1,7,Young 48 ms,1
+37,18,Young,1,U,0,1,2,Young 48 ms,1
+38,18,Young,1,U,1,1,2,Young 48 ms,1
+39,19,Young,1,R,0,1,4,Young 48 ms,1
+40,19,Young,1,R,1,1,7,Young 48 ms,1
+41,19,Young,1,U,0,1,3,Young 48 ms,1
+42,19,Young,1,U,1,1,2,Young 48 ms,1
+43,20,Young,1,R,0,1,3,Young 48 ms,1
+44,20,Young,1,R,1,1,1,Young 48 ms,1
+45,20,Young,1,U,0,1,3,Young 48 ms,1
+46,20,Young,1,U,1,1,2,Young 48 ms,1
+47,21,Young,1,R,0,1,9,Young 48 ms,1
+48,21,Young,1,R,1,1,5,Young 48 ms,1
+49,21,Young,1,U,0,1,9,Young 48 ms,1
+50,21,Young,1,U,1,1,10,Young 48 ms,1
+51,22,Young,1,R,0,1,2,Young 48 ms,1
+52,22,Young,1,R,1,1,8,Young 48 ms,1
+53,22,Young,1,U,0,1,3,Young 48 ms,1
+54,22,Young,1,U,1,1,3,Young 48 ms,1
+55,23,Young,1,R,0,1,2,Young 48 ms,1
+56,23,Young,1,R,1,1,13,Young 48 ms,1
+57,23,Young,1,U,0,1,3,Young 48 ms,1
+58,23,Young,1,U,1,1,6,Young 48 ms,1
+59,24,Young,1,R,0,1,1,Young 48 ms,1
+60,24,Young,1,U,1,1,2,Young 48 ms,1
+61,25,Young,1,R,0,1,12,Young 48 ms,1
+62,25,Young,1,R,1,1,6,Young 48 ms,1
+63,25,Young,1,U,0,1,4,Young 48 ms,1
+64,25,Young,1,U,1,1,9,Young 48 ms,1
+65,26,Young,1,R,0,1,8,Young 48 ms,1
+66,26,Young,1,R,1,1,3,Young 48 ms,1
+67,26,Young,1,U,0,1,5,Young 48 ms,1
+68,27,Young,1,R,0,1,9,Young 48 ms,1
+69,27,Young,1,R,1,1,9,Young 48 ms,1
+70,27,Young,1,U,0,1,5,Young 48 ms,1
+71,27,Young,1,U,1,1,5,Young 48 ms,1
+72,28,Young,1,R,0,1,4,Young 48 ms,1
+73,28,Young,1,R,1,1,1,Young 48 ms,1
+74,28,Young,1,U,0,1,4,Young 48 ms,1
+75,29,Young,1,R,0,1,9,Young 48 ms,1
+76,29,Young,1,R,1,1,5,Young 48 ms,1
+77,29,Young,1,U,0,1,8,Young 48 ms,1
+78,29,Young,1,U,1,1,10,Young 48 ms,1
+79,30,Young,1,R,0,1,1,Young 48 ms,1
+80,30,Young,1,R,1,1,1,Young 48 ms,1
+81,30,Young,1,U,1,1,2,Young 48 ms,1
+82,31,Young,1,R,0,1,2,Young 48 ms,1
+83,31,Young,1,R,1,1,21,Young 48 ms,1
+84,31,Young,1,U,0,1,3,Young 48 ms,1
+85,31,Young,1,U,1,1,13,Young 48 ms,1
+86,32,Young,1,R,0,1,7,Young 48 ms,1
+87,32,Young,1,R,1,1,1,Young 48 ms,1
+88,32,Young,1,U,0,1,2,Young 48 ms,1
+89,32,Young,1,U,1,1,4,Young 48 ms,1
+90,33,Young,1,R,0,1,16,Young 48 ms,1
+91,33,Young,1,R,1,1,1,Young 48 ms,1
+92,33,Young,1,U,0,1,9,Young 48 ms,1
+93,33,Young,1,U,1,1,10,Young 48 ms,1
+94,34,Young,1,R,0,1,4,Young 48 ms,1
+95,34,Young,1,R,1,1,8,Young 48 ms,1
+96,34,Young,1,U,0,1,5,Young 48 ms,1
+97,34,Young,1,U,1,1,5,Young 48 ms,1
+98,35,Young,1,R,0,1,3,Young 48 ms,1
+99,35,Young,1,R,1,1,4,Young 48 ms,1
+100,35,Young,1,U,0,1,3,Young 48 ms,1
+101,35,Young,1,U,1,1,1,Young 48 ms,1
+102,36,Young,1,R,0,1,12,Young 48 ms,1
+103,36,Young,1,R,1,1,1,Young 48 ms,1
+104,36,Young,1,U,0,1,2,Young 48 ms,1
+105,36,Young,1,U,1,1,5,Young 48 ms,1
+106,37,Young,1,R,0,1,5,Young 48 ms,1
+107,37,Young,1,R,1,1,2,Young 48 ms,1
+108,37,Young,1,U,0,1,4,Young 48 ms,1
+109,37,Young,1,U,1,1,5,Young 48 ms,1
+110,38,Young,1,R,0,1,8,Young 48 ms,1
+111,38,Young,1,R,1,1,2,Young 48 ms,1
+112,38,Young,1,U,0,1,3,Young 48 ms,1
+113,38,Young,1,U,1,1,1,Young 48 ms,1
+114,39,Young,1,R,0,1,14,Young 48 ms,1
+115,39,Young,1,R,1,1,1,Young 48 ms,1
+116,39,Young,1,U,0,1,7,Young 48 ms,1
+117,39,Young,1,U,1,1,3,Young 48 ms,1
+118,40,Young,1,R,0,1,11,Young 48 ms,1
+119,40,Young,1,R,1,1,4,Young 48 ms,1
+120,40,Young,1,U,0,1,5,Young 48 ms,1
+121,40,Young,1,U,1,1,4,Young 48 ms,1
+122,41,Young,1,R,0,1,3,Young 48 ms,1
+123,41,Young,1,R,1,1,3,Young 48 ms,1
+124,41,Young,1,U,0,1,1,Young 48 ms,1
+125,41,Young,1,U,1,1,4,Young 48 ms,1
+126,42,Young,1,R,0,1,4,Young 48 ms,1
+127,42,Young,1,R,1,1,9,Young 48 ms,1
+128,42,Young,1,U,0,1,4,Young 48 ms,1
+129,42,Young,1,U,1,1,3,Young 48 ms,1
+130,43,Young,1,R,0,1,10,Young 48 ms,1
+131,43,Young,1,R,1,1,10,Young 48 ms,1
+132,43,Young,1,U,0,1,5,Young 48 ms,1
+133,43,Young,1,U,1,1,4,Young 48 ms,1
+134,44,Young,1,R,0,1,8,Young 48 ms,1
+135,44,Young,1,U,0,1,3,Young 48 ms,1
+136,44,Young,1,U,1,1,5,Young 48 ms,1
+137,59,Young,2,R,0,1,10,No Instructions,1
+138,59,Young,2,R,1,1,7,No Instructions,1
+139,59,Young,2,U,0,1,10,No Instructions,1
+140,59,Young,2,U,1,1,3,No Instructions,1
+141,60,Young,2,R,0,1,17,No Instructions,1
+142,60,Young,2,R,1,1,2,No Instructions,1
+143,60,Young,2,U,0,1,5,No Instructions,1
+144,60,Young,2,U,1,1,4,No Instructions,1
+145,61,Young,2,R,0,1,1,No Instructions,1
+146,61,Young,2,R,1,1,5,No Instructions,1
+147,61,Young,2,U,0,1,7,No Instructions,1
+148,61,Young,2,U,1,1,8,No Instructions,1
+149,62,Young,2,R,0,1,6,No Instructions,1
+150,62,Young,2,R,1,1,10,No Instructions,1
+151,62,Young,2,U,0,1,7,No Instructions,1
+152,62,Young,2,U,1,1,7,No Instructions,1
+153,63,Young,2,R,0,1,3,No Instructions,1
+154,63,Young,2,R,1,1,12,No Instructions,1
+155,63,Young,2,U,0,1,1,No Instructions,1
+156,63,Young,2,U,1,1,2,No Instructions,1
+157,64,Young,2,R,0,1,7,No Instructions,1
+158,64,Young,2,R,1,1,10,No Instructions,1
+159,64,Young,2,U,0,1,2,No Instructions,1
+160,64,Young,2,U,1,1,13,No Instructions,1
+161,65,Young,2,R,0,1,9,No Instructions,1
+162,65,Young,2,R,1,1,3,No Instructions,1
+163,65,Young,2,U,0,1,6,No Instructions,1
+164,65,Young,2,U,1,1,5,No Instructions,1
+165,66,Young,2,R,0,1,1,No Instructions,1
+166,66,Young,2,R,1,1,4,No Instructions,1
+167,66,Young,2,U,0,1,2,No Instructions,1
+168,66,Young,2,U,1,1,1,No Instructions,1
+169,67,Young,2,R,0,1,2,No Instructions,1
+170,67,Young,2,R,1,1,2,No Instructions,1
+171,67,Young,2,U,1,1,2,No Instructions,1
+172,68,Young,2,R,0,1,3,No Instructions,1
+173,68,Young,2,U,0,1,1,No Instructions,1
+174,68,Young,2,U,1,1,3,No Instructions,1
+175,69,Young,2,R,0,1,1,No Instructions,1
+176,69,Young,2,R,1,1,2,No Instructions,1
+177,69,Young,2,U,0,1,2,No Instructions,1
+178,69,Young,2,U,1,1,7,No Instructions,1
+179,70,Young,2,R,0,1,7,No Instructions,1
+180,70,Young,2,R,1,1,9,No Instructions,1
+181,70,Young,2,U,0,1,6,No Instructions,1
+182,70,Young,2,U,1,1,6,No Instructions,1
+183,71,Young,2,R,0,1,9,No Instructions,1
+184,71,Young,2,R,1,1,9,No Instructions,1
+185,71,Young,2,U,0,1,4,No Instructions,1
+186,71,Young,2,U,1,1,2,No Instructions,1
+187,72,Young,2,R,0,1,6,No Instructions,1
+188,72,Young,2,R,1,1,1,No Instructions,1
+189,72,Young,2,U,1,1,5,No Instructions,1
+190,74,Young,2,R,0,1,1,No Instructions,1
+191,74,Young,2,R,1,1,10,No Instructions,1
+192,74,Young,2,U,0,1,7,No Instructions,1
+193,74,Young,2,U,1,1,3,No Instructions,1
+194,75,Young,2,R,0,1,5,No Instructions,1
+195,75,Young,2,R,1,1,5,No Instructions,1
+196,75,Young,2,U,0,1,1,No Instructions,1
+197,75,Young,2,U,1,1,1,No Instructions,1
+198,76,Young,2,R,0,1,12,No Instructions,1
+199,76,Young,2,R,1,1,5,No Instructions,1
+200,76,Young,2,U,0,1,5,No Instructions,1
+201,76,Young,2,U,1,1,12,No Instructions,1
+202,77,Young,2,R,0,1,6,No Instructions,1
+203,77,Young,2,R,1,1,1,No Instructions,1
+204,77,Young,2,U,0,1,4,No Instructions,1
+205,77,Young,2,U,1,1,5,No Instructions,1
+206,78,Young,2,R,0,1,1,No Instructions,1
+207,78,Young,2,R,1,1,9,No Instructions,1
+208,78,Young,2,U,0,1,2,No Instructions,1
+209,78,Young,2,U,1,1,4,No Instructions,1
+210,79,Young,2,R,0,1,5,No Instructions,1
+211,79,Young,2,R,1,1,6,No Instructions,1
+212,79,Young,2,U,0,1,1,No Instructions,1
+213,80,Young,2,R,0,1,6,No Instructions,1
+214,80,Young,2,R,1,1,3,No Instructions,1
+215,80,Young,2,U,1,1,6,No Instructions,1
+216,81,Young,2,R,0,1,6,No Instructions,1
+217,81,Young,2,R,1,1,1,No Instructions,1
+218,81,Young,2,U,0,1,1,No Instructions,1
+219,81,Young,2,U,1,1,1,No Instructions,1
+220,82,Young,2,R,0,1,3,No Instructions,1
+221,82,Young,2,R,1,1,5,No Instructions,1
+222,82,Young,2,U,0,1,1,No Instructions,1
+223,82,Young,2,U,1,1,3,No Instructions,1
+224,83,Young,2,R,0,1,8,No Instructions,1
+225,83,Young,2,R,1,1,5,No Instructions,1
+226,83,Young,2,U,0,1,5,No Instructions,1
+227,83,Young,2,U,1,1,2,No Instructions,1
+228,84,Young,2,R,0,1,3,No Instructions,1
+229,84,Young,2,R,1,1,3,No Instructions,1
+230,84,Young,2,U,0,1,1,No Instructions,1
+231,84,Young,2,U,1,1,6,No Instructions,1
+232,85,Young,2,R,0,1,3,No Instructions,1
+233,85,Young,2,U,0,1,9,No Instructions,1
+234,85,Young,2,U,1,1,1,No Instructions,1
+235,86,Young,2,R,0,1,2,No Instructions,1
+236,86,Young,2,U,0,1,4,No Instructions,1
+237,87,Young,2,R,0,1,4,No Instructions,1
+238,87,Young,2,R,1,1,7,No Instructions,1
+239,87,Young,2,U,0,1,4,No Instructions,1
+240,87,Young,2,U,1,1,4,No Instructions,1
+241,88,Young,2,R,0,1,3,No Instructions,1
+242,88,Young,2,R,1,1,1,No Instructions,1
+243,88,Young,2,U,0,1,3,No Instructions,1
+244,88,Young,2,U,1,1,3,No Instructions,1
+245,89,Young,2,R,0,1,3,No Instructions,1
+246,89,Young,2,R,1,1,3,No Instructions,1
+247,89,Young,2,U,0,1,3,No Instructions,1
+248,89,Young,2,U,1,1,7,No Instructions,1
+249,90,Young,2,R,0,1,4,No Instructions,1
+250,90,Young,2,R,1,1,3,No Instructions,1
+251,90,Young,2,U,0,1,4,No Instructions,1
+252,91,Young,2,R,0,1,4,No Instructions,1
+253,91,Young,2,R,1,1,6,No Instructions,1
+254,91,Young,2,U,0,1,7,No Instructions,1
+255,91,Young,2,U,1,1,5,No Instructions,1
+256,92,Young,2,R,0,1,7,No Instructions,1
+257,92,Young,2,R,1,1,2,No Instructions,1
+258,92,Young,2,U,0,1,1,No Instructions,1
+259,92,Young,2,U,1,1,10,No Instructions,1
+260,93,Young,2,R,0,1,2,No Instructions,1
+261,93,Young,2,R,1,1,4,No Instructions,1
+262,93,Young,2,U,0,1,2,No Instructions,1
+263,93,Young,2,U,1,1,13,No Instructions,1
+264,94,Young,2,R,0,1,9,No Instructions,1
+265,94,Young,2,R,1,1,2,No Instructions,1
+266,94,Young,2,U,0,1,6,No Instructions,1
+267,94,Young,2,U,1,1,1,No Instructions,1
+268,95,Young,2,R,0,1,3,No Instructions,1
+269,95,Young,2,R,1,1,3,No Instructions,1
+270,95,Young,2,U,1,1,1,No Instructions,1
+271,97,Young,2,R,0,1,12,No Instructions,1
+272,97,Young,2,R,1,1,5,No Instructions,1
+273,97,Young,2,U,0,1,9,No Instructions,1
+274,97,Young,2,U,1,1,11,No Instructions,1
+275,163,Young,5,R,0,1,4,With Instructions,1
+276,163,Young,5,R,1,1,4,With Instructions,1
+277,163,Young,5,U,0,1,1,With Instructions,1
+278,163,Young,5,U,1,1,2,With Instructions,1
+279,164,Young,5,R,0,1,4,With Instructions,1
+280,164,Young,5,R,1,1,6,With Instructions,1
+281,164,Young,5,U,1,1,6,With Instructions,1
+282,165,Young,5,R,0,1,7,With Instructions,1
+283,165,Young,5,R,1,1,3,With Instructions,1
+284,165,Young,5,U,0,1,3,With Instructions,1
+285,165,Young,5,U,1,1,2,With Instructions,1
+286,166,Young,5,R,0,1,1,With Instructions,1
+287,166,Young,5,R,1,1,4,With Instructions,1
+288,166,Young,5,U,0,1,3,With Instructions,1
+289,166,Young,5,U,1,1,2,With Instructions,1
+290,167,Young,5,R,0,1,6,With Instructions,1
+291,167,Young,5,R,1,1,4,With Instructions,1
+292,167,Young,5,U,0,1,5,With Instructions,1
+293,167,Young,5,U,1,1,2,With Instructions,1
+294,168,Young,5,R,0,1,7,With Instructions,1
+295,168,Young,5,R,1,1,5,With Instructions,1
+296,168,Young,5,U,0,1,7,With Instructions,1
+297,168,Young,5,U,1,1,13,With Instructions,1
+298,169,Young,5,R,0,1,5,With Instructions,1
+299,169,Young,5,R,1,1,4,With Instructions,1
+300,169,Young,5,U,0,1,4,With Instructions,1
+301,169,Young,5,U,1,1,8,With Instructions,1
+302,170,Young,5,R,0,1,5,With Instructions,1
+303,170,Young,5,R,1,1,6,With Instructions,1
+304,170,Young,5,U,0,1,8,With Instructions,1
+305,171,Young,5,R,0,1,4,With Instructions,1
+306,171,Young,5,R,1,1,8,With Instructions,1
+307,171,Young,5,U,0,1,2,With Instructions,1
+308,172,Young,5,R,0,1,1,With Instructions,1
+309,172,Young,5,R,1,1,1,With Instructions,1
+310,172,Young,5,U,1,1,1,With Instructions,1
+311,173,Young,5,R,0,1,9,With Instructions,1
+312,173,Young,5,R,1,1,2,With Instructions,1
+313,173,Young,5,U,0,1,7,With Instructions,1
+314,173,Young,5,U,1,1,2,With Instructions,1
+315,174,Young,5,R,0,1,3,With Instructions,1
+316,174,Young,5,R,1,1,13,With Instructions,1
+317,174,Young,5,U,0,1,10,With Instructions,1
+318,174,Young,5,U,1,1,6,With Instructions,1
+319,175,Young,5,R,0,1,3,With Instructions,1
+320,175,Young,5,R,1,1,8,With Instructions,1
+321,175,Young,5,U,0,1,3,With Instructions,1
+322,175,Young,5,U,1,1,1,With Instructions,1
+323,176,Young,5,R,0,1,3,With Instructions,1
+324,176,Young,5,R,1,1,3,With Instructions,1
+325,176,Young,5,U,0,1,1,With Instructions,1
+326,176,Young,5,U,1,1,4,With Instructions,1
+327,177,Young,5,R,0,1,1,With Instructions,1
+328,177,Young,5,R,1,1,2,With Instructions,1
+329,177,Young,5,U,0,1,1,With Instructions,1
+330,177,Young,5,U,1,1,1,With Instructions,1
+331,178,Young,5,R,0,1,2,With Instructions,1
+332,178,Young,5,R,1,1,2,With Instructions,1
+333,178,Young,5,U,0,1,3,With Instructions,1
+334,178,Young,5,U,1,1,1,With Instructions,1
+335,179,Young,5,R,0,1,6,With Instructions,1
+336,179,Young,5,R,1,1,9,With Instructions,1
+337,179,Young,5,U,0,1,2,With Instructions,1
+338,179,Young,5,U,1,1,2,With Instructions,1
+339,180,Young,5,R,0,1,1,With Instructions,1
+340,180,Young,5,R,1,1,7,With Instructions,1
+341,180,Young,5,U,0,1,4,With Instructions,1
+342,180,Young,5,U,1,1,3,With Instructions,1
+343,181,Young,5,R,0,1,8,With Instructions,1
+344,181,Young,5,R,1,1,3,With Instructions,1
+345,181,Young,5,U,0,1,8,With Instructions,1
+346,181,Young,5,U,1,1,5,With Instructions,1
+347,182,Young,5,R,0,1,4,With Instructions,1
+348,182,Young,5,R,1,1,8,With Instructions,1
+349,182,Young,5,U,0,1,3,With Instructions,1
+350,182,Young,5,U,1,1,2,With Instructions,1
+351,183,Young,5,R,0,1,10,With Instructions,1
+352,183,Young,5,R,1,1,5,With Instructions,1
+353,183,Young,5,U,0,1,9,With Instructions,1
+354,183,Young,5,U,1,1,3,With Instructions,1
+355,184,Young,5,R,0,1,7,With Instructions,1
+356,184,Young,5,R,1,1,1,With Instructions,1
+357,184,Young,5,U,0,1,3,With Instructions,1
+358,184,Young,5,U,1,1,2,With Instructions,1
+359,185,Young,5,R,0,1,5,With Instructions,1
+360,185,Young,5,R,1,1,7,With Instructions,1
+361,185,Young,5,U,0,1,4,With Instructions,1
+362,185,Young,5,U,1,1,11,With Instructions,1
+363,186,Young,5,R,0,1,2,With Instructions,1
+364,186,Young,5,R,1,1,11,With Instructions,1
+365,186,Young,5,U,0,1,1,With Instructions,1
+366,186,Young,5,U,1,1,5,With Instructions,1
+367,187,Young,5,R,0,1,4,With Instructions,1
+368,187,Young,5,R,1,1,5,With Instructions,1
+369,187,Young,5,U,0,1,4,With Instructions,1
+370,187,Young,5,U,1,1,1,With Instructions,1
+371,188,Young,5,R,0,1,2,With Instructions,1
+372,188,Young,5,U,1,1,3,With Instructions,1
+373,189,Young,5,R,0,1,2,With Instructions,1
+374,189,Young,5,R,1,1,2,With Instructions,1
+375,189,Young,5,U,0,1,4,With Instructions,1
+376,189,Young,5,U,1,1,3,With Instructions,1
+377,190,Young,5,R,0,1,1,With Instructions,1
+378,190,Young,5,R,1,1,10,With Instructions,1
+379,190,Young,5,U,0,1,4,With Instructions,1
+380,190,Young,5,U,1,1,5,With Instructions,1
+381,191,Young,5,R,0,1,2,With Instructions,1
+382,191,Young,5,R,1,1,10,With Instructions,1
+383,191,Young,5,U,0,1,1,With Instructions,1
+384,191,Young,5,U,1,1,3,With Instructions,1
+385,192,Young,5,R,0,1,4,With Instructions,1
+386,192,Young,5,R,1,1,3,With Instructions,1
+387,192,Young,5,U,0,1,1,With Instructions,1
+388,192,Young,5,U,1,1,7,With Instructions,1
+389,193,Young,5,R,0,1,10,With Instructions,1
+390,193,Young,5,R,1,1,5,With Instructions,1
+391,193,Young,5,U,0,1,2,With Instructions,1
+392,193,Young,5,U,1,1,4,With Instructions,1
+393,194,Young,5,R,0,1,3,With Instructions,1
+394,194,Young,5,R,1,1,10,With Instructions,1
+395,194,Young,5,U,0,1,4,With Instructions,1
+396,194,Young,5,U,1,1,7,With Instructions,1
+397,198,Young,5,R,0,1,8,With Instructions,1
+398,198,Young,5,R,1,1,6,With Instructions,1
+399,198,Young,5,U,0,1,4,With Instructions,1
+400,198,Young,5,U,1,1,4,With Instructions,1
