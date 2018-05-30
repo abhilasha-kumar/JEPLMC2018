@@ -176,1709 +176,7 @@ exp_3_stateprime_acc = data_stateprime_acc %>% filter(StudyNo == "1")
 
 @
 
-\section {State Prime Accuracy Figures}
 
-\subsubsection *{Experiment 1}
-
-<<>>=
-exp1_fig_stateprime_acc = Rmisc::summarySE(exp_1_stateprime_acc, 
-                        measurevar = "Trials",
-                        groupvars = c("AgeGroup","PrimeCondition", "Question.RESP", "Accuracy"))
-
-
-exp1_fig_stateprime_acc =  arrange(exp1_fig_stateprime_acc, 
-                               desc(AgeGroup))
-
-exp1_fig_stateprime_acc$Accuracy = as.factor(as.character(exp1_fig_stateprime_acc$Accuracy))
-
-exp1_fig_stateprime_acc_young = exp1_fig_stateprime_acc %>% filter(AgeGroup == "Young")
-exp1_fig_stateprime_acc_old = exp1_fig_stateprime_acc %>% filter(AgeGroup == "Old")
-
-library(ggplot2)
-library(ggthemes)
- stateprime_1_acc_young = exp1_fig_stateprime_acc_young %>% 
-   mutate(State = factor(Question.RESP, levels = unique(Question.RESP),
-                            labels = c("Know", "Dont Know", "Other", "TOT")),
-          PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
-               labels = c("Both", "Phonological", "Semantic", "Unrelated")),
-                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
-                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
-ggplot(aes(x = PrimeType, y = Trials, 
-          group=TargetAcc, fill = TargetAcc))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-  facet_wrap(~State, nrow =1)+
-   scale_fill_wsj()+
- # scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("") + ylab("") + 
-  ggtitle("E1: Young (Without Instructions)")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
- 
- stateprime_1_acc_young
- 
- 
- stateprime_1_acc_old = exp1_fig_stateprime_acc_old %>% 
-    mutate(State = factor(Question.RESP, levels = unique(Question.RESP),
-                            labels = c("Know", "Dont Know", "Other", "TOT")),
-          PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
-               labels = c("Both", "Phonological", "Semantic", "Unrelated")),
-                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
-                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
-ggplot(aes(x = PrimeType, y = Trials, 
-          group=TargetAcc, fill = TargetAcc))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-  facet_wrap(~State, nrow =1)+
-   scale_fill_wsj()+
- # scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("") + ylab("") + 
-  ggtitle("E1: Old (Without Instructions)")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
- 
- stateprime_1_acc_old
-@
-
-\subsubsection {E1: Combined Plot}
-
-<<fig=TRUE>>=
-library(grid)
-gridExtra::grid.arrange(stateprime_1_acc_young, stateprime_1_acc_old, 
-                        nrow = 2, ncol = 1, 
-      top=textGrob("Raw Number of Retrieval States in E1", 
-                                      gp=gpar(fontsize=20)))
-@
-
-\subsubsection *{Experiment 2}
-
-<<>>=
-exp2_fig_stateprime_acc = Rmisc::summarySE(exp_2_stateprime_acc, 
-                        measurevar = "Trials",
-                        groupvars = c("AgeGroup","PrimeCondition", "Question.RESP", "Accuracy"))
-
-
-exp2_fig_stateprime_acc =  arrange(exp2_fig_stateprime_acc, 
-                               desc(AgeGroup))
-
-exp2_fig_stateprime_acc$Accuracy = as.factor(as.character(exp2_fig_stateprime_acc$Accuracy))
-
-exp2_fig_stateprime_acc_young = exp2_fig_stateprime_acc %>% filter(AgeGroup == "Young")
-exp2_fig_stateprime_acc_old = exp2_fig_stateprime_acc %>% filter(AgeGroup == "Old")
-
-library(ggplot2)
-library(ggthemes)
- stateprime_2_acc_young = exp2_fig_stateprime_acc_young %>% 
-   mutate(State = factor(Question.RESP, levels = unique(Question.RESP),
-                            labels = c("Know", "Dont Know", "Other", "TOT")),
-          PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
-               labels = c("Both", "Phonological", "Semantic", "Unrelated")),
-                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
-                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
-ggplot(aes(x = State, y = Trials, 
-          group=TargetAcc, fill = TargetAcc))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-  facet_wrap(~PrimeType, nrow =1)+
-   scale_fill_wsj()+
- # scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("") + ylab("") + 
-  ggtitle("E2: Young (With Instructions)")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
- 
- stateprime_2_acc_young
- 
- 
- stateprime_2_acc_old = exp2_fig_stateprime_acc_old %>% 
-    mutate(State = factor(Question.RESP, levels = unique(Question.RESP),
-                            labels = c("Know", "Dont Know", "Other", "TOT")),
-          PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
-               labels = c("Both", "Phonological", "Semantic", "Unrelated")),
-                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
-                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
-ggplot(aes(x = State, y = Trials, 
-          group=TargetAcc, fill = TargetAcc))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-  facet_wrap(~PrimeType, nrow =1)+
-   scale_fill_wsj()+
- # scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("") + ylab("") + 
-  ggtitle("E2: Old (With Instructions)")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
- 
- stateprime_2_acc_old
-@
-
-\subsubsection {E2: Combined Plot}
-
-<<fig=TRUE>>=
-library(grid)
-gridExtra::grid.arrange(stateprime_2_acc_young, stateprime_2_acc_old, 
-                        nrow = 2, ncol = 1, 
-      top=textGrob("Raw Number of Retrieval States in E2", 
-                                      gp=gpar(fontsize=20)))
-@
-
-\subsubsection *{Experiment 3}
-
-<<fig=TRUE>>=
-exp3_fig_stateprime_acc = Rmisc::summarySE(exp_3_stateprime_acc, 
-                        measurevar = "Trials",
-                        groupvars = c("AgeGroup","PrimeCondition", "Question.RESP", "Accuracy"))
-
-exp3_fig_stateprime_acc$Accuracy = as.factor(as.character(exp3_fig_stateprime_acc$Accuracy))
-
-
-library(ggplot2)
-library(ggthemes)
- stateprime_3_acc_young = exp3_fig_stateprime_acc %>% 
-   mutate(State = factor(Question.RESP, levels = unique(Question.RESP),
-                            labels = c("Know", "Dont Know", "Other", "TOT")),
-          PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
-               labels = c("Both", "Phonological", "Semantic", "Unrelated")),
-                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
-                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
-ggplot(aes(x = State, y = Trials, 
-          group=TargetAcc, fill = TargetAcc))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-  facet_wrap(~PrimeType, nrow =1)+
-   scale_fill_wsj()+
- # scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("") + ylab("") + 
-  ggtitle("E3: Young Adults Only (48 ms)")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
- 
- stateprime_3_acc_young
- 
-@
-
-\section {Know: PrimeType and Target Accuracy}
-
-<<>>=
-exp_1_knowacc = exp_1_stateprime_acc %>% filter(Question.RESP == "1")
-exp_2_knowacc = exp_2_stateprime_acc %>% filter(Question.RESP == "1")
-exp_3_knowacc = exp_3_stateprime_acc %>% filter(Question.RESP == "1")
-@
-\subsection {Experiment 1}
-<<fig=TRUE>>=
-## HLM on trials
-
-library(lme4)
-contrasts(exp_1_knowacc$PrimeCondition) = contr.treatment(4, base = 3)
-exp_1_knowacc$Accuracy = as.factor(exp_1_knowacc$Accuracy)
-e1_know_hlm = lmer(data = exp_1_knowacc, 
-                   Trials ~ AgeGroup*PrimeCondition*Accuracy + 
-                     (1|Subject))
-summary(e1_know_hlm)
-car::Anova(e1_know_hlm)
-## plotting
-library(ggplot2)
-library(ggthemes)
-e1_know_data = Rmisc::summarySE(exp_1_knowacc, 
-                        measurevar = "Trials",
-                        groupvars = c( "AgeGroup","PrimeCondition", "Accuracy"))
-
-e1_know_plot = e1_know_data %>% 
-   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
-               labels = c("Both", "Phonological", "Semantic", "Unrelated")),
-                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
-                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
-ggplot(aes(x = PrimeType, y = Trials, 
-          group=TargetAcc, fill = TargetAcc))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-   scale_fill_wsj()+
-  facet_wrap(~AgeGroup)+
- # scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("Prime Condition") + ylab("Number of Trials") + 
-  ggtitle("E1: Know Responses in Young and Old Adults (Without Instructions)")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
- 
- e1_know_plot
-@
- 
- \subsection {Experiment 1 Collapsed Prime}
-<<fig=TRUE>>=
-## HLM on trials
-exp_1_knowacc2 = exp_1_state_acc %>% filter(Question.RESP == "1")
-library(lme4)
-exp_1_knowacc2$Accuracy = as.factor(exp_1_knowacc2$Accuracy)
-e1_know_hlm = lmer(data = exp_1_knowacc2, 
-                   Trials ~ AgeGroup*Accuracy + 
-                     (1|Subject))
-summary(e1_know_hlm)
-car::Anova(e1_know_hlm)
-
-## percents
-
-exp1_knowacc_percent = spread(exp_1_knowacc2, Accuracy, Trials)
-exp1_knowacc_percent$`0` = ifelse(is.na(exp1_knowacc_percent$`0`), 
-                                  0, exp1_knowacc_percent$`0`)
-exp1_knowacc_percent$`1` = ifelse(is.na(exp1_knowacc_percent$`1`), 
-                                  0, exp1_knowacc_percent$`1`)
-exp1_knowacc_percent$total = exp1_knowacc_percent$`0` + exp1_knowacc_percent$`1`
-exp1_knowacc_percent$pcorrect = exp1_knowacc_percent$`1`/exp1_knowacc_percent$total
-exp1_knowacc_percent$pwrong = exp1_knowacc_percent$`0`/exp1_knowacc_percent$total
-
-exp1_knowacc_long = exp1_knowacc_percent %>% gather(Type,
-                                             Percent, 
-                                       pcorrect:pwrong)%>%
-   arrange(Subject)
-
-## plotting
-library(ggplot2)
-library(ggthemes)
-e1_know_data = Rmisc::summarySE(exp1_knowacc_long, 
-                        measurevar = "Percent",
-                        groupvars = c( "AgeGroup", "Type"))
-e1_know_data$Percent = round(e1_know_data$Percent, 2)
-e1_know_plot = e1_know_data %>% 
-   mutate(TargetAcc = factor(Type, levels = unique(Type),
-                    labels = c("Correct Retrieval", "Wrong Retrieval")))%>%
-ggplot(aes(x = AgeGroup, y = Percent, 
-          group=TargetAcc, fill = TargetAcc))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Percent - se, ymax=Percent + se), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-   scale_fill_solarized()+
- # scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("Age Group") + ylab("Percentage of Trials") + 
-  ggtitle("E1: Know Responses in Young and Old Adults (Without Instructions)")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
- 
- e1_know_plot
-@
-
- 
- \subsection {Experiment 2}
-<<fig=TRUE>>=
- ###  EXPERIMENT 2
-
-contrasts(exp_2_knowacc$PrimeCondition) = contr.treatment(4, base = 3)
-e2_know_hlm = lmer(data = exp_2_knowacc, Trials ~ PrimeCondition*Accuracy + 
-                     (1|Subject))
-summary(e2_know_hlm)
-car::Anova(e2_know_hlm)
-
-e2_know_hlm_age = lmer(data = exp_2_knowacc, Trials ~ AgeGroup*PrimeCondition*Accuracy + 
-                     (1|Subject))
-summary(e2_know_hlm_age)
-car::Anova(e2_know_hlm_age)
-
-## only older adults
-library(lmerTest)
-exp_2_knowacc_old = exp_2_knowacc %>% filter(AgeGroup == "Old")
-e2_know_hlm_old = lmer(data = exp_2_knowacc_old, Trials ~ PrimeCondition*Accuracy + 
-                     (1|Subject))
-summary(e2_know_hlm_old)
-car::Anova(e2_know_hlm_old)
-## only young adults
-exp_2_knowacc_young = exp_2_knowacc %>% filter(AgeGroup == "Young")
-e2_know_hlm_young = lmer(data = exp_2_knowacc_young, Trials ~ PrimeCondition*Accuracy + 
-                     (1|Subject))
-summary(e2_know_hlm_young)
-car::Anova(e2_know_hlm_young)
-
-#sjPlot::plot_model(e2_know_hlm, type = "int")
-
-## plotting
-
-e2_know_data = Rmisc::summarySE(exp_2_knowacc, 
-                        measurevar = "Trials",
-                        groupvars = c("PrimeCondition", "Accuracy"))
-
-e2_know_plot = e2_know_data %>% 
-   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
-               labels = c("Both", "Phonological", "Semantic", "Unrelated")),
-                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
-                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
-ggplot(aes(x = PrimeType, y = Trials, 
-          group=TargetAcc, fill = TargetAcc))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-   scale_fill_wsj()+
- # scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("Prime Condition") + ylab("Number of Trials") + 
-  ggtitle("E2: Know Responses in Young and Old Adults (With Instructions)")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
- 
- e2_know_plot
-@
-
-<<fig=TRUE>>=
- e2_know_data_age = Rmisc::summarySE(exp_2_knowacc, 
-                        measurevar = "Trials",
-                        groupvars = c("AgeGroup", "PrimeCondition", "Accuracy"))
-
-e2_know_plot_age = e2_know_data_age %>% 
-   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
-               labels = c("Both", "Phonological", "Semantic", "Unrelated")),
-                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
-                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
-ggplot(aes(x = PrimeType, y = Trials, 
-          group=TargetAcc, fill = TargetAcc))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-   scale_fill_wsj()+
-  facet_wrap(~AgeGroup)+
- # scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("Prime Condition") + ylab("Number of Trials") + 
-  ggtitle("E2: Know Responses in Young and Old Adults (With Instructions)")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
- 
- e2_know_plot_age
-@
- 
-\subsection {Experiment 2 Collapsed Prime}
-<<fig=TRUE>>=
-## HLM on trials
-exp_2_knowacc2 = exp_2_state_acc %>% filter(Question.RESP == "1")
-library(lme4)
-exp_2_knowacc2$Accuracy = as.factor(exp_2_knowacc2$Accuracy)
-e2_know_hlm = lmer(data = exp_2_knowacc2, 
-                   Trials ~ AgeGroup*Accuracy + 
-                     (1|Subject))
-summary(e2_know_hlm)
-car::Anova(e2_know_hlm)
-
-## percents
-
-exp2_knowacc_percent = spread(exp_2_knowacc2, Accuracy, Trials)
-exp2_knowacc_percent$`0` = ifelse(is.na(exp2_knowacc_percent$`0`), 
-                                  0, exp2_knowacc_percent$`0`)
-exp2_knowacc_percent$`1` = ifelse(is.na(exp2_knowacc_percent$`1`), 
-                                  0, exp2_knowacc_percent$`1`)
-exp2_knowacc_percent$total = exp2_knowacc_percent$`0` + exp2_knowacc_percent$`1`
-exp2_knowacc_percent$pcorrect = exp2_knowacc_percent$`1`/exp2_knowacc_percent$total
-exp2_knowacc_percent$pwrong = exp2_knowacc_percent$`0`/exp2_knowacc_percent$total
-
-exp2_knowacc_long = exp2_knowacc_percent %>% gather(Type,
-                                             Percent, 
-                                       pcorrect:pwrong)%>%
-   arrange(Subject)
-
-## plotting
-library(ggplot2)
-library(ggthemes)
-e2_know_data = Rmisc::summarySE(exp2_knowacc_long, 
-                        measurevar = "Percent",
-                        groupvars = c( "AgeGroup", "Type"))
-e2_know_data$Percent = round(e2_know_data$Percent, 2)
-e2_know_plot = e2_know_data %>% 
-   mutate(TargetAcc = factor(Type, levels = unique(Type),
-                    labels = c("Correct Retrieval", "Wrong Retrieval")))%>%
-ggplot(aes(x = AgeGroup, y = Percent, 
-          group=TargetAcc, fill = TargetAcc))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Percent - se, ymax=Percent + se), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-   scale_fill_solarized()+
- # scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("Age Group") + ylab("Number of Trials") + 
-  ggtitle("E2: Know Responses in Young and Old Adults (Without Instructions)")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
- 
- e2_know_plot
-@
- 
-\subsection {Experiment 3}
-
-<<fig=TRUE>>=
-contrasts(exp_3_knowacc$PrimeCondition) = contr.treatment(4, base = 3)
-e3_know_hlm = lmer(data = exp_3_knowacc, Trials ~ PrimeCondition*Accuracy + 
-                     (1|Subject))
-summary(e3_know_hlm)
-car::Anova(e3_know_hlm)
-
-#sjPlot::plot_model(e3_know_hlm, type = "int")
-
-## plotting
-
-e3_know_data = Rmisc::summarySE(exp_3_knowacc, 
-                        measurevar = "Trials",
-                        groupvars = c("PrimeCondition", "Accuracy"))
-
-e3_know_plot = e3_know_data %>% 
-   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
-               labels = c("Both", "Phonological", "Semantic", "Unrelated")),
-                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
-                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
-ggplot(aes(x = PrimeType, y = Trials, 
-          group=TargetAcc, fill = TargetAcc))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-   scale_fill_wsj()+
- # scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("Prime Condition") + ylab("Number of Trials") + 
-  ggtitle("E3: Know Responses in Young Adults Only (48 ms)")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
- 
- e3_know_plot
-@
-
-\subsection {Experiment 3 Collapsed Prime}
-<<fig=TRUE>>=
-## HLM on trials
-exp_3_knowacc2 = exp_3_state_acc %>% filter(Question.RESP == "1")
-library(lme4)
-exp_3_knowacc2$Accuracy = as.factor(exp_3_knowacc2$Accuracy)
-e3_know_hlm = lmer(data = exp_3_knowacc2, 
-                   Trials ~ Accuracy + 
-                     (1|Subject))
-summary(e3_know_hlm)
-car::Anova(e3_know_hlm)
-
-## percents
-
-exp3_knowacc_percent = spread(exp_3_knowacc2, Accuracy, Trials)
-exp3_knowacc_percent$`0` = ifelse(is.na(exp3_knowacc_percent$`0`), 
-                                  0, exp3_knowacc_percent$`0`)
-exp3_knowacc_percent$`1` = ifelse(is.na(exp3_knowacc_percent$`1`), 
-                                  0, exp3_knowacc_percent$`1`)
-exp3_knowacc_percent$total = exp3_knowacc_percent$`0` + exp3_knowacc_percent$`1`
-exp3_knowacc_percent$pcorrect = exp3_knowacc_percent$`1`/exp3_knowacc_percent$total
-exp3_knowacc_percent$pwrong = exp3_knowacc_percent$`0`/exp3_knowacc_percent$total
-
-exp3_knowacc_long = exp3_knowacc_percent %>% gather(Type,
-                                             Percent, 
-                                       pcorrect:pwrong)%>%
-   arrange(Subject)
-
-## plotting
-library(ggplot2)
-library(ggthemes)
-e3_know_data = Rmisc::summarySE(exp3_knowacc_long, 
-                        measurevar = "Percent",
-                        groupvars = c( "AgeGroup", "Type"))
-e3_know_data$Percent = round(e3_know_data$Percent, 2)
-e3_know_plot = e3_know_data %>% 
-   mutate(TargetAcc = factor(Type, levels = unique(Type),
-                    labels = c("Correct Retrieval", "Wrong Retrieval")))%>%
-ggplot(aes(x = AgeGroup, y = Percent, 
-          group=TargetAcc, fill = TargetAcc))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Percent - se, ymax=Percent + se), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-   scale_fill_solarized()+
- # scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("Age Group") + ylab("Number of Trials") + 
-  ggtitle("E2: Know Responses in Young and Old Adults (Without Instructions)")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
- 
- e3_know_plot
-@
-\section {Know: Across E1 E2 E3}
-
-<<>>=
-## all data is in data_stateprime_acc
-
-## only know responses in young and old
-
-data_stateprime_acc$Experiment = ifelse(data_stateprime_acc$StudyNo == "2" |
-                                        data_stateprime_acc$StudyNo == "4",
-                                        "No Instructions", 
-                        ifelse(data_stateprime_acc$StudyNo == "5" |
-                                 data_stateprime_acc$StudyNo == "6", 
-                               "With Instructions", "Young 48 ms"))
-data_stateprime_acc$Experiment = as.factor(data_stateprime_acc$Experiment)
-
-stateprime_young_know_ru = data_stateprime_acc %>% 
-  filter(AgeGroup == "Young" & Question.RESP == "1" &
-           PrimeCondition %in% c("R", "U"))
-
-stateprime_old_know_ru = data_stateprime_acc %>% 
-  filter(AgeGroup == "Old" & Question.RESP == "1"&
-           PrimeCondition %in% c("R", "U"))
-
-
-@
-
-\subsection {Young HLM and Plot}
-
-<<fig=TRUE>>=
-## hlm on young-know
-contrasts(stateprime_young_know_ru$PrimeCondition) = 
-  contr.treatment(4, base = 3)
-
-contrasts(stateprime_young_know_ru$Experiment) = 
-  contr.treatment(3, base = 2)
-
-library(lmerTest)
-library(lme4)
-hlm_young_know = lmer(data = stateprime_young_know_ru, 
-                      Trials ~ Experiment*PrimeCondition*Accuracy + 
-                     (1|Subject))
-summary(hlm_young_know)
-car::Anova(hlm_young_know)
-sjPlot::plot_model(hlm_young_know, type= "int")
-
-stateprime_young_know_e2e3 = stateprime_young_know_ru %>%
-  filter(Experiment != "No Instructions")
-
-hlm_young_know_e2e3 = lmer(data = stateprime_young_know_e2e3, 
-                      Trials ~ Experiment*PrimeCondition*Accuracy + 
-                     (1|Subject))
-summary(hlm_young_know_e2e3)
-car::Anova(hlm_young_know_e2e3)
-sjPlot::plot_model(hlm_young_know_e2e3, type= "int")
-
-## plotting young data
-
-young_know_data = Rmisc::summarySE(stateprime_young_know_ru, 
-                        measurevar = "Trials",
-                        groupvars = c("Experiment" ,
-                                      "PrimeCondition", "Accuracy"))
-
-young_know_plot = young_know_data %>% 
-   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
-               labels = c("Semantic", "Unrelated")),
-                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
-                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
-ggplot(aes(x = PrimeType, y = Trials, 
-          group=TargetAcc, fill = TargetAcc))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-   scale_fill_wsj()+
-  facet_wrap(~Experiment)+
- # scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("Prime Condition") + ylab("Number of Trials") + 
-  ggtitle("Young Adults: Know Responses in E1, E2 and E3")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
- 
- young_know_plot
-@
-
-\subsection {Old HLM and Plot}
-<<fig=TRUE>>=
-## hlm on old-know
-contrasts(stateprime_old_know_ru$PrimeCondition) = 
-  contr.treatment(4, base = 3)
-hlm_old_know = lmer(data = stateprime_old_know_ru, 
-                      Trials ~ Experiment*PrimeCondition*Accuracy + 
-                     (1|Subject))
-summary(hlm_old_know)
-car::Anova(hlm_old_know)
-sjPlot::plot_model(hlm_old_know, type= "int")
-
-stateprime_old_know_ru1 = stateprime_old_know_ru %>% filter(Subject != "702")
-
-old_know_data = Rmisc::summarySE(stateprime_old_know_ru1, 
-                        measurevar = "Trials",
-                        groupvars = c("Experiment" ,
-                                      "PrimeCondition", "Accuracy"))
-old_know_plot = old_know_data %>% 
-   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
-               labels = c("Semantic", "Unrelated")),
-                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
-                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
-ggplot(aes(x = PrimeType, y = Trials, 
-          group=TargetAcc, fill = TargetAcc))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-   scale_fill_wsj()+
-  facet_wrap(~Experiment)+
- # scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("Prime Condition") + ylab("Number of Trials") + 
-  ggtitle("Old Adults: Know Responses in E1 and E2")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
- 
- old_know_plot
-@
- 
-<<fig=TRUE>>=
-
- ### ADDING ZEROS WHERE NEEDED
- 
- know_old_ru_trials =stateprime_old_know_ru1
- old_know_ru_trials = know_old_ru_trials
-
- oldtotaltrials_trials = spread(old_know_ru_trials, Accuracy, Trials)
- 
- oldtotaltrials_trials$`0` = ifelse(is.na(oldtotaltrials_trials$`0`),
-                                    0,oldtotaltrials_trials$`0`)
- oldtotaltrials_trials$`1`= ifelse(is.na(oldtotaltrials_trials$`1`),
-                                   0,oldtotaltrials_trials$`1`)
-
-long_oldpercent_trials <- oldtotaltrials_trials %>% gather(Type,
-                                             Trials, 
-                                       `0`:`1`)%>%
-   arrange(Subject, PrimeCondition)
- long_oldpercent_trials$Type = as.factor(long_oldpercent_trials$Type)
- 
- old_know_data_all_trials = Rmisc::summarySE(long_oldpercent_trials, 
-                        measurevar = "Trials",
-                        groupvars = c("Experiment" ,
-                                      "PrimeCondition", "Type"))
-
-old_know_data_all_trials$Accuracy = factor(old_know_data_all_trials$Type,
-                            levels(old_know_data_all_trials$Type)[c(2,1)])
-
-old_know_plot_all_trials = old_know_data_all_trials %>% 
-   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
-               labels = c("Semantic", "Unrelated")))%>%
-ggplot(aes(x = PrimeType, y = Trials,
-           group= Accuracy, fill= Accuracy))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-   scale_fill_wsj()+
-  facet_wrap(~Experiment)+
- # scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("Prime Condition") + ylab("Percentage of Trials") + 
-  ggtitle("Old Adults: Know Responses in E1 and E2 ")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
- 
-old_know_plot_all_trials 
-@
-
-\section {Know ANOVA}
-
-<<>>=
- stateprime_young_know_ru_complete = stateprime_young_know_ru %>%
-   filter(!Subject  %in% c(14,17, 24,26,28,30,44,68,67,72,79,80,85,86,90,95,164, 170,171,172, 188))
- 
- stateprime_young_know_ru_complete$Subject = as.factor(stateprime_young_know_ru_complete$Subject)
- know_aov = aov(data = stateprime_young_know_ru_complete, Trials ~ Experiment*PrimeCondition*Accuracy + 
-                  Error(Subject/(PrimeCondition*Accuracy)))
- summary(know_aov)
- 
- onlye2e3 = stateprime_young_know_ru_complete %>% filter(Experiment != "Young 48 ms")
- 
- know_aov2 = aov(data = onlye2e3, Trials ~ Experiment*PrimeCondition*Accuracy + 
-                  Error(Subject/(PrimeCondition*Accuracy)))
- summary(know_aov2)
- 
-@ 
-
-\section {Know Percent Rel Unrel }
-
-\subsection {Young}
-
-<<fig=TRUE>>=
-know_young_ru_percent = read.csv("young_know_ru.csv", 
-                                 header = TRUE, sep = ",")
- 
-young_know_ru = know_young_ru_percent[,-1]
- youngtotaltrials = spread(young_know_ru, Accuracy, Trials)
- 
- youngtotaltrials$`0` = ifelse(is.na(youngtotaltrials$`0`), 0,youngtotaltrials$`0`)
- youngtotaltrials$`1`= ifelse(is.na(youngtotaltrials$`1`), 0,youngtotaltrials$`1`)
-
- youngtotaltrials$total = youngtotaltrials$`0` + youngtotaltrials$`1`
-
- youngtotaltrials$PercentCorrect = youngtotaltrials$`1`/youngtotaltrials$total
-youngtotaltrials$PercentIncorrect = youngtotaltrials$`0`/youngtotaltrials$total
-
-## remove NA trials
-
-#totaltrials = totaltrials %>% filter(!(is.na(Rpercent) & is.na(Upercent)))
-
-## convert back to long
-
-# long_youngpercent <- totaltrials %>% gather(PrimeCondition,
-#                                             Percent, 
-#                                       PercentCorrect:PercentIncorrect)%>%
-#   arrange(Subject)
-
-youngtotaltrials$Subject = as.factor(youngtotaltrials$Subject)
-anova_youngpercent = aov(data = youngtotaltrials, 
-                         PercentCorrect ~ Experiment*PrimeCondition + 
-                           Error(Subject/PrimeCondition))
-
-summary(anova_youngpercent)
-
-young_know_data = Rmisc::summarySE(youngtotaltrials, 
-                        measurevar = "PercentCorrect",
-                        groupvars = c("Experiment" ,
-                                      "PrimeCondition"))
-
-young_know_plot = young_know_data %>% 
-   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
-               labels = c("Semantic", "Unrelated")))%>%
-ggplot(aes(x = PrimeType, y = PercentCorrect))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=PercentCorrect - se, ymax=PercentCorrect + se), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-   scale_fill_wsj()+
-  facet_wrap(~Experiment)+
- # scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("Prime Condition") + ylab("Percentage of Trials") + 
-  ggtitle("Young Adults: Correct Know Responses in E1, E2 and E3")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
- 
- young_know_plot
-@
-
-\subsection {Young Correct Incorrect}
-
-<<fig=TRUE>>=
-know_young_ru_percent = read.csv("young_know_ru.csv", 
-                                 header = TRUE, sep = ",")
- 
-young_know_ru = know_young_ru_percent[,-1]
- youngtotaltrials = spread(young_know_ru, Accuracy, Trials)
- 
- youngtotaltrials$`0` = ifelse(is.na(youngtotaltrials$`0`), 0,youngtotaltrials$`0`)
- youngtotaltrials$`1`= ifelse(is.na(youngtotaltrials$`1`), 0,youngtotaltrials$`1`)
-
- youngtotaltrials$total = youngtotaltrials$`0` + youngtotaltrials$`1`
-
- youngtotaltrials$PercentCorrect = youngtotaltrials$`1`/youngtotaltrials$total
-youngtotaltrials$PercentIncorrect = youngtotaltrials$`0`/youngtotaltrials$total
-
-## convert back to long
-
- long_youngpercent <- youngtotaltrials %>% gather(Type,
-                                             Percent, 
-                                       PercentCorrect:PercentIncorrect)%>%
-   arrange(Subject, PrimeCondition)
- long_youngpercent$Type = as.factor(long_youngpercent$Type)
-  long_youngpercent$Subject = as.factor(long_youngpercent$Subject)
-
-##  correct and incorrect anova
-anova_youngpercent_all = aov(data = long_youngpercent, 
-                         Percent ~ Experiment*PrimeCondition*Type + 
-                           Error(Subject/(PrimeCondition*Type)))
-
-summary(anova_youngpercent_all)
-
-
- 
- ## correct and incorrect 
-young_know_data_all = Rmisc::summarySE(long_youngpercent, 
-                        measurevar = "Percent",
-                        groupvars = c("Experiment" ,
-                                      "PrimeCondition", "Type"))
-young_know_data_all$Accuracy = factor(young_know_data_all$Type,
-                            levels(young_know_data_all$Type)[c(2,1)])
-
-young_know_plot_all = young_know_data_all %>% 
-   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
-               labels = c("Semantic", "Unrelated")))%>%
-ggplot(aes(x = PrimeType, y = Percent, 
-           group = Accuracy, fill = Accuracy))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Percent - se, ymax=Percent + se), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-   scale_fill_wsj()+
-  facet_wrap(~Experiment)+
- # scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("Prime Condition") + ylab("Percentage of Trials") + 
-  ggtitle("Young Adults: Know Responses in E1, E2 and E3")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
- 
- young_know_plot_all
-@
-
-\subsection {Old}
-
-<<fig=TRUE>>=
-know_old_ru_percent = read.csv("old_know_ru.csv", 
-                                 header = TRUE, sep = ",")
- old_know_ru = know_old_ru_percent[,-1]
-
- oldtotaltrials = spread(old_know_ru, Accuracy, Trials)
- 
- oldtotaltrials$`0` = ifelse(is.na(oldtotaltrials$`0`), 0,oldtotaltrials$`0`)
- oldtotaltrials$`1`= ifelse(is.na(oldtotaltrials$`1`), 0,oldtotaltrials$`1`)
- 
- 
- oldtotaltrials$total = oldtotaltrials$`0` + oldtotaltrials$`1`
- 
-  oldtotaltrials$PercentCorrect = oldtotaltrials$`1`/oldtotaltrials$total
-oldtotaltrials$PercentIncorrect = oldtotaltrials$`0`/oldtotaltrials$total
-#totaltrials = totaltrials %>% filter(!(i1.s.na(Rpercent) & is.na(Upercent)))
-
-
-## convert back to long
-
-# long_oldpercent <- totaltrials %>% gather(PrimeCondition,
-#                                             Percent, Rpercent:Upercent)%>%
-#   arrange(Subject)
-
-
-## Subject 702 does not have U know trials at all
-
- 
- oldtotaltrials = oldtotaltrials %>% filter(Subject != "702")
-
-  
- 
- oldtotaltrials$`0` = as.numeric(as.character(oldtotaltrials$`0`))
- oldtotaltrials$`1` = as.numeric(as.character(oldtotaltrials$`1`))
-
-oldtotaltrials$Subject = as.factor(oldtotaltrials$Subject)
-
-
-anova_oldpercent = aov(data = oldtotaltrials, 
-                         PercentCorrect ~ Experiment*PrimeCondition + 
-                           Error(Subject/PrimeCondition))
-
-summary(anova_oldpercent)
-
-old_know_data = Rmisc::summarySE(oldtotaltrials, 
-                        measurevar = "PercentCorrect",
-                        groupvars = c("Experiment" ,
-                                      "PrimeCondition"))
-
-old_know_plot = old_know_data %>% 
-   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
-               labels = c("Semantic", "Unrelated")))%>%
-ggplot(aes(x = PrimeType, y = PercentCorrect))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=PercentCorrect - se, ymax=PercentCorrect + se), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-   scale_fill_wsj()+
-  facet_wrap(~Experiment)+
- # scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("Prime Condition") + ylab("Percentage of Trials") + 
-  ggtitle("Old Adults: Correct Know Responses in E1 and E2 ")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
- 
- old_know_plot
-@
-
-\subsection {Old Correct Incorrect}
-<<fig=TRUE>>=
-know_old_ru_percent = read.csv("old_know_ru.csv", 
-                                 header = TRUE, sep = ",")
- 
-old_know_ru = know_old_ru_percent[,-1]
- oldtotaltrials = spread(old_know_ru, Accuracy, Trials)
- 
- oldtotaltrials$`0` = ifelse(is.na(oldtotaltrials$`0`), 0,oldtotaltrials$`0`)
- oldtotaltrials$`1`= ifelse(is.na(oldtotaltrials$`1`), 0,oldtotaltrials$`1`)
- 
- 
- oldtotaltrials$total = oldtotaltrials$`0` + oldtotaltrials$`1`
- 
-  oldtotaltrials$PercentCorrect = oldtotaltrials$`1`/oldtotaltrials$total
-oldtotaltrials$PercentIncorrect = oldtotaltrials$`0`/oldtotaltrials$total
-#totaltrials = totaltrials %>% filter(!(i1.s.na(Rpercent) & is.na(Upercent)))
-## convert back to long
-
-long_oldpercent <- oldtotaltrials %>% gather(Type,
-                                             Percent, 
-                                       PercentCorrect:PercentIncorrect)%>%
-   arrange(Subject, PrimeCondition)
- long_oldpercent$Type = as.factor(long_oldpercent$Type)
- 
- ## Subject 702 does not have U know trials at all
-
- 
- long_oldpercent = long_oldpercent %>% filter(Subject != "702")
-
-long_oldpercent$Subject = as.factor(long_oldpercent$Subject)
-
-
-##  correct and incorrect anova
-anova_oldpercent_all = aov(data = long_oldpercent, 
-                         Percent ~ Experiment*PrimeCondition*Type + 
-                           Error(Subject/(PrimeCondition*Type)))
-
-summary(anova_oldpercent_all)
-
-old_know_data_all = Rmisc::summarySE(long_oldpercent, 
-                        measurevar = "Percent",
-                        groupvars = c("Experiment" ,
-                                      "PrimeCondition", "Type"))
-
-old_know_data_all$Accuracy = factor(old_know_data_all$Type,
-                            levels(old_know_data_all$Type)[c(2,1)])
-
-old_know_plot_all = old_know_data_all %>% 
-   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
-               labels = c("Semantic", "Unrelated")))%>%
-ggplot(aes(x = PrimeType, y = Percent,
-           group= Accuracy, fill= Accuracy))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Percent - se, ymax=Percent + se), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-   scale_fill_wsj()+
-  facet_wrap(~Experiment)+
- # scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("Prime Condition") + ylab("Percentage of Trials") + 
-  ggtitle("Old Adults: Know Responses in E1 and E2 ")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
- 
- old_know_plot_all
-@
-
-\subsection {Age Differences }
-
-<<fig=TRUE>>=
- long_oldyoung = rbind(long_youngpercent, long_oldpercent)
- long_e1 = long_oldyoung %>% filter(Experiment == "No Instructions")
- long_e2 = long_oldyoung %>% filter(Experiment == "With Instructions")
- 
- ### Experiment 1
- long_e1_rmisc = Rmisc::summarySE(long_e1, 
-                        measurevar = "Percent",
-                        groupvars = c("AgeGroup" ,
-                                      "PrimeCondition", "Type"))
-
-long_e1_rmisc$Accuracy = factor(long_e1_rmisc$Type,
-                            levels(long_e1_rmisc$Type)[c(2,1)])
-
-long_e1_rmisc_plot = long_e1_rmisc %>% 
-   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
-               labels = c("Semantic", "Unrelated")))%>%
-ggplot(aes(x = PrimeType, y = Percent,
-           group= Accuracy, fill= Accuracy))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Percent - se, ymax=Percent + se), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-   scale_fill_wsj()+
-  facet_wrap(~AgeGroup)+
- # scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("Prime Condition") + ylab("Percentage of Trials") + 
-  ggtitle("Know Responses in E1  ")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
- 
- long_e1_rmisc_plot
-@
-
-<<fig=TRUE>>=
-
- ### Experiment 2
- long_e2_rmisc = Rmisc::summarySE(long_e2, 
-                        measurevar = "Percent",
-                        groupvars = c("AgeGroup" ,
-                                      "PrimeCondition", "Type"))
-
-long_e2_rmisc$Accuracy = factor(long_e2_rmisc$Type,
-                            levels(long_e2_rmisc$Type)[c(2,1)])
-
-long_e2_rmisc_plot = long_e2_rmisc %>% 
-   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
-               labels = c("Semantic", "Unrelated")))%>%
-ggplot(aes(x = PrimeType, y = Percent,
-           group= Accuracy, fill= Accuracy))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Percent - se, ymax=Percent + se), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-   scale_fill_wsj()+
-  facet_wrap(~AgeGroup)+
- # scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("Prime Condition") + ylab("Percentage of Trials") + 
-  ggtitle("Know Responses in E2  ")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
- 
- long_e2_rmisc_plot
-@
-
-\subsubsection {HLMS}
-
-<<>>=
-long_e1_hlm = lmer(data = long_e1, Percent ~ AgeGroup*PrimeCondition*Type + 
-                     (1|Subject)) 
- car::Anova(long_e1_hlm)
- 
- long_e2_hlm = lmer(data = long_e2, Percent ~ AgeGroup*PrimeCondition*Type + 
-                     (1|Subject)) 
- car::Anova(long_e2_hlm)
-@
-
-
-
-\subsection {State Accuracy Figures}
-\subsubsection *{Experiment 1}
-
-<<>>=
- 
-exp1_fig_state_acc = Rmisc::summarySE(exp_1_state_acc, 
-                        measurevar = "Trials",
-                        groupvars = c("AgeGroup", "Question.RESP", "Accuracy"))
-
-
-exp1_fig_state_acc =  arrange(exp1_fig_state_acc, 
-                               desc(AgeGroup))
-
-exp1_fig_state_acc$Accuracy = as.factor(as.character(exp1_fig_state_acc$Accuracy))
-
-library(ggplot2)
-library(ggthemes)
- state_1_acc = exp1_fig_state_acc %>% mutate(State = factor(Question.RESP, 
-                                    levels = unique(Question.RESP),
-                            labels = c("Know", "Dont Know", "Other", "TOT")),
-                            Age = factor(AgeGroup, levels = unique(AgeGroup),
-                    labels = c("Young", "Old")),
-                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
-                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
-ggplot(aes(x = State, y = Trials, 
-           group = TargetAcc, fill = TargetAcc))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Trials - ci, ymax=Trials + ci), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-  facet_wrap(~Age)+
-   scale_fill_wsj()+
- # scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("") + ylab("") + 
-  ggtitle("E1: Young vs. Old (Without Instructions)")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
- 
-@
-
-\subsubsection *{Experiment 2}
-
-<<>>=
- exp2_fig_state_acc = Rmisc::summarySE(exp_2_state_acc, 
-                        measurevar = "Trials",
-                        groupvars = c("AgeGroup", "Question.RESP", "Accuracy"))
-
-
-exp2_fig_state_acc =  arrange(exp2_fig_state_acc, 
-                               desc(AgeGroup))
-
-exp2_fig_state_acc$Accuracy = as.factor(as.character(exp2_fig_state_acc$Accuracy))
-
-library(ggplot2)
-library(ggthemes)
- state_2_acc = exp2_fig_state_acc %>% mutate(State = factor(Question.RESP, 
-                                    levels = unique(Question.RESP),
-                            labels = c("Know", "Dont Know", "Other", "TOT")),
-                            Age = factor(AgeGroup, levels = unique(AgeGroup),
-                    labels = c("Young", "Old")),
-                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
-                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
-ggplot(aes(x = State, y = Trials, 
-           group = TargetAcc, fill = TargetAcc))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Trials - ci, ymax=Trials + ci), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-  facet_wrap(~Age)+
-   scale_fill_wsj()+
- # scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("") + ylab("") + 
-  ggtitle("E2: Young vs. Old (With Instructions)")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
-@
-
-\subsubsection *{Experiment 3}
-
-<<>>=
- exp3_fig_state_acc = Rmisc::summarySE(exp_3_state_acc, 
-                        measurevar = "Trials",
-                        groupvars = c("AgeGroup", "Question.RESP", "Accuracy"))
-
-
-exp3_fig_state_acc =  arrange(exp3_fig_state_acc, 
-                               desc(AgeGroup))
-
-exp3_fig_state_acc$Accuracy = as.factor(as.character(exp3_fig_state_acc$Accuracy))
-
-library(ggplot2)
-library(ggthemes)
-state_3_acc= exp3_fig_state_acc %>% mutate(State = factor(Question.RESP, 
-                                    levels = unique(Question.RESP),
-                            labels = c("Know", "Dont Know", "Other", "TOT")),
-                            Age = factor(AgeGroup, levels = unique(AgeGroup),
-                    labels = c("Young")),
-                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
-                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
-ggplot(aes(x = State, y = Trials, 
-           group = TargetAcc, fill = TargetAcc))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Trials - ci, ymax=Trials + ci), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-  facet_wrap(~Age)+
-   scale_fill_wsj()+
-  #scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("") + ylab("") + 
-  ggtitle("E3: Young(48 ms)")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
-@
-
-\subsubsection* {Combined}
-
-<<fig=TRUE>>=
-library(grid)
-gridExtra::grid.arrange(state_1_acc, state_2_acc, state_3_acc, 
-                        nrow = 3, ncol = 1, 
-                top=textGrob("Retrieval States Across Experiments E1, E2, E3", 
-                                      gp=gpar(fontsize=20)))
-@
-
-\section {Conditional TOT Analysis}
-
-<<>>=
-
-j <- read.csv("MainJulieagg_5studies.csv", header = TRUE, sep = ",")
-j <- subset(j, j$value.Subject!= 198 & j$value.Subject!= 95)
-
-j_condTOT = j[,c(2,3,4,5,95:103)]
-j_condTOT$value.Subject = as.factor(j_condTOT$value.Subject)
-
-library(tidyr)
-library(dplyr)
-condTOTprime <- j_condTOT %>%
-  gather(PrimeState, Proportion, 
-         condpropTOT_r, condpropTOT_p,condpropTOT_b, condpropTOT_u) %>%
-  separate(PrimeState, c('State', 'Prime'), sep = "_") %>%
-  arrange(value.Subject)
-
-colnames(condTOTprime) = c("AgeGroup", "Subject", "StudyNo", "PrimeInstruction", "condTOTprop",
-                           "r_TOT", "p_TOT", "b_TOT", "u_TOT", "State",
-                                       "PrimeCondition", "Proportion")
-condTOTprime$AgeGroup <- as.factor(condTOTprime$AgeGroup)
-condTOTprime$Subject <- as.factor(condTOTprime$Subject)
-condTOTprime$StudyNo <- as.factor(condTOTprime$StudyNo)
-condTOTprime$PrimeInstruction <- as.factor(condTOTprime$PrimeInstruction)
-condTOTprime$PrimeCondition <- as.factor(condTOTprime$PrimeCondition)
-condTOTprime$Proportion <- as.numeric(as.character(condTOTprime$Proportion))
-
-
-condTOT_exp1 = j_condTOT %>% filter(value.StudyNo == '2' | value.StudyNo == '4')
-condTOT_exp2 = j_condTOT %>% filter(value.StudyNo == '5' | value.StudyNo == '6')
-condTOT_exp3 = j_condTOT %>% filter(value.StudyNo == '1')
-
-condTOTprime_exp1 = condTOTprime %>% filter(StudyNo == '2' | StudyNo == '4')
-condTOTprime_exp2 = condTOTprime %>% filter(StudyNo == '5' | StudyNo == '6')
-condTOTprime_exp3 = condTOTprime %>% filter(StudyNo == '1')
-
-@
-
-\subsection {Experiment 1}
-
-\subsubsection {CondTOT: Young vs Old}
-
-<<>>=
-e1_condTOT_aov = aov(data = condTOT_exp1, condTOTprop ~ value.AgeGroup)
-summary(e1_condTOT_aov)
-@
-
-\subsubsection {CondTOT: Age x PrimeType}
-
-<<fig=TRUE>>=
-condTOTprime_exp1[179,12 ] = 0
-e1_condTOTprime_aov = aov(data = condTOTprime_exp1, Proportion ~ AgeGroup*PrimeCondition + 
-                            Error(Subject/PrimeCondition))
-summary(e1_condTOTprime_aov)
-
-exp1_fig_condTOT = Rmisc::summarySE(condTOTprime_exp1, 
-                        measurevar = "Proportion",
-                        groupvars = c("AgeGroup", "PrimeCondition"))
-
-library(ggplot2)
-library(ggthemes)
-exp1_fig_condTOT = exp1_fig_condTOT %>% mutate(PrimeType = factor(PrimeCondition, 
-                                                 levels = unique(PrimeCondition),
-                    labels = c("Both", "Phonological", 
-                               "Semantic", "Unrelated")))%>%
-ggplot(aes(x = PrimeType, y = Proportion, 
-                              fill = AgeGroup, group = AgeGroup))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Proportion - ci, ymax=Proportion + ci), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
- scale_fill_colorblind()+
-    xlab("") + ylab("Mean Proportion of TOTs") + 
-  ggtitle("E1: Young and Old Adults (With Instructions)")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
-exp1_fig_condTOT
-@
-
-\subsection {Experiment 2}
-
-\subsubsection {CondTOT: Young vs Old}
-
-<<>>=
-e2_condTOT_aov = aov(data = condTOT_exp2, condTOTprop ~ value.AgeGroup)
-summary(e2_condTOT_aov)
-
-options(contrasts = c('contr.sum', 'contr.poly'))
-library(lsmeans)
-library(multcomp)
-exp2_target_lsm = lsmeans::lsmeans(e2_condTOT_aov, c("value.AgeGroup"))
-prime_effect = cld(exp2_target_lsm, alpha = 0.05, 
-                adjust = "tukey", details = TRUE)
-library(knitr)
-kable(subset(prime_effect$comparisons,prime_effect$comparisons$p.value < 0.05 ))
-@
-
-\subsubsection {CondTOT: Age x PrimeType}
-
-<<fig=TRUE>>=
-e2_condTOTprime_aov = aov(data = condTOTprime_exp2, Proportion ~ AgeGroup*PrimeCondition + 
-                            Error(Subject/PrimeCondition))
-summary(e2_condTOTprime_aov)
-
-exp2_fig_condTOT = Rmisc::summarySE(condTOTprime_exp2, 
-                        measurevar = "Proportion",
-                        groupvars = c("AgeGroup", "PrimeCondition"))
-
-library(ggplot2)
-library(ggthemes)
-exp2_fig_condTOT = exp2_fig_condTOT %>% mutate(PrimeType = factor(PrimeCondition, 
-                                                 levels = unique(PrimeCondition),
-                    labels = c("Both", "Phonological", 
-                               "Semantic", "Unrelated")))%>%
-ggplot(aes(x = PrimeType, y = Proportion, 
-                              fill = AgeGroup, group = AgeGroup))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Proportion - ci, ymax=Proportion + ci), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
- scale_fill_colorblind()+
-    xlab("") + ylab("Mean Proportion of TOTs") + 
-  ggtitle("E2: Young and Old Adults (With Instructions)")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
-exp2_fig_condTOT
-@
-
-
-\subsection {Experiment 3}
-
-\subsubsection {CondTOT:PrimeType}
-
-<<fig=TRUE>>=
-e3_condTOTprime_aov = aov(data = condTOTprime_exp3, Proportion ~ PrimeCondition + 
-                            Error(Subject/PrimeCondition))
-summary(e3_condTOTprime_aov)
-
-exp3_fig_condTOT = Rmisc::summarySE(condTOTprime_exp3, 
-                        measurevar = "Proportion",
-                        groupvars = c("PrimeCondition"))
-
-library(ggplot2)
-library(ggthemes)
-exp3_fig_condTOT = exp3_fig_condTOT %>% mutate(PrimeType = factor(PrimeCondition, 
-                                                 levels = unique(PrimeCondition),
-                    labels = c("Both", "Phonological", 
-                               "Semantic", "Unrelated")))%>%
-ggplot(aes(x = PrimeType, y = Proportion))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Proportion - ci, ymax=Proportion + ci), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
- scale_fill_colorblind()+
-    xlab("") + ylab("Mean Proportion of TOTs") + 
-  ggtitle("E2: Young and Old Adults (With Instructions)")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
-exp3_fig_condTOT
-@
-
-\section {TOT for No Responses}
-
-<<fig=TRUE>>=
-
-statedata <- read.csv("Julie_Main5Studies.csv", header = TRUE, sep = ",")
-
-statedata <- subset(statedata, statedata$Subject!= 198 & statedata$Subject!= 95)
-
-statedata_TOT = statedata %>% filter(FreeResp %in% c("0", "", "1", "2", "3",
-                                                     "4", "9", "20", "40", 
-                                                     "{-}", "{-}{SPACE}",
-                                                     "{SHIFT}", "{SPACE}"))
-                                                     
-                                       
-
-## now we are looking only at trials in which the participant did not respond at all
-
-NoResp_exp1 = statedata_TOT %>% filter(StudyNo == '2' | StudyNo == '4')
-NoResp_exp2 = statedata_TOT %>% filter(StudyNo == '5' | StudyNo == '6')
-NoResp_exp3 = statedata_TOT %>% filter(StudyNo == '1')
-
-NoResp_exp2_agg = group_by(NoResp_exp2, Subject, AgeGroup, Question.RESP) %>%
-  summarise(Trials = n())
-  
-exp2_fig_noresp= Rmisc::summarySE(NoResp_exp2_agg, 
-                        measurevar = "Trials",
-                        groupvars = c("AgeGroup", "Question.RESP"))
-
-library(ggplot2)
-library(ggthemes)
-exp2_fig_noresp_plot = exp2_fig_noresp %>% 
-mutate (RetrievalState = factor(Question.RESP, levels = unique(Question.RESP),
-                            labels = c(" Know", "Dont Know", "Other", "TOT")))%>%
-ggplot(aes(x = RetrievalState, y = Trials, 
-           group = AgeGroup, fill = AgeGroup))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Trials - ci, ymax=Trials + ci), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
- scale_fill_colorblind()+
-    xlab("") + ylab("Mean Proportion of TOTs") + 
-  ggtitle("E2: Young and Old Adults (With Instructions)")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
-exp2_fig_noresp_plot
-@
-
-<<fig=TRUE>>=
-
-e2_noresp_TOT = NoResp_exp2_agg %>% filter(Question.RESP == "4")
-y_TOT = e2_noresp_TOT %>% filter(AgeGroup == "Young")
-o_TOT = e2_noresp_TOT %>% filter(AgeGroup == "Old")
-
-t.test(y_TOT$Trials, o_TOT$Trials)
-
-## E1
-
-NoResp_exp1_agg = group_by(NoResp_exp1, Subject, AgeGroup, Question.RESP) %>%
-  summarise(Trials = n())
-  
-exp1_fig_noresp= Rmisc::summarySE(NoResp_exp1_agg, 
-                        measurevar = "Trials",
-                        groupvars = c("AgeGroup", "Question.RESP"))
-
-library(ggplot2)
-library(ggthemes)
-exp1_fig_noresp_plot = exp1_fig_noresp %>% 
-mutate (RetrievalState = factor(Question.RESP, levels = unique(Question.RESP),
-                            labels = c(" Know", "Dont Know", "Other", "TOT")))%>%
-ggplot(aes(x = RetrievalState, y = Trials, 
-           group = AgeGroup, fill = AgeGroup))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
- scale_fill_colorblind()+
-    xlab("") + ylab("Mean Proportion of TOTs") + 
-  ggtitle("E1: Young and Old Adults (No Instructions)")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
-exp1_fig_noresp_plot
-@
-
-<<fig=TRUE>>=
-
-## OA more TOTs than YA when not producing a response: test this AOV
-
-e1_noresp_TOT = NoResp_exp1_agg %>% filter(Question.RESP == "4")
-y_TOT = e1_noresp_TOT %>% filter(AgeGroup == "Young")
-o_TOT = e1_noresp_TOT %>% filter(AgeGroup == "Old")
-
-t.test(y_TOT$Trials, o_TOT$Trials) ## no difference
-
-
-## Does this vary with prime type? ## nope
-
-NoResp_exp1_prime_agg = group_by(NoResp_exp1, Subject, AgeGroup,PrimeCondition, Question.RESP) %>%
-  summarise(Trials = n())
-
-exp1_fig_norespprime= Rmisc::summarySE(NoResp_exp1_prime_agg, 
-                        measurevar = "Trials",
-                        groupvars = c("AgeGroup", "PrimeCondition", "Question.RESP"))
-
-library(ggplot2)
-library(ggthemes)
-exp1_fig_norespprime_plot = exp1_fig_norespprime %>% 
-mutate (RetrievalState = factor(Question.RESP, levels = unique(Question.RESP),
-                            labels = c(" Know", "Dont Know", "Other", "TOT")))%>%
-ggplot(aes(x = RetrievalState, y = Trials, 
-           group = AgeGroup, fill = AgeGroup))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-  facet_wrap(~PrimeCondition)+
- scale_fill_colorblind()+
-    xlab("") + ylab("Mean Trials of TOTs") + 
-  ggtitle("E1: Young and Old Adults (No Instructions)")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
-exp1_fig_norespprime_plot
-@
-
-<<fig=TRUE>>=
-
-## E2
-NoResp_exp2_prime_agg = group_by(NoResp_exp2, Subject, AgeGroup,PrimeCondition, Question.RESP) %>%
-  summarise(Trials = n())
-
-exp2_fig_norespprime= Rmisc::summarySE(NoResp_exp2_prime_agg, 
-                        measurevar = "Trials",
-                        groupvars = c("AgeGroup", "PrimeCondition", "Question.RESP"))
-
-library(ggplot2)
-library(ggthemes)
-exp2_fig_norespprime_plot = exp2_fig_norespprime %>% 
-mutate (RetrievalState = factor(Question.RESP, levels = unique(Question.RESP),
-                            labels = c(" Know", "Dont Know", "Other", "TOT")))%>%
-ggplot(aes(x = RetrievalState, y = Trials, 
-           group = AgeGroup, fill = AgeGroup))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
-  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
-             width=.2, color = "gray26", 
-             position = position_dodge(0.7))+
- theme_few()+
-  facet_wrap(~PrimeCondition)+
- scale_fill_colorblind()+
-    xlab("") + ylab("Mean Trials of TOTs") + 
-  ggtitle("E2: Young and Old Adults (With Instructions)")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
-exp2_fig_norespprime_plot
-@
-
-\section {TOT: Split by Target Accuracy}
-
-<<fig=TRUE>>=
-## remove all incorrect TOT: when McAcc was 0
-statedata <- read.csv("Julie_Main5Studies.csv", header = TRUE, sep = ",")
-
-statedata <- subset(statedata, statedata$Subject!= 198 & statedata$Subject!= 95)
-
-statedata$TOTmeasure = ifelse(statedata$Question.RESP == "4" & 
-                                statedata$McAcc == "1", "correctTOT",
-                ifelse(statedata$Question.RESP == "4" &
-                         statedata$McAcc == "0","incorrectTOT",
-                ifelse(statedata$Question.RESP == "1" & 
-                         statedata$Accuracy == "0","incorrectKnow",
-               ifelse(statedata$Question.RESP == "2","dontknow",
-             ifelse(statedata$Question.RESP == "3"& 
-                         statedata$Accuracy == "0","incorrectOther","NA")))))
-
-age_statedata = group_by(statedata, AgeGroup, 
-                         ExperimentName,Subject, TOTmeasure) %>%
-  summarise(Trials = n())
-
-age_statedata_wide = spread(age_statedata, TOTmeasure, Trials)
-
-age_statedata_wide$correctTOT = ifelse(is.na(age_statedata_wide$correctTOT),0, 
-                                       age_statedata_wide$correctTOT)
-
-age_statedata_wide$incorrectTOT = ifelse(is.na(age_statedata_wide$incorrectTOT),0, age_statedata_wide$incorrectTOT)
-
-age_statedata_wide$incorrectKnow = ifelse(is.na(age_statedata_wide$incorrectKnow),0,  age_statedata_wide$incorrectKnow)
-
-
-age_statedata_wide$dontknow = ifelse(is.na(age_statedata_wide$dontknow),0, 
-                                       age_statedata_wide$dontknow)
-
-age_statedata_wide$incorrectOther = ifelse(is.na(age_statedata_wide$incorrectOther),0,  age_statedata_wide$incorrectOther)
-
-
-age_statedata_wide = mutate(age_statedata_wide, 
-                            propTOT = correctTOT/(correctTOT + dontknow +
-                                           incorrectKnow + incorrectTOT +
-                                             incorrectOther))
-
-exp1_age_TOT = age_statedata_wide %>% filter(ExperimentName == "tot extended prime")
-
-exp2_age_TOT = age_statedata_wide %>% filter(ExperimentName == "tot not the prime")
-
-
-e1_TOT_aov = aov(data = exp1_age_TOT, propTOT ~ AgeGroup)
-summary(e1_TOT_aov)
-
-e2_TOT_aov = aov(data = exp2_age_TOT, propTOT ~ AgeGroup)
-summary(e2_TOT_aov)
-
-## plotting this proportion ## remove subject from dply code
-
-successTOT_plot = age_statedata_wide %>% 
-ggplot(aes(x = AgeGroup, y = propTOT, 
-           group = AgeGroup, fill = AgeGroup))+
- geom_bar(stat = "identity", position = "dodge", width = 0.7, 
-          color= "black")+
- theme_few()+
-  facet_wrap(~ExperimentName)+
-  scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("") + ylab("Mean Proportion of TOTs") + 
-  ggtitle("")  +
-   theme(axis.text = element_text(size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-         plot.title = element_text(hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
-successTOT_plot
-
-## again, OA lower than YA
-
-burkeTOT = statedata %>% filter(!(Question.RESP == "4" & McAcc == "0"))
-
-## now we want proportion of correct TOTs as a function of all other unsuccessful retrievals
-
-
-
-@
 
 \section {Percent State Analysis}
 
@@ -6451,6 +4749,1710 @@ ggplot(aes(x = PrimeType, y = Percent,
          plot.title = element_text(hjust = .5),
          strip.text.x = element_text(face = "bold", size = rel(1.4)))
 e3_percentplot
+
+@
+
+\section {State Prime Accuracy Figures}
+
+\subsubsection *{Experiment 1}
+
+<<>>=
+exp1_fig_stateprime_acc = Rmisc::summarySE(exp_1_stateprime_acc, 
+                        measurevar = "Trials",
+                        groupvars = c("AgeGroup","PrimeCondition", "Question.RESP", "Accuracy"))
+
+
+exp1_fig_stateprime_acc =  arrange(exp1_fig_stateprime_acc, 
+                               desc(AgeGroup))
+
+exp1_fig_stateprime_acc$Accuracy = as.factor(as.character(exp1_fig_stateprime_acc$Accuracy))
+
+exp1_fig_stateprime_acc_young = exp1_fig_stateprime_acc %>% filter(AgeGroup == "Young")
+exp1_fig_stateprime_acc_old = exp1_fig_stateprime_acc %>% filter(AgeGroup == "Old")
+
+library(ggplot2)
+library(ggthemes)
+ stateprime_1_acc_young = exp1_fig_stateprime_acc_young %>% 
+   mutate(State = factor(Question.RESP, levels = unique(Question.RESP),
+                            labels = c("Know", "Dont Know", "Other", "TOT")),
+          PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
+               labels = c("Both", "Phonological", "Semantic", "Unrelated")),
+                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
+                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
+ggplot(aes(x = PrimeType, y = Trials, 
+          group=TargetAcc, fill = TargetAcc))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+  facet_wrap(~State, nrow =1)+
+   scale_fill_wsj()+
+ # scale_fill_manual(values = c("royalblue4", "slategray1"))+
+    xlab("") + ylab("") + 
+  ggtitle("E1: Young (Without Instructions)")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+ 
+ stateprime_1_acc_young
+ 
+ 
+ stateprime_1_acc_old = exp1_fig_stateprime_acc_old %>% 
+    mutate(State = factor(Question.RESP, levels = unique(Question.RESP),
+                            labels = c("Know", "Dont Know", "Other", "TOT")),
+          PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
+               labels = c("Both", "Phonological", "Semantic", "Unrelated")),
+                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
+                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
+ggplot(aes(x = PrimeType, y = Trials, 
+          group=TargetAcc, fill = TargetAcc))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+  facet_wrap(~State, nrow =1)+
+   scale_fill_wsj()+
+ # scale_fill_manual(values = c("royalblue4", "slategray1"))+
+    xlab("") + ylab("") + 
+  ggtitle("E1: Old (Without Instructions)")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+ 
+ stateprime_1_acc_old
+@
+
+\subsubsection {E1: Combined Plot}
+
+<<fig=TRUE>>=
+library(grid)
+gridExtra::grid.arrange(stateprime_1_acc_young, stateprime_1_acc_old, 
+                        nrow = 2, ncol = 1, 
+      top=textGrob("Raw Number of Retrieval States in E1", 
+                                      gp=gpar(fontsize=20)))
+@
+
+\subsubsection *{Experiment 2}
+
+<<>>=
+exp2_fig_stateprime_acc = Rmisc::summarySE(exp_2_stateprime_acc, 
+                        measurevar = "Trials",
+                        groupvars = c("AgeGroup","PrimeCondition", "Question.RESP", "Accuracy"))
+
+
+exp2_fig_stateprime_acc =  arrange(exp2_fig_stateprime_acc, 
+                               desc(AgeGroup))
+
+exp2_fig_stateprime_acc$Accuracy = as.factor(as.character(exp2_fig_stateprime_acc$Accuracy))
+
+exp2_fig_stateprime_acc_young = exp2_fig_stateprime_acc %>% filter(AgeGroup == "Young")
+exp2_fig_stateprime_acc_old = exp2_fig_stateprime_acc %>% filter(AgeGroup == "Old")
+
+library(ggplot2)
+library(ggthemes)
+ stateprime_2_acc_young = exp2_fig_stateprime_acc_young %>% 
+   mutate(State = factor(Question.RESP, levels = unique(Question.RESP),
+                            labels = c("Know", "Dont Know", "Other", "TOT")),
+          PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
+               labels = c("Both", "Phonological", "Semantic", "Unrelated")),
+                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
+                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
+ggplot(aes(x = State, y = Trials, 
+          group=TargetAcc, fill = TargetAcc))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+  facet_wrap(~PrimeType, nrow =1)+
+   scale_fill_wsj()+
+ # scale_fill_manual(values = c("royalblue4", "slategray1"))+
+    xlab("") + ylab("") + 
+  ggtitle("E2: Young (With Instructions)")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+ 
+ stateprime_2_acc_young
+ 
+ 
+ stateprime_2_acc_old = exp2_fig_stateprime_acc_old %>% 
+    mutate(State = factor(Question.RESP, levels = unique(Question.RESP),
+                            labels = c("Know", "Dont Know", "Other", "TOT")),
+          PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
+               labels = c("Both", "Phonological", "Semantic", "Unrelated")),
+                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
+                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
+ggplot(aes(x = State, y = Trials, 
+          group=TargetAcc, fill = TargetAcc))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+  facet_wrap(~PrimeType, nrow =1)+
+   scale_fill_wsj()+
+ # scale_fill_manual(values = c("royalblue4", "slategray1"))+
+    xlab("") + ylab("") + 
+  ggtitle("E2: Old (With Instructions)")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+ 
+ stateprime_2_acc_old
+@
+
+\subsubsection {E2: Combined Plot}
+
+<<fig=TRUE>>=
+library(grid)
+gridExtra::grid.arrange(stateprime_2_acc_young, stateprime_2_acc_old, 
+                        nrow = 2, ncol = 1, 
+      top=textGrob("Raw Number of Retrieval States in E2", 
+                                      gp=gpar(fontsize=20)))
+@
+
+\subsubsection *{Experiment 3}
+
+<<fig=TRUE>>=
+exp3_fig_stateprime_acc = Rmisc::summarySE(exp_3_stateprime_acc, 
+                        measurevar = "Trials",
+                        groupvars = c("AgeGroup","PrimeCondition", "Question.RESP", "Accuracy"))
+
+exp3_fig_stateprime_acc$Accuracy = as.factor(as.character(exp3_fig_stateprime_acc$Accuracy))
+
+
+library(ggplot2)
+library(ggthemes)
+ stateprime_3_acc_young = exp3_fig_stateprime_acc %>% 
+   mutate(State = factor(Question.RESP, levels = unique(Question.RESP),
+                            labels = c("Know", "Dont Know", "Other", "TOT")),
+          PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
+               labels = c("Both", "Phonological", "Semantic", "Unrelated")),
+                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
+                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
+ggplot(aes(x = State, y = Trials, 
+          group=TargetAcc, fill = TargetAcc))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+  facet_wrap(~PrimeType, nrow =1)+
+   scale_fill_wsj()+
+ # scale_fill_manual(values = c("royalblue4", "slategray1"))+
+    xlab("") + ylab("") + 
+  ggtitle("E3: Young Adults Only (48 ms)")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+ 
+ stateprime_3_acc_young
+ 
+@
+
+\section {Know: PrimeType and Target Accuracy}
+
+<<>>=
+exp_1_knowacc = exp_1_stateprime_acc %>% filter(Question.RESP == "1")
+exp_2_knowacc = exp_2_stateprime_acc %>% filter(Question.RESP == "1")
+exp_3_knowacc = exp_3_stateprime_acc %>% filter(Question.RESP == "1")
+@
+\subsection {Experiment 1}
+<<fig=TRUE>>=
+## HLM on trials
+
+library(lme4)
+contrasts(exp_1_knowacc$PrimeCondition) = contr.treatment(4, base = 3)
+exp_1_knowacc$Accuracy = as.factor(exp_1_knowacc$Accuracy)
+e1_know_hlm = lmer(data = exp_1_knowacc, 
+                   Trials ~ AgeGroup*PrimeCondition*Accuracy + 
+                     (1|Subject))
+summary(e1_know_hlm)
+car::Anova(e1_know_hlm)
+## plotting
+library(ggplot2)
+library(ggthemes)
+e1_know_data = Rmisc::summarySE(exp_1_knowacc, 
+                        measurevar = "Trials",
+                        groupvars = c( "AgeGroup","PrimeCondition", "Accuracy"))
+
+e1_know_plot = e1_know_data %>% 
+   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
+               labels = c("Both", "Phonological", "Semantic", "Unrelated")),
+                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
+                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
+ggplot(aes(x = PrimeType, y = Trials, 
+          group=TargetAcc, fill = TargetAcc))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+   scale_fill_wsj()+
+  facet_wrap(~AgeGroup)+
+ # scale_fill_manual(values = c("royalblue4", "slategray1"))+
+    xlab("Prime Condition") + ylab("Number of Trials") + 
+  ggtitle("E1: Know Responses in Young and Old Adults (Without Instructions)")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+ 
+ e1_know_plot
+@
+ 
+ \subsection {Experiment 1 Collapsed Prime}
+<<fig=TRUE>>=
+## HLM on trials
+exp_1_knowacc2 = exp_1_state_acc %>% filter(Question.RESP == "1")
+library(lme4)
+exp_1_knowacc2$Accuracy = as.factor(exp_1_knowacc2$Accuracy)
+e1_know_hlm = lmer(data = exp_1_knowacc2, 
+                   Trials ~ AgeGroup*Accuracy + 
+                     (1|Subject))
+summary(e1_know_hlm)
+car::Anova(e1_know_hlm)
+
+## percents
+
+exp1_knowacc_percent = spread(exp_1_knowacc2, Accuracy, Trials)
+exp1_knowacc_percent$`0` = ifelse(is.na(exp1_knowacc_percent$`0`), 
+                                  0, exp1_knowacc_percent$`0`)
+exp1_knowacc_percent$`1` = ifelse(is.na(exp1_knowacc_percent$`1`), 
+                                  0, exp1_knowacc_percent$`1`)
+exp1_knowacc_percent$total = exp1_knowacc_percent$`0` + exp1_knowacc_percent$`1`
+exp1_knowacc_percent$pcorrect = exp1_knowacc_percent$`1`/exp1_knowacc_percent$total
+exp1_knowacc_percent$pwrong = exp1_knowacc_percent$`0`/exp1_knowacc_percent$total
+
+exp1_knowacc_long = exp1_knowacc_percent %>% gather(Type,
+                                             Percent, 
+                                       pcorrect:pwrong)%>%
+   arrange(Subject)
+
+## plotting
+library(ggplot2)
+library(ggthemes)
+e1_know_data = Rmisc::summarySE(exp1_knowacc_long, 
+                        measurevar = "Percent",
+                        groupvars = c( "AgeGroup", "Type"))
+e1_know_data$Percent = round(e1_know_data$Percent, 2)
+e1_know_plot = e1_know_data %>% 
+   mutate(TargetAcc = factor(Type, levels = unique(Type),
+                    labels = c("Correct Retrieval", "Wrong Retrieval")))%>%
+ggplot(aes(x = AgeGroup, y = Percent, 
+          group=TargetAcc, fill = TargetAcc))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Percent - se, ymax=Percent + se), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+   scale_fill_solarized()+
+ # scale_fill_manual(values = c("royalblue4", "slategray1"))+
+    xlab("Age Group") + ylab("Percentage of Trials") + 
+  ggtitle("E1: Know Responses in Young and Old Adults (Without Instructions)")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+ 
+ e1_know_plot
+@
+
+ 
+ \subsection {Experiment 2}
+<<fig=TRUE>>=
+ ###  EXPERIMENT 2
+
+contrasts(exp_2_knowacc$PrimeCondition) = contr.treatment(4, base = 3)
+e2_know_hlm = lmer(data = exp_2_knowacc, Trials ~ PrimeCondition*Accuracy + 
+                     (1|Subject))
+summary(e2_know_hlm)
+car::Anova(e2_know_hlm)
+
+e2_know_hlm_age = lmer(data = exp_2_knowacc, Trials ~ AgeGroup*PrimeCondition*Accuracy + 
+                     (1|Subject))
+summary(e2_know_hlm_age)
+car::Anova(e2_know_hlm_age)
+
+## only older adults
+library(lmerTest)
+exp_2_knowacc_old = exp_2_knowacc %>% filter(AgeGroup == "Old")
+e2_know_hlm_old = lmer(data = exp_2_knowacc_old, Trials ~ PrimeCondition*Accuracy + 
+                     (1|Subject))
+summary(e2_know_hlm_old)
+car::Anova(e2_know_hlm_old)
+## only young adults
+exp_2_knowacc_young = exp_2_knowacc %>% filter(AgeGroup == "Young")
+e2_know_hlm_young = lmer(data = exp_2_knowacc_young, Trials ~ PrimeCondition*Accuracy + 
+                     (1|Subject))
+summary(e2_know_hlm_young)
+car::Anova(e2_know_hlm_young)
+
+#sjPlot::plot_model(e2_know_hlm, type = "int")
+
+## plotting
+
+e2_know_data = Rmisc::summarySE(exp_2_knowacc, 
+                        measurevar = "Trials",
+                        groupvars = c("PrimeCondition", "Accuracy"))
+
+e2_know_plot = e2_know_data %>% 
+   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
+               labels = c("Both", "Phonological", "Semantic", "Unrelated")),
+                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
+                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
+ggplot(aes(x = PrimeType, y = Trials, 
+          group=TargetAcc, fill = TargetAcc))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+   scale_fill_wsj()+
+ # scale_fill_manual(values = c("royalblue4", "slategray1"))+
+    xlab("Prime Condition") + ylab("Number of Trials") + 
+  ggtitle("E2: Know Responses in Young and Old Adults (With Instructions)")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+ 
+ e2_know_plot
+@
+
+<<fig=TRUE>>=
+ e2_know_data_age = Rmisc::summarySE(exp_2_knowacc, 
+                        measurevar = "Trials",
+                        groupvars = c("AgeGroup", "PrimeCondition", "Accuracy"))
+
+e2_know_plot_age = e2_know_data_age %>% 
+   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
+               labels = c("Both", "Phonological", "Semantic", "Unrelated")),
+                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
+                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
+ggplot(aes(x = PrimeType, y = Trials, 
+          group=TargetAcc, fill = TargetAcc))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+   scale_fill_wsj()+
+  facet_wrap(~AgeGroup)+
+ # scale_fill_manual(values = c("royalblue4", "slategray1"))+
+    xlab("Prime Condition") + ylab("Number of Trials") + 
+  ggtitle("E2: Know Responses in Young and Old Adults (With Instructions)")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+ 
+ e2_know_plot_age
+@
+ 
+\subsection {Experiment 2 Collapsed Prime}
+<<fig=TRUE>>=
+## HLM on trials
+exp_2_knowacc2 = exp_2_state_acc %>% filter(Question.RESP == "1")
+library(lme4)
+exp_2_knowacc2$Accuracy = as.factor(exp_2_knowacc2$Accuracy)
+e2_know_hlm = lmer(data = exp_2_knowacc2, 
+                   Trials ~ AgeGroup*Accuracy + 
+                     (1|Subject))
+summary(e2_know_hlm)
+car::Anova(e2_know_hlm)
+
+## percents
+
+exp2_knowacc_percent = spread(exp_2_knowacc2, Accuracy, Trials)
+exp2_knowacc_percent$`0` = ifelse(is.na(exp2_knowacc_percent$`0`), 
+                                  0, exp2_knowacc_percent$`0`)
+exp2_knowacc_percent$`1` = ifelse(is.na(exp2_knowacc_percent$`1`), 
+                                  0, exp2_knowacc_percent$`1`)
+exp2_knowacc_percent$total = exp2_knowacc_percent$`0` + exp2_knowacc_percent$`1`
+exp2_knowacc_percent$pcorrect = exp2_knowacc_percent$`1`/exp2_knowacc_percent$total
+exp2_knowacc_percent$pwrong = exp2_knowacc_percent$`0`/exp2_knowacc_percent$total
+
+exp2_knowacc_long = exp2_knowacc_percent %>% gather(Type,
+                                             Percent, 
+                                       pcorrect:pwrong)%>%
+   arrange(Subject)
+
+## plotting
+library(ggplot2)
+library(ggthemes)
+e2_know_data = Rmisc::summarySE(exp2_knowacc_long, 
+                        measurevar = "Percent",
+                        groupvars = c( "AgeGroup", "Type"))
+e2_know_data$Percent = round(e2_know_data$Percent, 2)
+e2_know_plot = e2_know_data %>% 
+   mutate(TargetAcc = factor(Type, levels = unique(Type),
+                    labels = c("Correct Retrieval", "Wrong Retrieval")))%>%
+ggplot(aes(x = AgeGroup, y = Percent, 
+          group=TargetAcc, fill = TargetAcc))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Percent - se, ymax=Percent + se), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+   scale_fill_solarized()+
+ # scale_fill_manual(values = c("royalblue4", "slategray1"))+
+    xlab("Age Group") + ylab("Number of Trials") + 
+  ggtitle("E2: Know Responses in Young and Old Adults (Without Instructions)")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+ 
+ e2_know_plot
+@
+ 
+\subsection {Experiment 3}
+
+<<fig=TRUE>>=
+contrasts(exp_3_knowacc$PrimeCondition) = contr.treatment(4, base = 3)
+e3_know_hlm = lmer(data = exp_3_knowacc, Trials ~ PrimeCondition*Accuracy + 
+                     (1|Subject))
+summary(e3_know_hlm)
+car::Anova(e3_know_hlm)
+
+#sjPlot::plot_model(e3_know_hlm, type = "int")
+
+## plotting
+
+e3_know_data = Rmisc::summarySE(exp_3_knowacc, 
+                        measurevar = "Trials",
+                        groupvars = c("PrimeCondition", "Accuracy"))
+
+e3_know_plot = e3_know_data %>% 
+   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
+               labels = c("Both", "Phonological", "Semantic", "Unrelated")),
+                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
+                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
+ggplot(aes(x = PrimeType, y = Trials, 
+          group=TargetAcc, fill = TargetAcc))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+   scale_fill_wsj()+
+ # scale_fill_manual(values = c("royalblue4", "slategray1"))+
+    xlab("Prime Condition") + ylab("Number of Trials") + 
+  ggtitle("E3: Know Responses in Young Adults Only (48 ms)")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+ 
+ e3_know_plot
+@
+
+\subsection {Experiment 3 Collapsed Prime}
+<<fig=TRUE>>=
+## HLM on trials
+exp_3_knowacc2 = exp_3_state_acc %>% filter(Question.RESP == "1")
+library(lme4)
+exp_3_knowacc2$Accuracy = as.factor(exp_3_knowacc2$Accuracy)
+e3_know_hlm = lmer(data = exp_3_knowacc2, 
+                   Trials ~ Accuracy + 
+                     (1|Subject))
+summary(e3_know_hlm)
+car::Anova(e3_know_hlm)
+
+## percents
+
+exp3_knowacc_percent = spread(exp_3_knowacc2, Accuracy, Trials)
+exp3_knowacc_percent$`0` = ifelse(is.na(exp3_knowacc_percent$`0`), 
+                                  0, exp3_knowacc_percent$`0`)
+exp3_knowacc_percent$`1` = ifelse(is.na(exp3_knowacc_percent$`1`), 
+                                  0, exp3_knowacc_percent$`1`)
+exp3_knowacc_percent$total = exp3_knowacc_percent$`0` + exp3_knowacc_percent$`1`
+exp3_knowacc_percent$pcorrect = exp3_knowacc_percent$`1`/exp3_knowacc_percent$total
+exp3_knowacc_percent$pwrong = exp3_knowacc_percent$`0`/exp3_knowacc_percent$total
+
+exp3_knowacc_long = exp3_knowacc_percent %>% gather(Type,
+                                             Percent, 
+                                       pcorrect:pwrong)%>%
+   arrange(Subject)
+
+## plotting
+library(ggplot2)
+library(ggthemes)
+e3_know_data = Rmisc::summarySE(exp3_knowacc_long, 
+                        measurevar = "Percent",
+                        groupvars = c( "AgeGroup", "Type"))
+e3_know_data$Percent = round(e3_know_data$Percent, 2)
+e3_know_plot = e3_know_data %>% 
+   mutate(TargetAcc = factor(Type, levels = unique(Type),
+                    labels = c("Correct Retrieval", "Wrong Retrieval")))%>%
+ggplot(aes(x = AgeGroup, y = Percent, 
+          group=TargetAcc, fill = TargetAcc))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Percent - se, ymax=Percent + se), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+   scale_fill_solarized()+
+ # scale_fill_manual(values = c("royalblue4", "slategray1"))+
+    xlab("Age Group") + ylab("Number of Trials") + 
+  ggtitle("E2: Know Responses in Young and Old Adults (Without Instructions)")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+ 
+ e3_know_plot
+@
+\section {Know: Across E1 E2 E3}
+
+<<>>=
+## all data is in data_stateprime_acc
+
+## only know responses in young and old
+
+data_stateprime_acc$Experiment = ifelse(data_stateprime_acc$StudyNo == "2" |
+                                        data_stateprime_acc$StudyNo == "4",
+                                        "No Instructions", 
+                        ifelse(data_stateprime_acc$StudyNo == "5" |
+                                 data_stateprime_acc$StudyNo == "6", 
+                               "With Instructions", "Young 48 ms"))
+data_stateprime_acc$Experiment = as.factor(data_stateprime_acc$Experiment)
+
+stateprime_young_know_ru = data_stateprime_acc %>% 
+  filter(AgeGroup == "Young" & Question.RESP == "1" &
+           PrimeCondition %in% c("R", "U"))
+
+stateprime_old_know_ru = data_stateprime_acc %>% 
+  filter(AgeGroup == "Old" & Question.RESP == "1"&
+           PrimeCondition %in% c("R", "U"))
+
+
+@
+
+\subsection {Young HLM and Plot}
+
+<<fig=TRUE>>=
+## hlm on young-know
+contrasts(stateprime_young_know_ru$PrimeCondition) = 
+  contr.treatment(4, base = 3)
+
+contrasts(stateprime_young_know_ru$Experiment) = 
+  contr.treatment(3, base = 2)
+
+library(lmerTest)
+library(lme4)
+hlm_young_know = lmer(data = stateprime_young_know_ru, 
+                      Trials ~ Experiment*PrimeCondition*Accuracy + 
+                     (1|Subject))
+summary(hlm_young_know)
+car::Anova(hlm_young_know)
+sjPlot::plot_model(hlm_young_know, type= "int")
+
+stateprime_young_know_e2e3 = stateprime_young_know_ru %>%
+  filter(Experiment != "No Instructions")
+
+hlm_young_know_e2e3 = lmer(data = stateprime_young_know_e2e3, 
+                      Trials ~ Experiment*PrimeCondition*Accuracy + 
+                     (1|Subject))
+summary(hlm_young_know_e2e3)
+car::Anova(hlm_young_know_e2e3)
+sjPlot::plot_model(hlm_young_know_e2e3, type= "int")
+
+## plotting young data
+
+young_know_data = Rmisc::summarySE(stateprime_young_know_ru, 
+                        measurevar = "Trials",
+                        groupvars = c("Experiment" ,
+                                      "PrimeCondition", "Accuracy"))
+
+young_know_plot = young_know_data %>% 
+   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
+               labels = c("Semantic", "Unrelated")),
+                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
+                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
+ggplot(aes(x = PrimeType, y = Trials, 
+          group=TargetAcc, fill = TargetAcc))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+   scale_fill_wsj()+
+  facet_wrap(~Experiment)+
+ # scale_fill_manual(values = c("royalblue4", "slategray1"))+
+    xlab("Prime Condition") + ylab("Number of Trials") + 
+  ggtitle("Young Adults: Know Responses in E1, E2 and E3")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+ 
+ young_know_plot
+@
+
+\subsection {Old HLM and Plot}
+<<fig=TRUE>>=
+## hlm on old-know
+contrasts(stateprime_old_know_ru$PrimeCondition) = 
+  contr.treatment(4, base = 3)
+hlm_old_know = lmer(data = stateprime_old_know_ru, 
+                      Trials ~ Experiment*PrimeCondition*Accuracy + 
+                     (1|Subject))
+summary(hlm_old_know)
+car::Anova(hlm_old_know)
+sjPlot::plot_model(hlm_old_know, type= "int")
+
+stateprime_old_know_ru1 = stateprime_old_know_ru %>% filter(Subject != "702")
+
+old_know_data = Rmisc::summarySE(stateprime_old_know_ru1, 
+                        measurevar = "Trials",
+                        groupvars = c("Experiment" ,
+                                      "PrimeCondition", "Accuracy"))
+old_know_plot = old_know_data %>% 
+   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
+               labels = c("Semantic", "Unrelated")),
+                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
+                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
+ggplot(aes(x = PrimeType, y = Trials, 
+          group=TargetAcc, fill = TargetAcc))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+   scale_fill_wsj()+
+  facet_wrap(~Experiment)+
+ # scale_fill_manual(values = c("royalblue4", "slategray1"))+
+    xlab("Prime Condition") + ylab("Number of Trials") + 
+  ggtitle("Old Adults: Know Responses in E1 and E2")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+ 
+ old_know_plot
+@
+ 
+<<fig=TRUE>>=
+
+ ### ADDING ZEROS WHERE NEEDED
+ 
+ know_old_ru_trials =stateprime_old_know_ru1
+ old_know_ru_trials = know_old_ru_trials
+
+ oldtotaltrials_trials = spread(old_know_ru_trials, Accuracy, Trials)
+ 
+ oldtotaltrials_trials$`0` = ifelse(is.na(oldtotaltrials_trials$`0`),
+                                    0,oldtotaltrials_trials$`0`)
+ oldtotaltrials_trials$`1`= ifelse(is.na(oldtotaltrials_trials$`1`),
+                                   0,oldtotaltrials_trials$`1`)
+
+long_oldpercent_trials <- oldtotaltrials_trials %>% gather(Type,
+                                             Trials, 
+                                       `0`:`1`)%>%
+   arrange(Subject, PrimeCondition)
+ long_oldpercent_trials$Type = as.factor(long_oldpercent_trials$Type)
+ 
+ old_know_data_all_trials = Rmisc::summarySE(long_oldpercent_trials, 
+                        measurevar = "Trials",
+                        groupvars = c("Experiment" ,
+                                      "PrimeCondition", "Type"))
+
+old_know_data_all_trials$Accuracy = factor(old_know_data_all_trials$Type,
+                            levels(old_know_data_all_trials$Type)[c(2,1)])
+
+old_know_plot_all_trials = old_know_data_all_trials %>% 
+   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
+               labels = c("Semantic", "Unrelated")))%>%
+ggplot(aes(x = PrimeType, y = Trials,
+           group= Accuracy, fill= Accuracy))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+   scale_fill_wsj()+
+  facet_wrap(~Experiment)+
+ # scale_fill_manual(values = c("royalblue4", "slategray1"))+
+    xlab("Prime Condition") + ylab("Percentage of Trials") + 
+  ggtitle("Old Adults: Know Responses in E1 and E2 ")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+ 
+old_know_plot_all_trials 
+@
+
+\section {Know ANOVA}
+
+<<>>=
+ stateprime_young_know_ru_complete = stateprime_young_know_ru %>%
+   filter(!Subject  %in% c(14,17, 24,26,28,30,44,68,67,72,79,80,85,86,90,95,164, 170,171,172, 188))
+ 
+ stateprime_young_know_ru_complete$Subject = as.factor(stateprime_young_know_ru_complete$Subject)
+ know_aov = aov(data = stateprime_young_know_ru_complete, Trials ~ Experiment*PrimeCondition*Accuracy + 
+                  Error(Subject/(PrimeCondition*Accuracy)))
+ summary(know_aov)
+ 
+ onlye2e3 = stateprime_young_know_ru_complete %>% filter(Experiment != "Young 48 ms")
+ 
+ know_aov2 = aov(data = onlye2e3, Trials ~ Experiment*PrimeCondition*Accuracy + 
+                  Error(Subject/(PrimeCondition*Accuracy)))
+ summary(know_aov2)
+ 
+@ 
+
+\section {Know Percent Rel Unrel }
+
+\subsection {Young}
+
+<<fig=TRUE>>=
+know_young_ru_percent = read.csv("young_know_ru.csv", 
+                                 header = TRUE, sep = ",")
+ 
+young_know_ru = know_young_ru_percent[,-1]
+ youngtotaltrials = spread(young_know_ru, Accuracy, Trials)
+ 
+ youngtotaltrials$`0` = ifelse(is.na(youngtotaltrials$`0`), 0,youngtotaltrials$`0`)
+ youngtotaltrials$`1`= ifelse(is.na(youngtotaltrials$`1`), 0,youngtotaltrials$`1`)
+
+ youngtotaltrials$total = youngtotaltrials$`0` + youngtotaltrials$`1`
+
+ youngtotaltrials$PercentCorrect = youngtotaltrials$`1`/youngtotaltrials$total
+youngtotaltrials$PercentIncorrect = youngtotaltrials$`0`/youngtotaltrials$total
+
+## remove NA trials
+
+#totaltrials = totaltrials %>% filter(!(is.na(Rpercent) & is.na(Upercent)))
+
+## convert back to long
+
+# long_youngpercent <- totaltrials %>% gather(PrimeCondition,
+#                                             Percent, 
+#                                       PercentCorrect:PercentIncorrect)%>%
+#   arrange(Subject)
+
+youngtotaltrials$Subject = as.factor(youngtotaltrials$Subject)
+anova_youngpercent = aov(data = youngtotaltrials, 
+                         PercentCorrect ~ Experiment*PrimeCondition + 
+                           Error(Subject/PrimeCondition))
+
+summary(anova_youngpercent)
+
+young_know_data = Rmisc::summarySE(youngtotaltrials, 
+                        measurevar = "PercentCorrect",
+                        groupvars = c("Experiment" ,
+                                      "PrimeCondition"))
+
+young_know_plot = young_know_data %>% 
+   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
+               labels = c("Semantic", "Unrelated")))%>%
+ggplot(aes(x = PrimeType, y = PercentCorrect))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=PercentCorrect - se, ymax=PercentCorrect + se), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+   scale_fill_wsj()+
+  facet_wrap(~Experiment)+
+ # scale_fill_manual(values = c("royalblue4", "slategray1"))+
+    xlab("Prime Condition") + ylab("Percentage of Trials") + 
+  ggtitle("Young Adults: Correct Know Responses in E1, E2 and E3")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+ 
+ young_know_plot
+@
+
+\subsection {Young Correct Incorrect}
+
+<<fig=TRUE>>=
+know_young_ru_percent = read.csv("young_know_ru.csv", 
+                                 header = TRUE, sep = ",")
+ 
+young_know_ru = know_young_ru_percent[,-1]
+ youngtotaltrials = spread(young_know_ru, Accuracy, Trials)
+ 
+ youngtotaltrials$`0` = ifelse(is.na(youngtotaltrials$`0`), 0,youngtotaltrials$`0`)
+ youngtotaltrials$`1`= ifelse(is.na(youngtotaltrials$`1`), 0,youngtotaltrials$`1`)
+
+ youngtotaltrials$total = youngtotaltrials$`0` + youngtotaltrials$`1`
+
+ youngtotaltrials$PercentCorrect = youngtotaltrials$`1`/youngtotaltrials$total
+youngtotaltrials$PercentIncorrect = youngtotaltrials$`0`/youngtotaltrials$total
+
+## convert back to long
+
+ long_youngpercent <- youngtotaltrials %>% gather(Type,
+                                             Percent, 
+                                       PercentCorrect:PercentIncorrect)%>%
+   arrange(Subject, PrimeCondition)
+ long_youngpercent$Type = as.factor(long_youngpercent$Type)
+  long_youngpercent$Subject = as.factor(long_youngpercent$Subject)
+
+##  correct and incorrect anova
+anova_youngpercent_all = aov(data = long_youngpercent, 
+                         Percent ~ Experiment*PrimeCondition*Type + 
+                           Error(Subject/(PrimeCondition*Type)))
+
+summary(anova_youngpercent_all)
+
+
+ 
+ ## correct and incorrect 
+young_know_data_all = Rmisc::summarySE(long_youngpercent, 
+                        measurevar = "Percent",
+                        groupvars = c("Experiment" ,
+                                      "PrimeCondition", "Type"))
+young_know_data_all$Accuracy = factor(young_know_data_all$Type,
+                            levels(young_know_data_all$Type)[c(2,1)])
+
+young_know_plot_all = young_know_data_all %>% 
+   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
+               labels = c("Semantic", "Unrelated")))%>%
+ggplot(aes(x = PrimeType, y = Percent, 
+           group = Accuracy, fill = Accuracy))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Percent - se, ymax=Percent + se), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+   scale_fill_wsj()+
+  facet_wrap(~Experiment)+
+ # scale_fill_manual(values = c("royalblue4", "slategray1"))+
+    xlab("Prime Condition") + ylab("Percentage of Trials") + 
+  ggtitle("Young Adults: Know Responses in E1, E2 and E3")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+ 
+ young_know_plot_all
+@
+
+\subsection {Old}
+
+<<fig=TRUE>>=
+know_old_ru_percent = read.csv("old_know_ru.csv", 
+                                 header = TRUE, sep = ",")
+ old_know_ru = know_old_ru_percent[,-1]
+
+ oldtotaltrials = spread(old_know_ru, Accuracy, Trials)
+ 
+ oldtotaltrials$`0` = ifelse(is.na(oldtotaltrials$`0`), 0,oldtotaltrials$`0`)
+ oldtotaltrials$`1`= ifelse(is.na(oldtotaltrials$`1`), 0,oldtotaltrials$`1`)
+ 
+ 
+ oldtotaltrials$total = oldtotaltrials$`0` + oldtotaltrials$`1`
+ 
+  oldtotaltrials$PercentCorrect = oldtotaltrials$`1`/oldtotaltrials$total
+oldtotaltrials$PercentIncorrect = oldtotaltrials$`0`/oldtotaltrials$total
+#totaltrials = totaltrials %>% filter(!(i1.s.na(Rpercent) & is.na(Upercent)))
+
+
+## convert back to long
+
+# long_oldpercent <- totaltrials %>% gather(PrimeCondition,
+#                                             Percent, Rpercent:Upercent)%>%
+#   arrange(Subject)
+
+
+## Subject 702 does not have U know trials at all
+
+ 
+ oldtotaltrials = oldtotaltrials %>% filter(Subject != "702")
+
+  
+ 
+ oldtotaltrials$`0` = as.numeric(as.character(oldtotaltrials$`0`))
+ oldtotaltrials$`1` = as.numeric(as.character(oldtotaltrials$`1`))
+
+oldtotaltrials$Subject = as.factor(oldtotaltrials$Subject)
+
+
+anova_oldpercent = aov(data = oldtotaltrials, 
+                         PercentCorrect ~ Experiment*PrimeCondition + 
+                           Error(Subject/PrimeCondition))
+
+summary(anova_oldpercent)
+
+old_know_data = Rmisc::summarySE(oldtotaltrials, 
+                        measurevar = "PercentCorrect",
+                        groupvars = c("Experiment" ,
+                                      "PrimeCondition"))
+
+old_know_plot = old_know_data %>% 
+   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
+               labels = c("Semantic", "Unrelated")))%>%
+ggplot(aes(x = PrimeType, y = PercentCorrect))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=PercentCorrect - se, ymax=PercentCorrect + se), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+   scale_fill_wsj()+
+  facet_wrap(~Experiment)+
+ # scale_fill_manual(values = c("royalblue4", "slategray1"))+
+    xlab("Prime Condition") + ylab("Percentage of Trials") + 
+  ggtitle("Old Adults: Correct Know Responses in E1 and E2 ")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+ 
+ old_know_plot
+@
+
+\subsection {Old Correct Incorrect}
+<<fig=TRUE>>=
+know_old_ru_percent = read.csv("old_know_ru.csv", 
+                                 header = TRUE, sep = ",")
+ 
+old_know_ru = know_old_ru_percent[,-1]
+ oldtotaltrials = spread(old_know_ru, Accuracy, Trials)
+ 
+ oldtotaltrials$`0` = ifelse(is.na(oldtotaltrials$`0`), 0,oldtotaltrials$`0`)
+ oldtotaltrials$`1`= ifelse(is.na(oldtotaltrials$`1`), 0,oldtotaltrials$`1`)
+ 
+ 
+ oldtotaltrials$total = oldtotaltrials$`0` + oldtotaltrials$`1`
+ 
+  oldtotaltrials$PercentCorrect = oldtotaltrials$`1`/oldtotaltrials$total
+oldtotaltrials$PercentIncorrect = oldtotaltrials$`0`/oldtotaltrials$total
+#totaltrials = totaltrials %>% filter(!(i1.s.na(Rpercent) & is.na(Upercent)))
+## convert back to long
+
+long_oldpercent <- oldtotaltrials %>% gather(Type,
+                                             Percent, 
+                                       PercentCorrect:PercentIncorrect)%>%
+   arrange(Subject, PrimeCondition)
+ long_oldpercent$Type = as.factor(long_oldpercent$Type)
+ 
+ ## Subject 702 does not have U know trials at all
+
+ 
+ long_oldpercent = long_oldpercent %>% filter(Subject != "702")
+
+long_oldpercent$Subject = as.factor(long_oldpercent$Subject)
+
+
+##  correct and incorrect anova
+anova_oldpercent_all = aov(data = long_oldpercent, 
+                         Percent ~ Experiment*PrimeCondition*Type + 
+                           Error(Subject/(PrimeCondition*Type)))
+
+summary(anova_oldpercent_all)
+
+old_know_data_all = Rmisc::summarySE(long_oldpercent, 
+                        measurevar = "Percent",
+                        groupvars = c("Experiment" ,
+                                      "PrimeCondition", "Type"))
+
+old_know_data_all$Accuracy = factor(old_know_data_all$Type,
+                            levels(old_know_data_all$Type)[c(2,1)])
+
+old_know_plot_all = old_know_data_all %>% 
+   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
+               labels = c("Semantic", "Unrelated")))%>%
+ggplot(aes(x = PrimeType, y = Percent,
+           group= Accuracy, fill= Accuracy))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Percent - se, ymax=Percent + se), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+   scale_fill_wsj()+
+  facet_wrap(~Experiment)+
+ # scale_fill_manual(values = c("royalblue4", "slategray1"))+
+    xlab("Prime Condition") + ylab("Percentage of Trials") + 
+  ggtitle("Old Adults: Know Responses in E1 and E2 ")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+ 
+ old_know_plot_all
+@
+
+\subsection {Age Differences }
+
+<<fig=TRUE>>=
+ long_oldyoung = rbind(long_youngpercent, long_oldpercent)
+ long_e1 = long_oldyoung %>% filter(Experiment == "No Instructions")
+ long_e2 = long_oldyoung %>% filter(Experiment == "With Instructions")
+ 
+ ### Experiment 1
+ long_e1_rmisc = Rmisc::summarySE(long_e1, 
+                        measurevar = "Percent",
+                        groupvars = c("AgeGroup" ,
+                                      "PrimeCondition", "Type"))
+
+long_e1_rmisc$Accuracy = factor(long_e1_rmisc$Type,
+                            levels(long_e1_rmisc$Type)[c(2,1)])
+
+long_e1_rmisc_plot = long_e1_rmisc %>% 
+   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
+               labels = c("Semantic", "Unrelated")))%>%
+ggplot(aes(x = PrimeType, y = Percent,
+           group= Accuracy, fill= Accuracy))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Percent - se, ymax=Percent + se), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+   scale_fill_wsj()+
+  facet_wrap(~AgeGroup)+
+ # scale_fill_manual(values = c("royalblue4", "slategray1"))+
+    xlab("Prime Condition") + ylab("Percentage of Trials") + 
+  ggtitle("Know Responses in E1  ")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+ 
+ long_e1_rmisc_plot
+@
+
+<<fig=TRUE>>=
+
+ ### Experiment 2
+ long_e2_rmisc = Rmisc::summarySE(long_e2, 
+                        measurevar = "Percent",
+                        groupvars = c("AgeGroup" ,
+                                      "PrimeCondition", "Type"))
+
+long_e2_rmisc$Accuracy = factor(long_e2_rmisc$Type,
+                            levels(long_e2_rmisc$Type)[c(2,1)])
+
+long_e2_rmisc_plot = long_e2_rmisc %>% 
+   mutate(PrimeType = factor(PrimeCondition, levels = unique(PrimeCondition),
+               labels = c("Semantic", "Unrelated")))%>%
+ggplot(aes(x = PrimeType, y = Percent,
+           group= Accuracy, fill= Accuracy))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Percent - se, ymax=Percent + se), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+   scale_fill_wsj()+
+  facet_wrap(~AgeGroup)+
+ # scale_fill_manual(values = c("royalblue4", "slategray1"))+
+    xlab("Prime Condition") + ylab("Percentage of Trials") + 
+  ggtitle("Know Responses in E2  ")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+ 
+ long_e2_rmisc_plot
+@
+
+\subsubsection {HLMS}
+
+<<>>=
+long_e1_hlm = lmer(data = long_e1, Percent ~ AgeGroup*PrimeCondition*Type + 
+                     (1|Subject)) 
+ car::Anova(long_e1_hlm)
+ 
+ long_e2_hlm = lmer(data = long_e2, Percent ~ AgeGroup*PrimeCondition*Type + 
+                     (1|Subject)) 
+ car::Anova(long_e2_hlm)
+@
+
+
+
+\subsection {State Accuracy Figures}
+\subsubsection *{Experiment 1}
+
+<<>>=
+ 
+exp1_fig_state_acc = Rmisc::summarySE(exp_1_state_acc, 
+                        measurevar = "Trials",
+                        groupvars = c("AgeGroup", "Question.RESP", "Accuracy"))
+
+
+exp1_fig_state_acc =  arrange(exp1_fig_state_acc, 
+                               desc(AgeGroup))
+
+exp1_fig_state_acc$Accuracy = as.factor(as.character(exp1_fig_state_acc$Accuracy))
+
+library(ggplot2)
+library(ggthemes)
+ state_1_acc = exp1_fig_state_acc %>% mutate(State = factor(Question.RESP, 
+                                    levels = unique(Question.RESP),
+                            labels = c("Know", "Dont Know", "Other", "TOT")),
+                            Age = factor(AgeGroup, levels = unique(AgeGroup),
+                    labels = c("Young", "Old")),
+                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
+                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
+ggplot(aes(x = State, y = Trials, 
+           group = TargetAcc, fill = TargetAcc))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Trials - ci, ymax=Trials + ci), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+  facet_wrap(~Age)+
+   scale_fill_wsj()+
+ # scale_fill_manual(values = c("royalblue4", "slategray1"))+
+    xlab("") + ylab("") + 
+  ggtitle("E1: Young vs. Old (Without Instructions)")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+ 
+@
+
+\subsubsection *{Experiment 2}
+
+<<>>=
+ exp2_fig_state_acc = Rmisc::summarySE(exp_2_state_acc, 
+                        measurevar = "Trials",
+                        groupvars = c("AgeGroup", "Question.RESP", "Accuracy"))
+
+
+exp2_fig_state_acc =  arrange(exp2_fig_state_acc, 
+                               desc(AgeGroup))
+
+exp2_fig_state_acc$Accuracy = as.factor(as.character(exp2_fig_state_acc$Accuracy))
+
+library(ggplot2)
+library(ggthemes)
+ state_2_acc = exp2_fig_state_acc %>% mutate(State = factor(Question.RESP, 
+                                    levels = unique(Question.RESP),
+                            labels = c("Know", "Dont Know", "Other", "TOT")),
+                            Age = factor(AgeGroup, levels = unique(AgeGroup),
+                    labels = c("Young", "Old")),
+                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
+                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
+ggplot(aes(x = State, y = Trials, 
+           group = TargetAcc, fill = TargetAcc))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Trials - ci, ymax=Trials + ci), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+  facet_wrap(~Age)+
+   scale_fill_wsj()+
+ # scale_fill_manual(values = c("royalblue4", "slategray1"))+
+    xlab("") + ylab("") + 
+  ggtitle("E2: Young vs. Old (With Instructions)")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+@
+
+\subsubsection *{Experiment 3}
+
+<<>>=
+ exp3_fig_state_acc = Rmisc::summarySE(exp_3_state_acc, 
+                        measurevar = "Trials",
+                        groupvars = c("AgeGroup", "Question.RESP", "Accuracy"))
+
+
+exp3_fig_state_acc =  arrange(exp3_fig_state_acc, 
+                               desc(AgeGroup))
+
+exp3_fig_state_acc$Accuracy = as.factor(as.character(exp3_fig_state_acc$Accuracy))
+
+library(ggplot2)
+library(ggthemes)
+state_3_acc= exp3_fig_state_acc %>% mutate(State = factor(Question.RESP, 
+                                    levels = unique(Question.RESP),
+                            labels = c("Know", "Dont Know", "Other", "TOT")),
+                            Age = factor(AgeGroup, levels = unique(AgeGroup),
+                    labels = c("Young")),
+                    TargetAcc = factor(Accuracy, levels = unique(Accuracy),
+                    labels = c("Failed Retrieval", "Correct Retrieval")))%>%
+ggplot(aes(x = State, y = Trials, 
+           group = TargetAcc, fill = TargetAcc))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Trials - ci, ymax=Trials + ci), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+  facet_wrap(~Age)+
+   scale_fill_wsj()+
+  #scale_fill_manual(values = c("royalblue4", "slategray1"))+
+    xlab("") + ylab("") + 
+  ggtitle("E3: Young(48 ms)")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+@
+
+\subsubsection* {Combined}
+
+<<fig=TRUE>>=
+library(grid)
+gridExtra::grid.arrange(state_1_acc, state_2_acc, state_3_acc, 
+                        nrow = 3, ncol = 1, 
+                top=textGrob("Retrieval States Across Experiments E1, E2, E3", 
+                                      gp=gpar(fontsize=20)))
+@
+
+\section {Conditional TOT Analysis}
+
+<<>>=
+
+j <- read.csv("MainJulieagg_5studies.csv", header = TRUE, sep = ",")
+j <- subset(j, j$value.Subject!= 198 & j$value.Subject!= 95)
+
+j_condTOT = j[,c(2,3,4,5,95:103)]
+j_condTOT$value.Subject = as.factor(j_condTOT$value.Subject)
+
+library(tidyr)
+library(dplyr)
+condTOTprime <- j_condTOT %>%
+  gather(PrimeState, Proportion, 
+         condpropTOT_r, condpropTOT_p,condpropTOT_b, condpropTOT_u) %>%
+  separate(PrimeState, c('State', 'Prime'), sep = "_") %>%
+  arrange(value.Subject)
+
+colnames(condTOTprime) = c("AgeGroup", "Subject", "StudyNo", "PrimeInstruction", "condTOTprop",
+                           "r_TOT", "p_TOT", "b_TOT", "u_TOT", "State",
+                                       "PrimeCondition", "Proportion")
+condTOTprime$AgeGroup <- as.factor(condTOTprime$AgeGroup)
+condTOTprime$Subject <- as.factor(condTOTprime$Subject)
+condTOTprime$StudyNo <- as.factor(condTOTprime$StudyNo)
+condTOTprime$PrimeInstruction <- as.factor(condTOTprime$PrimeInstruction)
+condTOTprime$PrimeCondition <- as.factor(condTOTprime$PrimeCondition)
+condTOTprime$Proportion <- as.numeric(as.character(condTOTprime$Proportion))
+
+
+condTOT_exp1 = j_condTOT %>% filter(value.StudyNo == '2' | value.StudyNo == '4')
+condTOT_exp2 = j_condTOT %>% filter(value.StudyNo == '5' | value.StudyNo == '6')
+condTOT_exp3 = j_condTOT %>% filter(value.StudyNo == '1')
+
+condTOTprime_exp1 = condTOTprime %>% filter(StudyNo == '2' | StudyNo == '4')
+condTOTprime_exp2 = condTOTprime %>% filter(StudyNo == '5' | StudyNo == '6')
+condTOTprime_exp3 = condTOTprime %>% filter(StudyNo == '1')
+
+@
+
+\subsection {Experiment 1}
+
+\subsubsection {CondTOT: Young vs Old}
+
+<<>>=
+e1_condTOT_aov = aov(data = condTOT_exp1, condTOTprop ~ value.AgeGroup)
+summary(e1_condTOT_aov)
+@
+
+\subsubsection {CondTOT: Age x PrimeType}
+
+<<fig=TRUE>>=
+condTOTprime_exp1[179,12 ] = 0
+e1_condTOTprime_aov = aov(data = condTOTprime_exp1, Proportion ~ AgeGroup*PrimeCondition + 
+                            Error(Subject/PrimeCondition))
+summary(e1_condTOTprime_aov)
+
+exp1_fig_condTOT = Rmisc::summarySE(condTOTprime_exp1, 
+                        measurevar = "Proportion",
+                        groupvars = c("AgeGroup", "PrimeCondition"))
+
+library(ggplot2)
+library(ggthemes)
+exp1_fig_condTOT = exp1_fig_condTOT %>% mutate(PrimeType = factor(PrimeCondition, 
+                                                 levels = unique(PrimeCondition),
+                    labels = c("Both", "Phonological", 
+                               "Semantic", "Unrelated")))%>%
+ggplot(aes(x = PrimeType, y = Proportion, 
+                              fill = AgeGroup, group = AgeGroup))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Proportion - ci, ymax=Proportion + ci), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+ scale_fill_colorblind()+
+    xlab("") + ylab("Mean Proportion of TOTs") + 
+  ggtitle("E1: Young and Old Adults (With Instructions)")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+exp1_fig_condTOT
+@
+
+\subsection {Experiment 2}
+
+\subsubsection {CondTOT: Young vs Old}
+
+<<>>=
+e2_condTOT_aov = aov(data = condTOT_exp2, condTOTprop ~ value.AgeGroup)
+summary(e2_condTOT_aov)
+
+options(contrasts = c('contr.sum', 'contr.poly'))
+library(lsmeans)
+library(multcomp)
+exp2_target_lsm = lsmeans::lsmeans(e2_condTOT_aov, c("value.AgeGroup"))
+prime_effect = cld(exp2_target_lsm, alpha = 0.05, 
+                adjust = "tukey", details = TRUE)
+library(knitr)
+kable(subset(prime_effect$comparisons,prime_effect$comparisons$p.value < 0.05 ))
+@
+
+\subsubsection {CondTOT: Age x PrimeType}
+
+<<fig=TRUE>>=
+e2_condTOTprime_aov = aov(data = condTOTprime_exp2, Proportion ~ AgeGroup*PrimeCondition + 
+                            Error(Subject/PrimeCondition))
+summary(e2_condTOTprime_aov)
+
+exp2_fig_condTOT = Rmisc::summarySE(condTOTprime_exp2, 
+                        measurevar = "Proportion",
+                        groupvars = c("AgeGroup", "PrimeCondition"))
+
+library(ggplot2)
+library(ggthemes)
+exp2_fig_condTOT = exp2_fig_condTOT %>% mutate(PrimeType = factor(PrimeCondition, 
+                                                 levels = unique(PrimeCondition),
+                    labels = c("Both", "Phonological", 
+                               "Semantic", "Unrelated")))%>%
+ggplot(aes(x = PrimeType, y = Proportion, 
+                              fill = AgeGroup, group = AgeGroup))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Proportion - ci, ymax=Proportion + ci), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+ scale_fill_colorblind()+
+    xlab("") + ylab("Mean Proportion of TOTs") + 
+  ggtitle("E2: Young and Old Adults (With Instructions)")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+exp2_fig_condTOT
+@
+
+
+\subsection {Experiment 3}
+
+\subsubsection {CondTOT:PrimeType}
+
+<<fig=TRUE>>=
+e3_condTOTprime_aov = aov(data = condTOTprime_exp3, Proportion ~ PrimeCondition + 
+                            Error(Subject/PrimeCondition))
+summary(e3_condTOTprime_aov)
+
+exp3_fig_condTOT = Rmisc::summarySE(condTOTprime_exp3, 
+                        measurevar = "Proportion",
+                        groupvars = c("PrimeCondition"))
+
+library(ggplot2)
+library(ggthemes)
+exp3_fig_condTOT = exp3_fig_condTOT %>% mutate(PrimeType = factor(PrimeCondition, 
+                                                 levels = unique(PrimeCondition),
+                    labels = c("Both", "Phonological", 
+                               "Semantic", "Unrelated")))%>%
+ggplot(aes(x = PrimeType, y = Proportion))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Proportion - ci, ymax=Proportion + ci), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+ scale_fill_colorblind()+
+    xlab("") + ylab("Mean Proportion of TOTs") + 
+  ggtitle("E2: Young and Old Adults (With Instructions)")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+exp3_fig_condTOT
+@
+
+\section {TOT for No Responses}
+
+<<fig=TRUE>>=
+
+statedata <- read.csv("Julie_Main5Studies.csv", header = TRUE, sep = ",")
+
+statedata <- subset(statedata, statedata$Subject!= 198 & statedata$Subject!= 95)
+
+statedata_TOT = statedata %>% filter(FreeResp %in% c("0", "", "1", "2", "3",
+                                                     "4", "9", "20", "40", 
+                                                     "{-}", "{-}{SPACE}",
+                                                     "{SHIFT}", "{SPACE}"))
+                                                     
+                                       
+
+## now we are looking only at trials in which the participant did not respond at all
+
+NoResp_exp1 = statedata_TOT %>% filter(StudyNo == '2' | StudyNo == '4')
+NoResp_exp2 = statedata_TOT %>% filter(StudyNo == '5' | StudyNo == '6')
+NoResp_exp3 = statedata_TOT %>% filter(StudyNo == '1')
+
+NoResp_exp2_agg = group_by(NoResp_exp2, Subject, AgeGroup, Question.RESP) %>%
+  summarise(Trials = n())
+  
+exp2_fig_noresp= Rmisc::summarySE(NoResp_exp2_agg, 
+                        measurevar = "Trials",
+                        groupvars = c("AgeGroup", "Question.RESP"))
+
+library(ggplot2)
+library(ggthemes)
+exp2_fig_noresp_plot = exp2_fig_noresp %>% 
+mutate (RetrievalState = factor(Question.RESP, levels = unique(Question.RESP),
+                            labels = c(" Know", "Dont Know", "Other", "TOT")))%>%
+ggplot(aes(x = RetrievalState, y = Trials, 
+           group = AgeGroup, fill = AgeGroup))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Trials - ci, ymax=Trials + ci), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+ scale_fill_colorblind()+
+    xlab("") + ylab("Mean Proportion of TOTs") + 
+  ggtitle("E2: Young and Old Adults (With Instructions)")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+exp2_fig_noresp_plot
+@
+
+<<fig=TRUE>>=
+
+e2_noresp_TOT = NoResp_exp2_agg %>% filter(Question.RESP == "4")
+y_TOT = e2_noresp_TOT %>% filter(AgeGroup == "Young")
+o_TOT = e2_noresp_TOT %>% filter(AgeGroup == "Old")
+
+t.test(y_TOT$Trials, o_TOT$Trials)
+
+## E1
+
+NoResp_exp1_agg = group_by(NoResp_exp1, Subject, AgeGroup, Question.RESP) %>%
+  summarise(Trials = n())
+  
+exp1_fig_noresp= Rmisc::summarySE(NoResp_exp1_agg, 
+                        measurevar = "Trials",
+                        groupvars = c("AgeGroup", "Question.RESP"))
+
+library(ggplot2)
+library(ggthemes)
+exp1_fig_noresp_plot = exp1_fig_noresp %>% 
+mutate (RetrievalState = factor(Question.RESP, levels = unique(Question.RESP),
+                            labels = c(" Know", "Dont Know", "Other", "TOT")))%>%
+ggplot(aes(x = RetrievalState, y = Trials, 
+           group = AgeGroup, fill = AgeGroup))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+ scale_fill_colorblind()+
+    xlab("") + ylab("Mean Proportion of TOTs") + 
+  ggtitle("E1: Young and Old Adults (No Instructions)")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+exp1_fig_noresp_plot
+@
+
+<<fig=TRUE>>=
+
+## OA more TOTs than YA when not producing a response: test this AOV
+
+e1_noresp_TOT = NoResp_exp1_agg %>% filter(Question.RESP == "4")
+y_TOT = e1_noresp_TOT %>% filter(AgeGroup == "Young")
+o_TOT = e1_noresp_TOT %>% filter(AgeGroup == "Old")
+
+t.test(y_TOT$Trials, o_TOT$Trials) ## no difference
+
+
+## Does this vary with prime type? ## nope
+
+NoResp_exp1_prime_agg = group_by(NoResp_exp1, Subject, AgeGroup,PrimeCondition, Question.RESP) %>%
+  summarise(Trials = n())
+
+exp1_fig_norespprime= Rmisc::summarySE(NoResp_exp1_prime_agg, 
+                        measurevar = "Trials",
+                        groupvars = c("AgeGroup", "PrimeCondition", "Question.RESP"))
+
+library(ggplot2)
+library(ggthemes)
+exp1_fig_norespprime_plot = exp1_fig_norespprime %>% 
+mutate (RetrievalState = factor(Question.RESP, levels = unique(Question.RESP),
+                            labels = c(" Know", "Dont Know", "Other", "TOT")))%>%
+ggplot(aes(x = RetrievalState, y = Trials, 
+           group = AgeGroup, fill = AgeGroup))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+  facet_wrap(~PrimeCondition)+
+ scale_fill_colorblind()+
+    xlab("") + ylab("Mean Trials of TOTs") + 
+  ggtitle("E1: Young and Old Adults (No Instructions)")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+exp1_fig_norespprime_plot
+@
+
+<<fig=TRUE>>=
+
+## E2
+NoResp_exp2_prime_agg = group_by(NoResp_exp2, Subject, AgeGroup,PrimeCondition, Question.RESP) %>%
+  summarise(Trials = n())
+
+exp2_fig_norespprime= Rmisc::summarySE(NoResp_exp2_prime_agg, 
+                        measurevar = "Trials",
+                        groupvars = c("AgeGroup", "PrimeCondition", "Question.RESP"))
+
+library(ggplot2)
+library(ggthemes)
+exp2_fig_norespprime_plot = exp2_fig_norespprime %>% 
+mutate (RetrievalState = factor(Question.RESP, levels = unique(Question.RESP),
+                            labels = c(" Know", "Dont Know", "Other", "TOT")))%>%
+ggplot(aes(x = RetrievalState, y = Trials, 
+           group = AgeGroup, fill = AgeGroup))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, color= "black")+
+  geom_errorbar(aes(ymin=Trials - se, ymax=Trials + se), 
+             width=.2, color = "gray26", 
+             position = position_dodge(0.7))+
+ theme_few()+
+  facet_wrap(~PrimeCondition)+
+ scale_fill_colorblind()+
+    xlab("") + ylab("Mean Trials of TOTs") + 
+  ggtitle("E2: Young and Old Adults (With Instructions)")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+exp2_fig_norespprime_plot
+@
+
+\section {TOT: Split by Target Accuracy}
+
+<<fig=TRUE>>=
+## remove all incorrect TOT: when McAcc was 0
+statedata <- read.csv("Julie_Main5Studies.csv", header = TRUE, sep = ",")
+
+statedata <- subset(statedata, statedata$Subject!= 198 & statedata$Subject!= 95)
+
+statedata$TOTmeasure = ifelse(statedata$Question.RESP == "4" & 
+                                statedata$McAcc == "1", "correctTOT",
+                ifelse(statedata$Question.RESP == "4" &
+                         statedata$McAcc == "0","incorrectTOT",
+                ifelse(statedata$Question.RESP == "1" & 
+                         statedata$Accuracy == "0","incorrectKnow",
+               ifelse(statedata$Question.RESP == "2","dontknow",
+             ifelse(statedata$Question.RESP == "3"& 
+                         statedata$Accuracy == "0","incorrectOther","NA")))))
+
+age_statedata = group_by(statedata, AgeGroup, 
+                         ExperimentName,Subject, TOTmeasure) %>%
+  summarise(Trials = n())
+
+age_statedata_wide = spread(age_statedata, TOTmeasure, Trials)
+
+age_statedata_wide$correctTOT = ifelse(is.na(age_statedata_wide$correctTOT),0, 
+                                       age_statedata_wide$correctTOT)
+
+age_statedata_wide$incorrectTOT = ifelse(is.na(age_statedata_wide$incorrectTOT),0, age_statedata_wide$incorrectTOT)
+
+age_statedata_wide$incorrectKnow = ifelse(is.na(age_statedata_wide$incorrectKnow),0,  age_statedata_wide$incorrectKnow)
+
+
+age_statedata_wide$dontknow = ifelse(is.na(age_statedata_wide$dontknow),0, 
+                                       age_statedata_wide$dontknow)
+
+age_statedata_wide$incorrectOther = ifelse(is.na(age_statedata_wide$incorrectOther),0,  age_statedata_wide$incorrectOther)
+
+
+age_statedata_wide = mutate(age_statedata_wide, 
+                            propTOT = correctTOT/(correctTOT + dontknow +
+                                           incorrectKnow + incorrectTOT +
+                                             incorrectOther))
+
+exp1_age_TOT = age_statedata_wide %>% filter(ExperimentName == "tot extended prime")
+
+exp2_age_TOT = age_statedata_wide %>% filter(ExperimentName == "tot not the prime")
+
+
+e1_TOT_aov = aov(data = exp1_age_TOT, propTOT ~ AgeGroup)
+summary(e1_TOT_aov)
+
+e2_TOT_aov = aov(data = exp2_age_TOT, propTOT ~ AgeGroup)
+summary(e2_TOT_aov)
+
+## plotting this proportion ## remove subject from dply code
+
+successTOT_plot = age_statedata_wide %>% 
+ggplot(aes(x = AgeGroup, y = propTOT, 
+           group = AgeGroup, fill = AgeGroup))+
+ geom_bar(stat = "identity", position = "dodge", width = 0.7, 
+          color= "black")+
+ theme_few()+
+  facet_wrap(~ExperimentName)+
+  scale_fill_manual(values = c("royalblue4", "slategray1"))+
+    xlab("") + ylab("Mean Proportion of TOTs") + 
+  ggtitle("")  +
+   theme(axis.text = element_text(size = rel(1)),
+          axis.title = element_text(face = "bold", size = rel(1)),
+          legend.title = element_text(face = "bold", size = rel(1)),
+         plot.title = element_text(hjust = .5),
+         strip.text.x = element_text(face = "bold", size = rel(1.4)))
+successTOT_plot
+
+## again, OA lower than YA
+
+burkeTOT = statedata %>% filter(!(Question.RESP == "4" & McAcc == "0"))
+
+## now we want proportion of correct TOTs as a function of all other unsuccessful retrievals
+
+
 
 @
 
