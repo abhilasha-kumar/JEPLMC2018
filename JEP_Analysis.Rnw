@@ -1,27 +1,34 @@
-\documentclass[a4paper]{article}
-\usepackage{Sweave}
-\usepackage{fixltx2e}
+\documentclass[letterpaper]{article}
+\usepackage[a4paper, total={7in, 8in}]{geometry}
 
-\usepackage[margin=1.0in]{geometry}
+\usepackage{xcolor}
+\usepackage{Sweavel}
+\usepackage{graphicx}
+\def\Sweavesize{\normalsize}
+% Uncomment some of the following to use some alternatives:
+\def\Rcolor{\color{black}}
+\def\Routcolor{\color{blue}}
+\def\Rcommentcolor{\color{blue}}
+\definecolor{babyblueeyes}{rgb}{0.74, 0.83, 0.95}
 
- \DefineVerbatimEnvironment{Sinput}{Verbatim} { frame = lines, fontshape = sl}
-\DefineVerbatimEnvironment{Soutput}{Verbatim}{frame=lines, fontshape = sl}
+% To change background color or R code and/or output, use e.g.:
+\def\Rbackground{\color{babyblueeyes}}
+\def\Routbackground{\color[gray]{.8}}
 
-\title{Julie Priming Study (YA-OA With-Without Instruction)}
+% To use rgb specifications use \color[rgb]{ , , }
+% To use gray scale use e.g. \color[gray]{0.5}
+% If you change any of these after the first chunk is produced, the
+% changes will have effect only for the next chunk.
+
+\title{JEP LMC: Lexical Retrieval Manuscript Analyses}
 \author{Abhilasha Kumar}
-<<echo=FALSE>>=
-options(width=60)
-library(xtable)
-library(ggplot2)
-library(ggthemes)
-library(gridExtra)
-library(tidyr)
-@
+
 \begin{document}
-\SweaveOpts{concordance=TRUE}
+\SweaveOpts{concordance=FALSE}
+
  \maketitle
 
-\section{Target Retrieval Accuracy: Phonological Facilitation}
+\section{Reading the File}
 
 <<echo=FALSE>>=
 j <- read.csv("MainJulieagg_5studies.csv", header = TRUE, sep = ",")
@@ -247,7 +254,7 @@ ggplot(aes(x = PrimeType, y = Trials,
 
 \subsubsection {E1: Combined Plot}
 
-<<>>=
+<<fig=TRUE>>=
 library(grid)
 gridExtra::grid.arrange(stateprime_1_acc_young, stateprime_1_acc_old, 
                         nrow = 2, ncol = 1, 
@@ -331,7 +338,7 @@ ggplot(aes(x = State, y = Trials,
 
 \subsubsection {E2: Combined Plot}
 
-<<>>=
+<<fig=TRUE>>=
 library(grid)
 gridExtra::grid.arrange(stateprime_2_acc_young, stateprime_2_acc_old, 
                         nrow = 2, ncol = 1, 
@@ -341,7 +348,7 @@ gridExtra::grid.arrange(stateprime_2_acc_young, stateprime_2_acc_old,
 
 \subsubsection *{Experiment 3}
 
-<<>>=
+<<fig=TRUE>>=
 exp3_fig_stateprime_acc = Rmisc::summarySE(exp_3_stateprime_acc, 
                         measurevar = "Trials",
                         groupvars = c("AgeGroup","PrimeCondition", "Question.RESP", "Accuracy"))
@@ -388,7 +395,7 @@ exp_2_knowacc = exp_2_stateprime_acc %>% filter(Question.RESP == "1")
 exp_3_knowacc = exp_3_stateprime_acc %>% filter(Question.RESP == "1")
 @
 \subsection {Experiment 1}
-<<>>=
+<<fig=TRUE>>=
 ## HLM on trials
 
 library(lme4)
@@ -430,10 +437,10 @@ ggplot(aes(x = PrimeType, y = Trials,
          strip.text.x = element_text(face = "bold", size = rel(1.4)))
  
  e1_know_plot
- @
+@
  
  \subsection {Experiment 1 Collapsed Prime}
-<<>>=
+<<fig=TRUE>>=
 ## HLM on trials
 exp_1_knowacc2 = exp_1_state_acc %>% filter(Question.RESP == "1")
 library(lme4)
@@ -488,50 +495,11 @@ ggplot(aes(x = AgeGroup, y = Percent,
          strip.text.x = element_text(face = "bold", size = rel(1.4)))
  
  e1_know_plot
- @
- 
-\subsubsection {Contrast codes}
- 
-<<>>=
-groups <- read.table('TOTgroups.csv',sep=',',header=TRUE,stringsAsFactors=FALSE)
-groups
-
-dummy_codes <- as.matrix(groups[,4:7])
-dummy_codes
-
-fixed_effects <- matrix(fixef(e1_know_hlm))
-fixed_effects
-
-means_matrix <- matrix(rep(0,64),ncol=8,nrow=8)
-means_matrix[,1] <- 1
-means_matrix[,2:4] <- dummy_codes[,2:4]
-means_matrix[,5] <- dummy_codes[,1]
-means_matrix[,6:8] <- dummy_codes[,1]*dummy_codes[,2:4]
-means_matrix
-
-means <- means_matrix %*% fixed_effects
-print(cbind(means,groups[,2:3]))
-
-contrast_matrix <- matrix(c(
-  0,0,0,0,1,-1,-1,1,
-  1,-1,0,0,0,0,-1,1,
-  -1,1,0,0,1,-1,0,0,
-  0,0,-1,1,1,-1,0,0), nrow=4,ncol=8,byrow=TRUE)
-row.names(contrast_matrix) <- c("Semantic(0,1) - Unrelated (0,1)",
-                                "Both (0,1) - Unrelated (0,1)",
-                                "Semantic(0,1) - Both (0,1)",
-                                "Semantic(0,1) - Phonological (0,1)")
-
-matrix_for_glht <-contrast_matrix %*%  means_matrix
-matrix_for_glht
-glht_know <- multcomp::glht(e1_know_hlm, 
-                           linfct = matrix_for_glht, 
-              alternative = "two.sided", rhs = 0)
-summary(glht_know) 
 @
+
  
  \subsection {Experiment 2}
-<<>>=
+<<fig=TRUE>>=
  ###  EXPERIMENT 2
 
 contrasts(exp_2_knowacc$PrimeCondition) = contr.treatment(4, base = 3)
@@ -590,7 +558,9 @@ ggplot(aes(x = PrimeType, y = Trials,
          strip.text.x = element_text(face = "bold", size = rel(1.4)))
  
  e2_know_plot
- 
+@
+
+<<fig=TRUE>>=
  e2_know_data_age = Rmisc::summarySE(exp_2_knowacc, 
                         measurevar = "Trials",
                         groupvars = c("AgeGroup", "PrimeCondition", "Accuracy"))
@@ -619,10 +589,10 @@ ggplot(aes(x = PrimeType, y = Trials,
          strip.text.x = element_text(face = "bold", size = rel(1.4)))
  
  e2_know_plot_age
- @
+@
  
 \subsection {Experiment 2 Collapsed Prime}
-<<>>=
+<<fig=TRUE>>=
 ## HLM on trials
 exp_2_knowacc2 = exp_2_state_acc %>% filter(Question.RESP == "1")
 library(lme4)
@@ -677,50 +647,11 @@ ggplot(aes(x = AgeGroup, y = Percent,
          strip.text.x = element_text(face = "bold", size = rel(1.4)))
  
  e2_know_plot
- @
- \subsubsection {Contrast codes}
- 
-<<>>=
-groups <- read.table('TOTgroups.csv',sep=',',header=TRUE,stringsAsFactors=FALSE)
-groups
-
-dummy_codes <- as.matrix(groups[,4:7])
-dummy_codes
-
-fixed_effects <- matrix(fixef(e2_know_hlm))
-fixed_effects
-
-means_matrix <- matrix(rep(0,64),ncol=8,nrow=8)
-means_matrix[,1] <- 1
-means_matrix[,2:4] <- dummy_codes[,2:4]
-means_matrix[,5] <- dummy_codes[,1]
-means_matrix[,6:8] <- dummy_codes[,1]*dummy_codes[,2:4]
-means_matrix
-
-means <- means_matrix %*% fixed_effects
-print(cbind(means,groups[,2:3]))
-
-contrast_matrix <- matrix(c(
-  0,0,0,0,1,-1,-1,1,
-  1,-1,0,0,0,0,-1,1,
-  -1,1,0,0,1,-1,0,0,
-  0,0,-1,1,1,-1,0,0), nrow=4,ncol=8,byrow=TRUE)
-row.names(contrast_matrix) <- c("Semantic(0,1) - Unrelated (0,1)",
-                                "Both (0,1) - Unrelated (0,1)",
-                                "Semantic(0,1) - Both (0,1)",
-                                "Semantic(0,1) - Phonological (0,1)")
-
-matrix_for_glht <-contrast_matrix %*%  means_matrix
-matrix_for_glht
-glht_know2 <- multcomp::glht(e2_know_hlm, 
-                           linfct = matrix_for_glht, 
-              alternative = "two.sided", rhs = 0)
-summary(glht_know2) 
 @
  
 \subsection {Experiment 3}
 
- <<>>=
+<<fig=TRUE>>=
 contrasts(exp_3_knowacc$PrimeCondition) = contr.treatment(4, base = 3)
 e3_know_hlm = lmer(data = exp_3_knowacc, Trials ~ PrimeCondition*Accuracy + 
                      (1|Subject))
@@ -761,7 +692,7 @@ ggplot(aes(x = PrimeType, y = Trials,
 @
 
 \subsection {Experiment 3 Collapsed Prime}
-<<>>=
+<<fig=TRUE>>=
 ## HLM on trials
 exp_3_knowacc2 = exp_3_state_acc %>% filter(Question.RESP == "1")
 library(lme4)
@@ -816,48 +747,7 @@ ggplot(aes(x = AgeGroup, y = Percent,
          strip.text.x = element_text(face = "bold", size = rel(1.4)))
  
  e3_know_plot
- @
-
- \subsubsection {Contrast codes}
- 
-<<>>=
-groups <- read.table('TOTgroups.csv',sep=',',header=TRUE,stringsAsFactors=FALSE)
-groups
-
-dummy_codes <- as.matrix(groups[,4:7])
-dummy_codes
-
-fixed_effects <- matrix(fixef(e3_know_hlm))
-fixed_effects
-
-means_matrix <- matrix(rep(0,64),ncol=8,nrow=8)
-means_matrix[,1] <- 1
-means_matrix[,2:4] <- dummy_codes[,2:4]
-means_matrix[,5] <- dummy_codes[,1]
-means_matrix[,6:8] <- dummy_codes[,1]*dummy_codes[,2:4]
-means_matrix
-
-means <- means_matrix %*% fixed_effects
-print(cbind(means,groups[,2:3]))
-
-contrast_matrix <- matrix(c(
-  0,0,0,0,1,-1,-1,1,
-  1,-1,0,0,0,0,-1,1,
-  -1,1,0,0,1,-1,0,0,
-  0,0,-1,1,1,-1,0,0), nrow=4,ncol=8,byrow=TRUE)
-row.names(contrast_matrix) <- c("Semantic(0,1) - Unrelated (0,1)",
-                                "Both (0,1) - Unrelated (0,1)",
-                                "Semantic(0,1) - Both (0,1)",
-                                "Semantic(0,1) - Phonological (0,1)")
-
-matrix_for_glht <-contrast_matrix %*%  means_matrix
-matrix_for_glht
-glht_know3 <- multcomp::glht(e3_know_hlm, 
-                           linfct = matrix_for_glht, 
-              alternative = "two.sided", rhs = 0)
-summary(glht_know3) 
 @
-
 \section {Know: Across E1 E2 E3}
 
 <<>>=
@@ -886,7 +776,7 @@ stateprime_old_know_ru = data_stateprime_acc %>%
 
 \subsection {Young HLM and Plot}
 
-<<>>=
+<<fig=TRUE>>=
 ## hlm on young-know
 contrasts(stateprime_young_know_ru$PrimeCondition) = 
   contr.treatment(4, base = 3)
@@ -947,7 +837,7 @@ ggplot(aes(x = PrimeType, y = Trials,
 @
 
 \subsection {Old HLM and Plot}
-<<>>=
+<<fig=TRUE>>=
 ## hlm on old-know
 contrasts(stateprime_old_know_ru$PrimeCondition) = 
   contr.treatment(4, base = 3)
@@ -988,7 +878,10 @@ ggplot(aes(x = PrimeType, y = Trials,
          strip.text.x = element_text(face = "bold", size = rel(1.4)))
  
  old_know_plot
+@
  
+<<fig=TRUE>>=
+
  ### ADDING ZEROS WHERE NEEDED
  
  know_old_ru_trials =stateprime_old_know_ru1
@@ -1036,8 +929,7 @@ ggplot(aes(x = PrimeType, y = Trials,
          plot.title = element_text(hjust = .5),
          strip.text.x = element_text(face = "bold", size = rel(1.4)))
  
- old_know_plot_all
- 
+old_know_plot_all_trials 
 @
 
 \section {Know ANOVA}
@@ -1063,7 +955,7 @@ ggplot(aes(x = PrimeType, y = Trials,
 
 \subsection {Young}
 
-<<>>=
+<<fig=TRUE>>=
 know_young_ru_percent = read.csv("young_know_ru.csv", 
                                  header = TRUE, sep = ",")
  
@@ -1126,7 +1018,7 @@ ggplot(aes(x = PrimeType, y = PercentCorrect))+
 
 \subsection {Young Correct Incorrect}
 
-<<>>=
+<<fig=TRUE>>=
 know_young_ru_percent = read.csv("young_know_ru.csv", 
                                  header = TRUE, sep = ",")
  
@@ -1193,7 +1085,7 @@ ggplot(aes(x = PrimeType, y = Percent,
 
 \subsection {Old}
 
-<<>>=
+<<fig=TRUE>>=
 know_old_ru_percent = read.csv("old_know_ru.csv", 
                                  header = TRUE, sep = ",")
  old_know_ru = know_old_ru_percent[,-1]
@@ -1266,7 +1158,7 @@ ggplot(aes(x = PrimeType, y = PercentCorrect))+
 @
 
 \subsection {Old Correct Incorrect}
-<<>>=
+<<fig=TRUE>>=
 know_old_ru_percent = read.csv("old_know_ru.csv", 
                                  header = TRUE, sep = ",")
  
@@ -1339,7 +1231,7 @@ ggplot(aes(x = PrimeType, y = Percent,
 
 \subsection {Age Differences }
 
-<<>>=
+<<fig=TRUE>>=
  long_oldyoung = rbind(long_youngpercent, long_oldpercent)
  long_e1 = long_oldyoung %>% filter(Experiment == "No Instructions")
  long_e2 = long_oldyoung %>% filter(Experiment == "With Instructions")
@@ -1375,7 +1267,10 @@ ggplot(aes(x = PrimeType, y = Percent,
          strip.text.x = element_text(face = "bold", size = rel(1.4)))
  
  long_e1_rmisc_plot
- 
+@
+
+<<fig=TRUE>>=
+
  ### Experiment 2
  long_e2_rmisc = Rmisc::summarySE(long_e2, 
                         measurevar = "Percent",
@@ -1416,7 +1311,7 @@ long_e1_hlm = lmer(data = long_e1, Percent ~ AgeGroup*PrimeCondition*Type +
                      (1|Subject)) 
  car::Anova(long_e1_hlm)
  
- long_e2_hlm = lmer(data = long_e2, Percent ~ AgeGroup*PriT.meCondition*Type + 
+ long_e2_hlm = lmer(data = long_e2, Percent ~ AgeGroup*PrimeCondition*Type + 
                      (1|Subject)) 
  car::Anova(long_e2_hlm)
 @
@@ -1427,6 +1322,7 @@ long_e1_hlm = lmer(data = long_e1, Percent ~ AgeGroup*PrimeCondition*Type +
 \subsubsection *{Experiment 1}
 
 <<>>=
+ 
 exp1_fig_state_acc = Rmisc::summarySE(exp_1_state_acc, 
                         measurevar = "Trials",
                         groupvars = c("AgeGroup", "Question.RESP", "Accuracy"))
@@ -1469,13 +1365,13 @@ ggplot(aes(x = State, y = Trials,
 \subsubsection *{Experiment 2}
 
 <<>>=
-exp2_fig_state_acc = Rmisc::summarySE(exp_2_state_acc, 
+ exp2_fig_state_acc = Rmisc::summarySE(exp_2_state_acc, 
                         measurevar = "Trials",
                         groupvars = c("AgeGroup", "Question.RESP", "Accuracy"))
 
 
 exp2_fig_state_acc =  arrange(exp2_fig_state_acc, 
-                               AgeGroup, decreasing = TRUE)
+                               desc(AgeGroup))
 
 exp2_fig_state_acc$Accuracy = as.factor(as.character(exp2_fig_state_acc$Accuracy))
 
@@ -1510,13 +1406,13 @@ ggplot(aes(x = State, y = Trials,
 \subsubsection *{Experiment 3}
 
 <<>>=
-exp3_fig_state_acc = Rmisc::summarySE(exp_3_state_acc, 
+ exp3_fig_state_acc = Rmisc::summarySE(exp_3_state_acc, 
                         measurevar = "Trials",
                         groupvars = c("AgeGroup", "Question.RESP", "Accuracy"))
 
 
 exp3_fig_state_acc =  arrange(exp3_fig_state_acc, 
-                               AgeGroup, decreasing = TRUE)
+                               desc(AgeGroup))
 
 exp3_fig_state_acc$Accuracy = as.factor(as.character(exp3_fig_state_acc$Accuracy))
 
@@ -1550,7 +1446,7 @@ ggplot(aes(x = State, y = Trials,
 
 \subsubsection* {Combined}
 
-<<>>=
+<<fig=TRUE>>=
 library(grid)
 gridExtra::grid.arrange(state_1_acc, state_2_acc, state_3_acc, 
                         nrow = 3, ncol = 1, 
@@ -1608,7 +1504,7 @@ summary(e1_condTOT_aov)
 
 \subsubsection {CondTOT: Age x PrimeType}
 
-<<>>=
+<<fig=TRUE>>=
 condTOTprime_exp1[179,12 ] = 0
 e1_condTOTprime_aov = aov(data = condTOTprime_exp1, Proportion ~ AgeGroup*PrimeCondition + 
                             Error(Subject/PrimeCondition))
@@ -1662,7 +1558,7 @@ kable(subset(prime_effect$comparisons,prime_effect$comparisons$p.value < 0.05 ))
 
 \subsubsection {CondTOT: Age x PrimeType}
 
-<<>>=
+<<fig=TRUE>>=
 e2_condTOTprime_aov = aov(data = condTOTprime_exp2, Proportion ~ AgeGroup*PrimeCondition + 
                             Error(Subject/PrimeCondition))
 summary(e2_condTOTprime_aov)
@@ -1700,7 +1596,7 @@ exp2_fig_condTOT
 
 \subsubsection {CondTOT:PrimeType}
 
-<<>>=
+<<fig=TRUE>>=
 e3_condTOTprime_aov = aov(data = condTOTprime_exp3, Proportion ~ PrimeCondition + 
                             Error(Subject/PrimeCondition))
 summary(e3_condTOTprime_aov)
@@ -1734,7 +1630,7 @@ exp3_fig_condTOT
 
 \section {TOT for No Responses}
 
-<<>>=
+<<fig=TRUE>>=
 
 statedata <- read.csv("Julie_Main5Studies.csv", header = TRUE, sep = ",")
 
@@ -1781,6 +1677,9 @@ ggplot(aes(x = RetrievalState, y = Trials,
          plot.title = element_text(hjust = .5),
          strip.text.x = element_text(face = "bold", size = rel(1.4)))
 exp2_fig_noresp_plot
+@
+
+<<fig=TRUE>>=
 
 e2_noresp_TOT = NoResp_exp2_agg %>% filter(Question.RESP == "4")
 y_TOT = e2_noresp_TOT %>% filter(AgeGroup == "Young")
@@ -1818,6 +1717,9 @@ ggplot(aes(x = RetrievalState, y = Trials,
          plot.title = element_text(hjust = .5),
          strip.text.x = element_text(face = "bold", size = rel(1.4)))
 exp1_fig_noresp_plot
+@
+
+<<fig=TRUE>>=
 
 ## OA more TOTs than YA when not producing a response: test this AOV
 
@@ -1859,6 +1761,9 @@ ggplot(aes(x = RetrievalState, y = Trials,
          plot.title = element_text(hjust = .5),
          strip.text.x = element_text(face = "bold", size = rel(1.4)))
 exp1_fig_norespprime_plot
+@
+
+<<fig=TRUE>>=
 
 ## E2
 NoResp_exp2_prime_agg = group_by(NoResp_exp2, Subject, AgeGroup,PrimeCondition, Question.RESP) %>%
@@ -1894,7 +1799,7 @@ exp2_fig_norespprime_plot
 
 \section {TOT: Split by Target Accuracy}
 
-<<>>=
+<<fig=TRUE>>=
 ## remove all incorrect TOT: when McAcc was 0
 statedata <- read.csv("Julie_Main5Studies.csv", header = TRUE, sep = ",")
 
@@ -2207,7 +2112,7 @@ t.test(target_b$Percent, target_r$Percent, paired = TRUE)
 @
 
 \subsubsection{plot}
-<<>>=
+<<fig=TRUE>>=
 exp1_statepercent= Rmisc::summarySE(statepercent_exp1, 
                         measurevar = "Percent",
                         groupvars = c("State", "AgeGroup", "PrimeCondition"))
@@ -2254,9 +2159,9 @@ e1_percentplot
 
 @
 
-\subsubsubsection {Know Only}
+\subsubsection {Know Only}
 
-<<>>=
+<<fig=TRUE>>=
 exp1_statepercent_know = exp1_statepercent %>% filter(RetrievalState == "know")
 
 e1_percentplot_know = exp1_statepercent_know %>% 
@@ -2439,7 +2344,7 @@ t.test(target_y$Percent, target_o$Percent, paired = FALSE)
 
 \subsubsection{plot}
 
-<<>>=
+<<fig=TRUE>>=
 exp2_statepercent= Rmisc::summarySE(statepercent_exp2, 
                         measurevar = "Percent",
                         groupvars = c("State", "AgeGroup", "PrimeCondition"))
@@ -2484,9 +2389,9 @@ e2_percentplot
 
 @
 
-\subsubsubsection {Know Only}
+\subsubsection {Know Only}
 
-<<>>=
+<<fig=TRUE>>=
 exp2_statepercent_know = exp2_statepercent %>% filter(RetrievalState == "know")
 
 e2_percentplot_know = exp2_statepercent_know %>% 
@@ -2639,7 +2544,7 @@ t.test(target_u$Percent, target_p$Percent, paired = TRUE)
 
 \subsubsection {plot}
 
-<<>>=
+<<fig=TRUE>>=
 exp3_statepercent= Rmisc::summarySE(statepercent_exp3, 
                         measurevar = "Percent",
                         groupvars = c("State","AgeGroup", "PrimeCondition"))
@@ -2681,9 +2586,9 @@ e3_percentplot
 
 @
 
-\subsubsubsection {Know Only}
+\subsubsection {Know Only}
 
-<<>>=
+<<fig=TRUE>>=
 exp3_statepercent_know = exp3_statepercent %>% filter(RetrievalState == "know")
 
 e3_percentplot_know = exp3_statepercent_know %>% 
@@ -2711,7 +2616,7 @@ e3_percentplot_know
 
 \subsection {Combined Plot for State Percent}
 
-<<>>=
+<<fig=TRUE>>=
 library(grid)
 gridExtra::grid.arrange(e1_percentplot, e2_percentplot, e3_percentplot, nrow = 3, ncol = 1, 
                 top=textGrob("Percentage of Retrieval States Across Experiments 1, 2, 3", 
@@ -2720,7 +2625,7 @@ gridExtra::grid.arrange(e1_percentplot, e2_percentplot, e3_percentplot, nrow = 3
 
 \subsubsection {Combined Plot for Know Percent}
 
-<<>>=
+<<fig=TRUE>>=
 library(grid)
 gridExtra::grid.arrange(e1_percentplot_know, e2_percentplot_know, e3_percentplot_know, nrow = 3, ncol = 1, 
                 top=textGrob("Percentage of Know responses Across Experiments 1, 2, 3", 
@@ -2796,7 +2701,7 @@ exp1_mcq_acc_aov = aov(data = exp1_mcq_acc, MCQAcc ~ AgeGroup*PrimeType +
 summary(exp1_mcq_acc_aov)
 
 
-ezANOVA(data = exp1_mcq_acc, wid = .(Subject),
+ez::ezANOVA(data = exp1_mcq_acc, wid = .(Subject),
         dv = .(MCQAcc), within =.(PrimeType),
         between = .(AgeGroup))
 
@@ -3482,28 +3387,6 @@ colnames(final_j) = c("AgeGroup", "Subject", "StudyNo", "PrimeInstruction", "Pri
 
 @
 
-\section {Experiment 1: Sound Meaning}
-
-<<>>=
-
-### CONFUSED: ASK DAVE!
-soundmeaning_exp1_target = subset(final_j, final_j$StudyNo == '2' | final_j$StudyNo == '4')
-#soundmeaning_exp1_mcq = subset(final_mcq, final_mcq$StudyNo == '2' | final_mcq$StudyNo == '4')
-
-sm_exp1_target_aov = aov(data = soundmeaning_exp1_target, Accuracy ~ AgeGroup*Sound*Meaning + 
-                                Error (Subject/(Sound*Meaning)))
-summary(sm_exp1_target_aov)
-
-options(contrasts = c('contr.sum', 'contr.poly'))
-
-sm_exp1_lsm = lsmeans::lsmeans(sm_exp1_target_aov, 
-                                          c("AgeGroup", "Sound", "Meaning"))
-prime_effect = cld(sm_exp1_lsm, alpha = 0.05, 
-                adjust = "tukey", details = TRUE, by = c("AgeGroup", "Meaning"))
-
-kable(subset(prime_effect$comparisons, prime_effect$comparisons$p.value < 0.05))
-@
-
 \section {Collapsing the 4 experiments}
 
 <<>>=
@@ -3581,8 +3464,8 @@ t.test(o_b_b_no$Proportion, o_b_b_yes$Proportion)
 
 
 <<>>=
-library(Rmisc)
-exp1_fig_state = summarySE(exp1_state_prime, 
+
+exp1_fig_state = Rmisc::summarySE(exp1_state_prime, 
                         measurevar = "Trials",
                         groupvars = c("AgeGroup", "PrimeCondition", "State"))
 
@@ -3616,8 +3499,7 @@ ggplot(aes(x = PrimeType, y = Trials,
 \subsubsection* {State by Prime}
 
 <<>>=
-library(Rmisc)
-exp1_fig_state_prime = summarySE(exp1_state_prime, 
+exp1_fig_state_prime = Rmisc::summarySE(exp1_state_prime, 
                         measurevar = "Trials",
                         groupvars = c("PrimeCondition","State"))
 
@@ -3653,13 +3535,12 @@ scale_fill_colorblind()+
 
 <<>>=
 
-library(Rmisc)
-exp1_fig_state_only = summarySE(exp1_state, 
+exp1_fig_state_only = Rmisc::summarySE(exp1_state, 
                         measurevar = "Trials",
                         groupvars = c("AgeGroup", "State"))
 
 exp1_fig_state_only =  arrange(exp1_fig_state_only, 
-                               AgeGroup, decreasing = TRUE)
+                               desc(AgeGroup))
 
 
 library(ggplot2)
@@ -3692,13 +3573,12 @@ ggplot(aes(x = RetrievalState, y = Trials,
 
 <<>>=
 
-library(Rmisc)
-exp1_fig_state_only = summarySE(exp1_state, 
+exp1_fig_state_only = Rmisc::summarySE(exp1_state, 
                         measurevar = "Trials",
                         groupvars = c("AgeGroup", "State"))
 
 exp1_fig_state_only =  arrange(exp1_fig_state_only, 
-                               AgeGroup, decreasing = TRUE)
+                               desc(AgeGroup))
 
 
 library(ggplot2)
@@ -3722,7 +3602,6 @@ ggplot(aes(x = RetrievalState, y = Trials,
           axis.title = element_text(face = "bold", size = rel(1)),
           legend.title = element_text(face = "bold", size = rel(1)),
          plot.title = element_text(hjust = .5),
->>>>>>> 4b773da20fa02798d6bb13a1ff7d6c2fb2558311
          strip.text.x = element_text(face = "bold", size = rel(1.4)))
 @
 
@@ -3732,12 +3611,11 @@ ggplot(aes(x = RetrievalState, y = Trials,
 
 
 <<>>=
-library(Rmisc)
-exp1_fig_target = summarySE(exp1_target, 
+exp1_fig_target = Rmisc::summarySE(exp1_target, 
                         measurevar = "Accuracy",
                         groupvars = c("AgeGroup", "PrimeCondition"))
 
-exp1_fig_target =  arrange(exp1_fig_target, AgeGroup, decreasing = TRUE)
+exp1_fig_target =  arrange(exp1_fig_target, desc(AgeGroup))
             
 library(ggplot2)
 library(ggthemes)
@@ -3769,7 +3647,7 @@ ggplot(aes(x = PrimeType, y = Accuracy,
 
 \subsubsection*{MCQ Table}
 
-<<>>=
+<<fig=TRUE>>=
 ## CODE BELOW IS IF WE WANT MCQ NUMBERS FOR SAME/DIFFERENT PRIME CHOICE
 # for(i in 1:nrow(exp1_mcq)){
 #   if(exp1_mcq[i,"PrimeType"] == exp1_mcq[i,"ChosenPrime"]){
@@ -3838,8 +3716,8 @@ ggplot(aes(x = PrimeCondition, y = Proportion,
 
 
 <<>>=
-library(Rmisc)
-exp1_fig_state = summarySE(exp2_state_prime, 
+
+exp1_fig_state = Rmisc::summarySE(exp2_state_prime, 
                         measurevar = "Trials",
                         groupvars = c("AgeGroup", "PrimeCondition", "State"))
 
@@ -3872,8 +3750,8 @@ ggplot(aes(x = PrimeType, y = Trials,
 \subsubsection* {State by Prime}
 
 <<>>=
-library(Rmisc)
-exp2_fig_state_prime = summarySE(exp2_state_prime, 
+
+exp2_fig_state_prime = Rmisc::summarySE(exp2_state_prime, 
                         measurevar = "Trials",
                         groupvars = c("PrimeCondition","State"))
 
@@ -3910,13 +3788,12 @@ scale_fill_colorblind()+
 
 <<>>=
 
-library(Rmisc)
-exp2_fig_state_only = summarySE(exp2_state, 
+exp2_fig_state_only = Rmisc::summarySE(exp2_state, 
                         measurevar = "Trials",
                         groupvars = c("AgeGroup", "State"))
 
 exp2_fig_state_only =  arrange(exp2_fig_state_only, 
-                               AgeGroup, decreasing = TRUE)
+                               desc(AgeGroup))
 
 
 library(ggplot2)
@@ -3936,23 +3813,18 @@ ggplot(aes(x = RetrievalState, y = Trials,
   scale_fill_manual(values = c("royalblue4", "slategray1"))+
    xlab("") + ylab("Mean Number of Trials") + 
   ggtitle("E2: Young and Old Adults (With Instructions)")  +
-=======
   ggtitle("E2: Young vs. Old (With Instructions)")  +
->>>>>>> 4b773da20fa02798d6bb13a1ff7d6c2fb2558311
    theme(axis.text = element_text(size = rel(1)),
           axis.title = element_text(face = "bold", size = rel(1)),
           legend.title = element_text(face = "bold", size = rel(1)),
          plot.title = element_text(hjust = .5),
-<<<<<<< HEAD
-=======
          strip.text.x = element_text(face = "bold", size = rel(1.4)))
 @
 
 \subsubsection* {State by Prime}
 
 <<>>=
-library(Rmisc)
-exp2_fig_state_prime = summarySE(exp2_state_prime, 
+exp2_fig_state_prime = Rmisc::summarySE(exp2_state_prime, 
                         measurevar = "Trials",
                         groupvars = c("PrimeCondition","State"))
 
@@ -3989,13 +3861,12 @@ scale_fill_colorblind()+
 
 <<>>=
 
-library(Rmisc)
-exp2_fig_state_only = summarySE(exp2_state, 
+exp2_fig_state_only = Rmisc::summarySE(exp2_state, 
                         measurevar = "Trials",
                         groupvars = c("AgeGroup", "State"))
 
 exp2_fig_state_only =  arrange(exp2_fig_state_only, 
-                               AgeGroup, decreasing = TRUE)
+                               desc(AgeGroup))
 
 
 library(ggplot2)
@@ -4019,18 +3890,16 @@ ggplot(aes(x = RetrievalState, y = Trials,
           axis.title = element_text(face = "bold", size = rel(1)),
           legend.title = element_text(face = "bold", size = rel(1)),
          plot.title = element_text(hjust = .5),
->>>>>>> 4b773da20fa02798d6bb13a1ff7d6c2fb2558311
          strip.text.x = element_text(face = "bold", size = rel(1.4)))
 @
 
 \subsubsection*{Target Accuracy}
 
 <<>>=
-library(Rmisc)
-exp2_fig_target = summarySE(exp2_target, 
+exp2_fig_target = Rmisc::summarySE(exp2_target, 
                         measurevar = "Accuracy",
                         groupvars = c("AgeGroup", "PrimeCondition"))
-exp2_fig_target =  arrange(exp2_fig_target, AgeGroup, decreasing = TRUE)
+exp2_fig_target =  arrange(exp2_fig_target,desc(AgeGroup))
             
 library(ggplot2)
 library(ggthemes)
@@ -4062,7 +3931,7 @@ ggplot(aes(x = PrimeType, y = Accuracy,
 
 \subsubsection*{MCQ Table}
 
-<<>>=
+<<fig=TRUE>>=
 e2_mcq_agg = Rmisc::summarySE(exp2_mcq, 
                         measurevar = "Proportion",
                         groupvars = c("AgeGroup", "PrimeType", "ChosenPrime"))
@@ -4108,8 +3977,8 @@ ggplot(aes(x = PrimeCondition, y = Proportion,
 \subsubsection*{State data}
 
 <<>>=
-library(Rmisc)
-exp3_fig_state = summarySE(exp3_state_prime, 
+
+exp3_fig_state =Rmisc::summarySE(exp3_state_prime, 
                         measurevar = "Trials",
                         groupvars = c("AgeGroup", "PrimeCondition", "State"))
 
@@ -4130,11 +3999,8 @@ ggplot(aes(x = PrimeType, y = Trials,
  theme_few()+
  scale_fill_colorblind()+
     xlab("Prime Condition") + ylab("") + 
-<<<<<<< HEAD
   ggtitle("E3: Young Adults (Threshold Priming: 48 ms)")  +
-=======
   ggtitle("E3: Young (Threshold Priming: 48 ms)")  +
->>>>>>> 4b773da20fa02798d6bb13a1ff7d6c2fb2558311
    theme(axis.text = element_text(size = rel(1)),
           axis.title = element_text(face = "bold", size = rel(1)),
           legend.title = element_text(face = "bold", size = rel(1)),
@@ -4145,8 +4011,7 @@ ggplot(aes(x = PrimeType, y = Trials,
 \subsubsection* {State by Prime}
 
 <<>>=
-library(Rmisc)
-exp3_fig_state_prime = summarySE(exp3_state_prime, 
+exp3_fig_state_prime = Rmisc::summarySE(exp3_state_prime, 
                         measurevar = "Trials",
                         groupvars = c("PrimeCondition","State"))
 
@@ -4182,8 +4047,7 @@ scale_fill_colorblind()+
 
 <<>>=
 
-library(Rmisc)
-exp3_fig_state_only = summarySE(exp3_state, 
+exp3_fig_state_only = Rmisc::summarySE(exp3_state, 
                         measurevar = "Trials",
                         groupvars = c("AgeGroup", "State"))
 
@@ -4206,9 +4070,7 @@ ggplot(aes(x = RetrievalState, y = Trials,
  theme_few()+
     xlab("") + ylab("") + 
   ggtitle("E3: Young Adults (Threshold Priming: 48 ms)")  +
-=======
   ggtitle("E3: Young (Threshold Priming: 48 ms)")  +
->>>>>>> 4b773da20fa02798d6bb13a1ff7d6c2fb2558311
    theme(axis.text = element_text(size = rel(1)),
           axis.title = element_text(face = "bold", size = rel(1)),
           legend.title = element_text(face = "bold", size = rel(1)),
@@ -4216,15 +4078,11 @@ ggplot(aes(x = RetrievalState, y = Trials,
          strip.text.x = element_text(face = "bold", size = rel(1.4)))
 @
 
-
-<<<<<<< HEAD
-=======
 \subsubsection *{State ONLY}
 
 <<>>=
 
-library(Rmisc)
-exp3_fig_state_only = summarySE(exp3_state, 
+exp3_fig_state_only = Rmisc::summarySE(exp3_state, 
                         measurevar = "Trials",
                         groupvars = c("AgeGroup", "State"))
 
@@ -4258,8 +4116,7 @@ ggplot(aes(x = RetrievalState, y = Trials,
 \subsubsection*{Target Accuracy}
 
 <<>>=
-library(Rmisc)
-exp3_fig_target = summarySE(exp3_target, 
+exp3_fig_target = Rmisc::summarySE(exp3_target, 
                         measurevar = "Accuracy",
                         groupvars = c("AgeGroup", "PrimeCondition"))
 
@@ -4290,14 +4147,14 @@ ggplot(aes(x = PrimeType, y = Accuracy, fill = Age, group = Age))+
 
 \subsubsection*{MCQ Table}
 
-<<>>=
+<<fig=TRUE>>=
 
 e3_mcqoverall_agg = group_by(exp3_mcq, AgeGroup, PrimeType, ChosenPrime)%>%
   summarise_at(vars(MCQAcc), mean)
 
 ## Plotting
 
-e3_mcq_agg = summarySE(exp3_mcq, 
+e3_mcq_agg = Rmisc::summarySE(exp3_mcq, 
                         measurevar = "Proportion",
                         groupvars = c("PrimeType", "ChosenPrime"))
 
@@ -4333,13 +4190,12 @@ ggplot(aes(x = PrimeCondition, y = Proportion,
 @
 \subsection *{E3 and E2 compare}
 
-<<>>=
-library(Rmisc)
-exp3_fig_compare_1 = summarySE(exp3_compare_1, 
+<<fig=TRUE>>=
+exp3_fig_compare_1 = Rmisc::summarySE(exp3_compare_1, 
                         measurevar = "Proportion",
                         groupvars = c("StudyNo", "PrimeType", "ChosenPrime"))
 
-exp3_fig_compare_2 = summarySE(exp3_compare_2, 
+exp3_fig_compare_2 = Rmisc::summarySE(exp3_compare_2, 
                         measurevar = "Proportion",
                         groupvars = c("StudyNo", "PrimeType", "ChosenPrime"))
 
@@ -4396,7 +4252,7 @@ ggplot(aes(x = PrimeCondition, y = Proportion,
 
 \subsection *{Combined State Data}
 
-<<>>=
+<<fig=TRUE>>=
 library(grid)
 gridExtra::grid.arrange(state_1, state_2, state_3, nrow = 3, ncol = 1, 
                 top=textGrob("Retrieval States Across Experiments 1, E2, E3", 
@@ -4405,7 +4261,7 @@ gridExtra::grid.arrange(state_1, state_2, state_3, nrow = 3, ncol = 1,
 
 \subsection *{Combined State Prime Data}
 
-<<>>=
+<<fig=TRUE>>=
 library(grid)
 gridExtra::grid.arrange(state_1_prime, state_2_prime, state_3_prime, 
                         nrow = 3, ncol = 1, 
@@ -4416,7 +4272,7 @@ gridExtra::grid.arrange(state_1_prime, state_2_prime, state_3_prime,
 
 \subsection *{Combined State ONLY Data}
 
-<<>>=
+<<fig=TRUE>>=
 library(grid)
 gridExtra::grid.arrange(state_1_only, state_2_only, state_3_only, 
                         nrow = 3, ncol = 1, 
@@ -4426,7 +4282,7 @@ gridExtra::grid.arrange(state_1_only, state_2_only, state_3_only,
 
 \subsection * {Combined Target Accuracy Data}
 
-<<>>=
+<<fig=TRUE>>=
 library(grid)
 gridExtra::grid.arrange(targetacc_1, targetacc_2, targetacc_3, nrow = 3, ncol = 1, 
                 top=textGrob("Target Accuracy Across Experiments 1, E2, E3", 
@@ -4434,9 +4290,8 @@ gridExtra::grid.arrange(targetacc_1, targetacc_2, targetacc_3, nrow = 3, ncol = 
 @
 
 \section {HLM Approaches}
->>>>>>> 4b773da20fa02798d6bb13a1ff7d6c2fb2558311
 
-<<>>=
+<<fig=TRUE>>=
 library(grid)
 gridExtra::grid.arrange(state_1, state_2, state_3, nrow = 3, ncol = 1, 
                 top=textGrob("Retrieval States Across Experiments 1, 2 and 3", 
@@ -4445,7 +4300,7 @@ gridExtra::grid.arrange(state_1, state_2, state_3, nrow = 3, ncol = 1,
 
 \subsection *{Combined State Prime Data}
 
-<<>>=
+<<fig=TRUE>>=
 library(grid)
 gridExtra::grid.arrange(state_1_prime, state_2_prime, state_3_prime, 
                         nrow = 3, ncol = 1, 
@@ -4456,7 +4311,7 @@ gridExtra::grid.arrange(state_1_prime, state_2_prime, state_3_prime,
 
 \subsection *{Combined State ONLY Data}
 
-<<>>=
+<<fig=TRUE>>=
 library(grid)
 gridExtra::grid.arrange(state_1_only, state_2_only, state_3_only, 
                         nrow = 3, ncol = 1, 
@@ -4466,7 +4321,7 @@ gridExtra::grid.arrange(state_1_only, state_2_only, state_3_only,
 
 \subsection * {Combined Target Accuracy Data}
 
-<<>>=
+<<fig=TRUE>>=
 library(grid)
 gridExtra::grid.arrange(targetacc_1, targetacc_2, targetacc_3, nrow = 3, ncol = 1, 
                 top=textGrob("Target Accuracy Across Experiments E1, E2, E3", 
@@ -4519,25 +4374,25 @@ Both_Sem = main_item %>% filter(PrimeCondition == "B" &
 <<>>=
 library(lme4)
 
-phon_model = glmer(data = Phon, Accuracy ~ SoundRating*StudyNo + 
+phon_model = glmer(data = Phon, Accuracy ~ SoundRating + 
                      (1|Subject), family = "binomial")
 summary(phon_model)
 
-phon_model_2 = glmer(data = Phon, Accuracy ~ Rating + 
+phon_model_2 = glmer(data = Phon, Accuracy ~ SoundRating + 
                      (1|Subject), family = "binomial")
 summary(phon_model_2)
 
-sem_model = glmer(data = Sem, Accuracy ~ Rating*ItemAcc  + 
+sem_model = glmer(data = Sem, Accuracy ~ MeaningRating*ItemAcc  + 
                      (1|Subject), family = "binomial")
 summary(sem_model)
 
-both_sem_model = glmer(data = Both_Sem, Accuracy ~ Rating*ItemAcc  + 
+both_sem_model = glmer(data = Both_Sem, Accuracy ~ MeaningRating*ItemAcc  + 
                      (1|Subject), family = "binomial", 
     control=glmerControl(optimizer="bobyqa",
             optCtrl=list(maxfun=100000)))
 summary(both_sem_model)
 
-both_phon_model = glmer(data = Both_Phon, Accuracy ~ Rating*ItemAcc  + 
+both_phon_model = glmer(data = Both_Phon, Accuracy ~ SoundRating*ItemAcc  + 
                      (1|Subject), family = "binomial", 
     control=glmerControl(optimizer="bobyqa",
             optCtrl=list(maxfun=100000)))
@@ -4545,154 +4400,6 @@ summary(both_phon_model)
 
 
 ## seems that ratings have an overall effect on accuracy, but not above and beyond the mean level accuracy of the item itself. 
-@
-
-\subsubsection* {Plotting Model Outcomes}
-
-<<>>=
-
-### PHONOLOGICAL
-fixed.frame <- Phon %>% 
-  dplyr::summarise(mean = mean(ItemAcc, na.rm = T), 
-            sd = sd(ItemAcc, na.rm = T))
-
-fixed.frame <-
-  data.frame(
-    expand.grid(
-      # here, you add values for your time variable and predictors
-      Rating = seq(3,7,1),
-      ItemAcc = c(fixed.frame$mean-fixed.frame$sd,
-                     fixed.frame$mean,
-                     fixed.frame$mean+fixed.frame$sd))) 
-fixed.frame$pred = predict(phon_model, newdata = fixed.frame, re.form = NA)
-
-fixed.frame$odds = exp(fixed.frame$pred)
-fixed.frame$prob = fixed.frame$odds/(1+ fixed.frame$odds)
-
-
-phon_plot = fixed.frame %>%
-  mutate(`Item Difficulty` = factor(ItemAcc, levels = unique(ItemAcc),
-            labels = c("-1SD: Difficult", "0 SD: Average", "1SD: Easy"))) %>%
-  ggplot(aes(x = Rating, y = prob, color = `Item Difficulty`)) +
-    geom_line(size = 1) +
-        labs(x = "Sound Rating", y = "",
-         title = "Phonological Condition (Sound Rating)") +
-  theme_few()+
-    scale_color_few() +
-    theme(axis.text = element_text(face = "bold", size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-    plot.title = element_text(face = "bold", size = rel(1.2), hjust = .5))
-
-### SEMANTIC
-fixed.frame <- Sem %>% 
-  dplyr::summarise(mean = mean(ItemAcc, na.rm = T), 
-            sd = sd(ItemAcc, na.rm = T))
-
-fixed.frame <-
-  data.frame(
-    expand.grid(
-      # here, you add values for your time variable and predictors
-      Rating = seq(2,7,1),
-      ItemAcc = c(fixed.frame$mean-fixed.frame$sd,
-                     fixed.frame$mean,
-                     fixed.frame$mean+fixed.frame$sd))) 
-fixed.frame$pred = predict(sem_model, newdata = fixed.frame, re.form = NA)
-
-fixed.frame$odds = exp(fixed.frame$pred)
-fixed.frame$prob = fixed.frame$odds/(1+ fixed.frame$odds)
-
-
-sem_plot = fixed.frame %>%
-  mutate(`Item Difficulty` = factor(ItemAcc, levels = unique(ItemAcc),
-            labels = c("-1SD: Difficult", "0 SD: Average", "1SD: Easy"))) %>%
-  ggplot(aes(x = Rating, y = prob, color = `Item Difficulty`)) +
-    geom_line(size = 1) +
-        labs(x = "Meaning Rating", y = "",
-         title = "Semantic Condition (Meaning Rating)") +
-  theme_few()+
-    scale_color_few() +
-    theme(axis.text = element_text(face = "bold", size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-    plot.title = element_text(face = "bold", size = rel(1.2), hjust = .5))
-
-### BOTH PHON
-fixed.frame <- Both_Phon %>% 
-  dplyr::summarise(mean = mean(ItemAcc, na.rm = T), 
-            sd = sd(ItemAcc, na.rm = T))
-
-fixed.frame <-
-  data.frame(
-    expand.grid(
-      # here, you add values for your time variable and predictors
-      Rating = seq(2,7,1),
-      ItemAcc = c(fixed.frame$mean-fixed.frame$sd,
-                     fixed.frame$mean,
-                     fixed.frame$mean+fixed.frame$sd))) 
-fixed.frame$pred = predict(both_phon_model, 
-                           newdata = fixed.frame, re.form = NA)
-
-fixed.frame$odds = exp(fixed.frame$pred)
-fixed.frame$prob = fixed.frame$odds/(1+ fixed.frame$odds)
-
-
-both_phon_plot = fixed.frame %>%
-  mutate(`Item Difficulty` = factor(ItemAcc, levels = unique(ItemAcc),
-            labels = c("-1SD: Difficult", "0 SD: Average", "1SD: Easy"))) %>%
-  ggplot(aes(x = Rating, y = prob, color = `Item Difficulty`)) +
-    geom_line(size = 1) +
-        labs(x = "Sound Rating", y = "",
-         title = "Both Condition (Sound Rating)") +
-  theme_few()+
-    scale_color_few() +
-    theme(axis.text = element_text(face = "bold", size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-    plot.title = element_text(face = "bold", size = rel(1.2), hjust = .5))
-
-### BOTH SEM
-fixed.frame <- Both_Sem %>% 
-  dplyr::summarise(mean = mean(ItemAcc, na.rm = T), 
-            sd = sd(ItemAcc, na.rm = T))
-
-fixed.frame <-
-  data.frame(
-    expand.grid(
-      # here, you add values for your time variable and predictors
-      Rating = seq(2,7,1),
-      ItemAcc = c(fixed.frame$mean-fixed.frame$sd,
-                     fixed.frame$mean,
-                     fixed.frame$mean+fixed.frame$sd))) 
-fixed.frame$pred = predict(both_sem_model, 
-                           newdata = fixed.frame, re.form = NA)
-
-fixed.frame$odds = exp(fixed.frame$pred)
-fixed.frame$prob = fixed.frame$odds/(1+ fixed.frame$odds)
-
-
-both_sem_plot = fixed.frame %>%
-  mutate(`Item Difficulty` = factor(ItemAcc, levels = unique(ItemAcc),
-            labels = c("-1SD: Difficult", "0 SD: Average", "1SD: Easy"))) %>%
-  ggplot(aes(x = Rating, y = prob, color = `Item Difficulty`)) +
-    geom_line(size = 1) +
-        labs(x = "Meaning Rating", y = "",
-         title = "Both Condition (Sound Rating)") +
-  theme_few()+
-    scale_color_few() +
-    theme(axis.text = element_text(face = "bold", size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-    plot.title = element_text(face = "bold", size = rel(1.2), hjust = .5))
-@
-
-<<>>=
-library(gridExtra)
-library(grid)
-grid.arrange(phon_plot,sem_plot,both_phon_plot,both_sem_plot, 
-            top=textGrob("Target Retrieval Accuracy as a function of\nPrime-Target Association Ratings", 
-                                      gp=gpar(fontsize=20)),
-             left = textGrob("Predicted Probabilities for Target Retrieval Accuracy", rot = 90, vjust = 1, gp = gpar(fontsize = 15)))
 @
 
 \subsubsection *{Models with Rating and Average Performance}
@@ -4721,129 +4428,6 @@ summary(both_sem_model_2)
 
 ## seems that ratings have an overall effect on accuracy, but not above and beyond the mean level accuracy of the item itself. 
 
-@
-
-
-\subsection* {Plotting Model Fits: Rating Only}
-
-\subsubsection*{Phonological}
-
-<<>>=
-fixed.frame <-
-  data.frame(
-    expand.grid(
-      # here, you add values for your time variable and predictors
-      SoundRating = seq(1,7,1))) 
-fixed.frame$pred = predict(phon_model, newdata = fixed.frame, re.form = NA)
-fixed.frame$odds = exp(fixed.frame$pred)
-fixed.frame$prob = fixed.frame$odds/(1+fixed.frame$odds)
-
-a = fixed.frame %>%
-  ggplot(aes(x = SoundRating, y = prob)) +
-    geom_line(size = 1, color = "forestgreen") +
-        labs(x = "Sound Rating for Phon Prime:Target", 
-             y = "Predicted Probabilities for Accuracy",
-         title = "Effect of Prime Rating on Accuracy in 
-         Phonological Condition") +
-  theme_few()+
-  ylim(0,0.40)+
-    scale_color_colorblind() +
-    theme(axis.text = element_text(face = "bold", size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-          plot.title = element_text(face = "bold", size = rel(1.2), hjust = .5))
-@
-
-
-\subsubsection*{Semantic}
-
-<<>>=
-fixed.frame <-
-  data.frame(
-    expand.grid(
-      # here, you add values for your time variable and predictors
-      MeaningRating = seq(1,7,1))) 
-fixed.frame$pred = predict(sem_model, newdata = fixed.frame, re.form = NA)
-fixed.frame$odds = exp(fixed.frame$pred)
-fixed.frame$prob = fixed.frame$odds/(1+fixed.frame$odds)
-
-b = fixed.frame %>%
-  ggplot(aes(x = MeaningRating, y = prob)) +
-    geom_line(size = 1, color = "red") +
-        labs(x = "Meaning Rating for Sem Prime:Target", 
-             y = "Predicted Probabilities for Accuracy",
-         title = "Effect of Prime Rating on Accuracy in 
-         Semantic Condition") +
-  ylim(0,0.40)+
-  theme_few()+
-    scale_color_colorblind() +
-    theme(axis.text = element_text(face = "bold", size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-          plot.title = element_text(face = "bold", size = rel(1.2), hjust = .5))
-@
-
-\subsubsection*{Both_Sem}
-
-<<>>=
-fixed.frame <-
-  data.frame(
-    expand.grid(
-      # here, you add values for your time variable and predictors
-      MeaningRating = seq(1,7,1))) 
-fixed.frame$pred = predict(both_sem_model, 
-                           newdata = fixed.frame, re.form = NA)
-fixed.frame$odds = exp(fixed.frame$pred)
-fixed.frame$prob = fixed.frame$odds/(1+fixed.frame$odds)
-
-c = fixed.frame %>%
-  ggplot(aes(x = MeaningRating, y = prob)) +
-    geom_line(size = 1, color = "red") +
-        labs(x = "Meaning Rating for Both Prime:Target", 
-             y = "Predicted Probabilities for Accuracy",
-         title = "Effect of Prime Rating on Accuracy in 
-         Both Condition") +
-  ylim(0,0.40)+
-  theme_few()+
-    scale_color_colorblind() +
-    theme(axis.text = element_text(face = "bold", size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-          plot.title = element_text(face = "bold", size = rel(1.2), hjust = .5))
-@
-
-\subsubsection*{Both_Phon}
-
-<<>>=
-fixed.frame <-
-  data.frame(
-    expand.grid(
-      # here, you add values for your time variable and predictors
-      SoundRating = seq(1,7,1))) 
-fixed.frame$pred = predict(both_phon_model, 
-                           newdata = fixed.frame, re.form = NA)
-fixed.frame$odds = exp(fixed.frame$pred)
-fixed.frame$prob = fixed.frame$odds/(1+fixed.frame$odds)
-
-d = fixed.frame %>%
-  ggplot(aes(x = SoundRating, y = prob)) +
-    geom_line(size = 1, color = "forestgreen") +
-        labs(x = "Sound Rating for Both Prime:Target", 
-             y = "Predicted Probabilities for Accuracy",
-         title = "Effect of Prime Rating on Accuracy in 
-         Both Condition") +
-  theme_few()+
-  ylim(0,0.40)+
-    scale_color_colorblind() +
-    theme(axis.text = element_text(face = "bold", size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-          plot.title = element_text(face = "bold", size = rel(1.2), hjust = .5))
-@
-
-<<>>=
-library(gridExtra)
-grid.arrange(a,b,c,d)
 @
 
 \subsection* {Plotting Model Fits: Rating and Mean Accuracy}
@@ -4919,7 +4503,7 @@ mutate(ItemAccuracy = factor(ItemAcc, levels = unique(ItemAcc),
           plot.title = element_text(face = "bold", size = rel(1), hjust = .5))
 @
 
-\subsubsection*{Both_Sem}
+\subsubsection{BothSem}
 
 <<>>=
 fixed.frame <- Phon %>% 
@@ -4955,7 +4539,7 @@ mutate(ItemAccuracy = factor(ItemAcc, levels = unique(ItemAcc),
           plot.title = element_text(face = "bold", size = rel(1), hjust = .5))
 @
 
-\subsubsection*{Both_Phon}
+\subsubsection{BothPhon}
 
 <<>>=
 fixed.frame <- Phon %>% 
@@ -4991,488 +4575,12 @@ mutate(ItemAccuracy = factor(ItemAcc, levels = unique(ItemAcc),
           plot.title = element_text(face = "bold", size = rel(1), hjust = .5))
 @
 
-<<>>=
+<<fig=TRUE>>=
 library(gridExtra)
 grid.arrange(a2,b2,d2,c2, 
             top=textGrob("Target Retrieval Accuracy as a function of\nPrime-Target Association Ratings", 
                                       gp=gpar(fontsize=20)),
              left = textGrob("Predicted Probabilities for Target Retrieval Accuracy", rot = 90, vjust = 1, gp = gpar(fontsize = 15)))
-@
-
-\section {HLM Approaches}
-
-<<>>=
-main = read.csv("Julie_Main5Studies.csv", header = TRUE, sep = ",")
-main$StudyNo = as.factor(main$StudyNo)
-main$PrimeCondition = as.factor(main$PrimeCondition)
-
-main_wide = read.csv("MainJulieagg_5studies.csv", header = TRUE, sep = ",")
-
-library(dplyr)
-e1_hlm = main %>% filter(StudyNo == "2" | StudyNo == "4")
-e2_hlm = main %>% filter(StudyNo == "5" | StudyNo == "6")
-e3_hlm = main %>% filter(StudyNo == "1")
-
-@
-\subsection {Experiment 1}
-
-\subsubsection{Target Accuracy}
-<<>>=
-library(lme4)
-e1_hlm$Accuracy = as.factor(e1_hlm$Accuracy)
-### NULL MODEL ###
-exp1_acc_hlm_M0 = glmer(data = e1_hlm, Accuracy ~ 1 +
-                        (1|Subject), family = "binomial")
-summary(exp1_acc_hlm_M0)
-reghelper::ICC(exp1_acc_hlm_M0)
-
-### FIXED EFFECTS MODEL ###
-
-contrasts(e1_hlm$PrimeCondition) = contr.treatment(4, base = 1)
-contrasts(e1_hlm$AgeGroup) = contr.treatment(2, base = 2)
-
-exp1_acc_hlm_M1 = glmer(data = e1_hlm, Accuracy ~ AgeGroup + 
-                          PrimeCondition + AgeGroup:PrimeCondition +
-                        (1|Subject) + (1|Target), family = "binomial", 
-    control=glmerControl(optimizer="bobyqa",
-            optCtrl=list(maxfun=100000)))
-summary(exp1_acc_hlm_M1)
-
-### RANDOM EFFECTS MODEL
-exp1_acc_hlm_M2 = glmer(data = e1_hlm, Accuracy ~ AgeGroup + 
-                          PrimeCondition +
-                    (PrimeCondition | Subject) +
-                      (PrimeCondition| Target), verbose = TRUE,
-                    family = "binomial")#, 
-  #  control=glmerControl(optimizer="bobyqa",
-   #         optCtrl=list(maxfun=100000)))
-summary(exp1_acc_hlm_M2)
-@
-
-\subsubsection{Plot}
-
-<<fig=TRUE>>=
-fixed.frame <- 
-  data.frame(expand.grid(AgeGroup = c("Old","Young"), 
-             PrimeCondition = c("B","P", 
-                                "R", "U"))) %>%
-  mutate(pred = predict(exp1_acc_hlm_M2, newdata = ., re.form = NA))
-
-fixed.frame$odds = exp(fixed.frame$pred)
-fixed.frame$prob = fixed.frame$odds/(1+ fixed.frame$odds)
-
-fixed.frame %>%
-  mutate(PrimeType = factor(PrimeCondition, 
-    levels = unique(PrimeCondition),
-                    labels = c("Both", "Phonological", 
-                               "Semantic", "Unrelated")),
-                    Age = factor(AgeGroup, levels = unique(AgeGroup),
-                    labels = c("Old", "Young")))%>%
-  ggplot(aes(x = PrimeType, y = prob,
-             color = Age, fill = Age)) +
-   geom_bar(stat = "identity", position = "dodge", width = 0.6, 
-           color = "black")+
- theme_few()+
-  scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("Prime Type") + ylab("Predicted Target Accuracy") + 
-  ggtitle("Experiment 1: Target Retrieval Accuracy")  +
-   theme(axis.text = element_text(face = "bold", size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-          plot.title = element_text(face = "bold", size = rel(1.4), hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
-@
-
-\subsubsection{Multiple Choice Accuracy}
-<<>>=
-library(lme4)
-e1_hlm$McAcc = as.factor(e1_hlm$McAcc)
-e1_hlm_mcq_errors = e1_hlm %>% filter(WhichPrime != "0")
-### fixed effect ###
-exp1_mcq_acc_M1 = glmer(data = e1_hlm, McAcc ~  AgeGroup + PrimeCondition +
-                        (1|Subject) + (1|Target), family = "binomial")
-summary(exp1_mcq_acc_M1)
-### random slope ###
-exp1_mcq_acc_M2 = glmer(data = e1_hlm, McAcc ~  AgeGroup + PrimeCondition +
-                          AgeGroup:PrimeCondition +
-                        (AgeGroup + PrimeCondition|Subject) + 
-                          (AgeGroup + PrimeCondition|Target), 
-                     family = "binomial", 
-    control=glmerControl(optimizer="bobyqa",
-            optCtrl=list(maxfun=100000)))
-summary(exp1_mcq_acc_M2)
-car::Anova(exp1_mcq_acc_M2)
-sjPlot::plot_model(exp1_mcq_acc_M2, type = "pred", 
-                   terms = c("PrimeCondition", "AgeGroup"))
-
-exp1mcq_plot_data <- effects::effect("AgeGroup:PrimeCondition", 
-                                    exp1_mcq_acc_M2,
- xlevels = list(PrimeCondition = c("B", "P","R", "U"),
-                AgeGroup = c("Young", "Old")))
- plot(exp1mcq_plot_data)
-@
-
-
-\subsubsection {Multiple Choice Errors}
-
-<<>>=
-### MULTINOMIAL LOGISTIC REGRESSION ###
-
-library(nnet)
-library(dplyr)
-
-e1_hlm_multinomial = e1_hlm %>% filter(!WhichPrime %in% c("0", "X"))
-
-contrasts(e1_hlm_multinomial$WhichPrime) = contr.treatment(6, base = 2)
-contrasts(e1_hlm_multinomial$PrimeCondition) = contr.treatment(4, base = 1)
-
-e1_mcq_error_multinomial = nnet::multinom(data = e1_hlm_multinomial, 
-                         WhichPrime ~ PrimeCondition*AgeGroup +
-                        (1|Subject))
-summary(e1_mcq_error_multinomial)
-car::Anova(e1_mcq_error_multinomial)
-
-
-zvalues <- summary(e1_mcq_error_multinomial)$coefficients / summary(e1_mcq_error_multinomial)$standard.errors
-
-p <- (1 - pnorm(abs(zvalues), 0, 1))*2
-
-exp1_plot_data <- effects::effect("PrimeCondition*AgeGroup", 
-                                    e1_mcq_error_multinomial,
- xlevels = list(PrimeCondition = c("B", "P","R", "U"),
-                AgeGroup = c("Young", "Old")))
- plot(exp1_plot_data)
-
-@
-
-\subsubsection {States}
-
-<<>>=
-### MULTINOMIAL LOGISTIC REGRESSION ###
-
-library(nnet)
-library(dplyr)
-
-e1_hlm$State = ifelse(e1_hlm$Question.RESP == "1", "Know",
-                      (ifelse(e1_hlm$Question.RESP == "2", "DontKnow",
-                       ifelse(e1_hlm$Question.RESP == "3", "Other", "TOT"))))
-
-
-e1_state_multinomial = nnet::multinom(data = e1_hlm, 
-                         State ~ PrimeCondition*AgeGroup +
-                        (1|Subject))
-summary(e1_state_multinomial)
-car::Anova(e1_state_multinomial)
-
-exp1_state_data <- effects::effect("PrimeCondition*AgeGroup", 
-                                    e1_state_multinomial,
- xlevels = list(PrimeCondition = c("B", "P","R", "U"),
-                AgeGroup = c("Young", "Old")))
- plot(exp1_state_data)
-
-@
-
-
-\subsection {Experiment 2}
-
-\subsubsection{Target Accuracy}
-<<>>=
-library(lme4)
-e2_hlm$Accuracy = as.factor(e2_hlm$Accuracy)
-### NULL MODEL ###
-exp2_acc_hlm_M0 = glmer(data = e2_hlm, Accuracy ~ 1 +
-                        (1|Subject) + (1|Trial), family = "binomial")
-summary(exp2_acc_hlm_M0)
-reghelper::ICC(exp2_acc_hlm_M0)
-
-### FIXED EFFECTS MODEL ###
-exp2_acc_hlm_M1 = glmer(data = e2_hlm, Accuracy ~ AgeGroup + 
-                          PrimeCondition +
-                        (1|Subject) + (1|Trial), family = "binomial")
-summary(exp2_acc_hlm_M1)
-@
-
-\subsubsection{Plot}
-
-<<fig=TRUE>>=
-fixed.frame <- 
-  data.frame(expand.grid(AgeGroup = c("Old","Young"), 
-             PrimeCondition = c("B","P", 
-                                "R", "U"))) %>%
-  mutate(pred = predict(exp2_acc_hlm_M1, newdata = ., re.form = NA))
-
-fixed.frame$odds = exp(fixed.frame$pred)
-fixed.frame$prob = fixed.frame$odds/(1+ fixed.frame$odds)
-
-fixed.frame %>%
-  mutate(PrimeType = factor(PrimeCondition, 
-    levels = unique(PrimeCondition),
-                    labels = c("Both", "Phonological", 
-                               "Semantic", "Unrelated")),
-                    Age = factor(AgeGroup, levels = unique(AgeGroup),
-                    labels = c("Old", "Young")))%>%
-  ggplot(aes(x = PrimeType, y = prob,
-             color = Age, fill = Age)) +
-   geom_bar(stat = "identity", position = "dodge", width = 0.6, 
-           color = "black")+
- theme_few()+
-  scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("Prime Type") + ylab("Predicted Target Accuracy") + 
-  ggtitle("Experiment 1: Target Retrieval Accuracy")  +
-   theme(axis.text = element_text(face = "bold", size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-          plot.title = element_text(face = "bold", size = rel(1.4), hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
-@
-
-\subsubsection{Multiple Choice Accuracy}
-<<>>=
-library(lme4)
-e2_hlm$McAcc = as.factor(e2_hlm$McAcc)
-e2_hlm_mcq_errors = e2_hlm %>% filter(WhichPrime != "0")
-### NULL MODEL ###
-exp2_mcq_acc = glmer(data = e2_hlm, McAcc ~  1 +
-                        (1|Subject) + (1|Target), family = "binomial")
-summary(exp2_mcq_acc)
-
-reghelper::ICC(exp2_mcq_acc)
-
-exp2_mcq_acc_M2 = glmer(data = e2_hlm, McAcc ~  AgeGroup + PrimeCondition +
-                       AgeGroup:PrimeCondition + 
-                        (AgeGroup + PrimeCondition|Subject) + 
-                  (AgeGroup + PrimeCondition|Target), family = "binomial", 
-    control=glmerControl(optimizer="bobyqa",
-            optCtrl=list(maxfun=100000)))
-summary(exp2_mcq_acc_M2)
-car::Anova(exp2_mcq_acc_M2)
-sjPlot::plot_model(exp2_mcq_acc_M2, type = "pred", 
-                   terms = c("PrimeCondition", "AgeGroup"))
-
-exp2mcq_plot_data <- effects::effect("AgeGroup:PrimeCondition", 
-                                    exp2_mcq_acc_M2,
- xlevels = list(PrimeCondition = c("B", "P","R", "U"),
-                AgeGroup = c("Young", "Old")))
- plot(exp2mcq_plot_data)
-
-@
-
-\subsubsection {Multiple Choice Errors}
-
-<<>>=
-### MULTINOMIAL LOGISTIC REGRESSION ###
-
-library(nnet)
-library(dplyr)
-
-e2_hlm_multinomial = e2_hlm %>% filter(!WhichPrime %in% c("0", "X"))
-
-contrasts(e2_hlm_multinomial$WhichPrime) = contr.treatment(6, base = 2)
-contrasts(e2_hlm_multinomial$PrimeCondition) = contr.treatment(4, base = 1)
-
-e2_mcq_error_multinomial = nnet::multinom(data = e2_hlm_multinomial, 
-                         WhichPrime ~ PrimeCondition*AgeGroup +
-                        (1|Subject))
-summary(e2_mcq_error_multinomial)
-car::Anova(e2_mcq_error_multinomial)
-
-zvalues <- summary(e2_mcq_error_multinomial)$coefficients / summary(e2_mcq_error_multinomial)$standard.errors
-
-p <- (1 - pnorm(abs(zvalues), 0, 1))*2
-
-exp2_plot_data <- effects::effect("PrimeCondition*AgeGroup", 
-                                    e2_mcq_error_multinomial,
- xlevels = list(PrimeCondition = c("B", "P","R", "U"),
-                AgeGroup = c("Young", "Old")))
- plot(exp2_plot_data)
-
-@
-
-\subsubsection {States}
-
-<<>>=
-### MULTINOMIAL LOGISTIC REGRESSION ###
-
-library(nnet)
-library(dplyr)
-
-e2_hlm$State = ifelse(e2_hlm$Question.RESP == "1", "Know",
-                      (ifelse(e2_hlm$Question.RESP == "2", "DontKnow",
-                       ifelse(e2_hlm$Question.RESP == "3", "Other", "TOT"))))
-
-
-e2_state_multinomial = nnet::multinom(data = e2_hlm, 
-                         State ~ PrimeCondition*AgeGroup +
-                        (1|Subject))
-summary(e2_state_multinomial)
-car::Anova(e2_state_multinomial)
-
-exp2_state_data <- effects::effect("PrimeCondition*AgeGroup", 
-                                    e2_state_multinomial,
- xlevels = list(PrimeCondition = c("B", "P","R", "U"),
-                AgeGroup = c("Young", "Old")))
- plot(exp2_state_data)
-
-@
-
-\subsection {Experiment 3}
-
-\subsubsection{Target Accuracy}
-<<>>=
-library(lme4)
-e3_hlm$Accuracy = as.factor(e3_hlm$Accuracy)
-### NULL MODEL ###
-exp3_acc_hlm_M0 = glmer(data = e3_hlm, Accuracy ~ 1 +
-                        (1|Subject) + (1|Trial), family = "binomial")
-summary(exp3_acc_hlm_M0)
-reghelper::ICC(exp3_acc_hlm_M0)
-contrasts(e3_hlm$PrimeCondition) = contr.treatment(4, base = 2)
-### FIXED EFFECTS MODEL ###
-exp3_acc_hlm_M1 = glmer(data = e3_hlm, Accuracy ~ PrimeCondition +
-                        (1|Subject) + (1|Target), family = "binomial")
-summary(exp3_acc_hlm_M1)
-
-### RANDOM EFFECTS MODEL
-
-exp3_acc_hlm_M2 = glmer(data = e3_hlm, Accuracy ~ PrimeCondition +
-                        (PrimeCondition|Subject) + 
-                          (PrimeCondition|Target), family = "binomial", 
-    control=glmerControl(optimizer="bobyqa",
-            optCtrl=list(maxfun=100000)))
-summary(exp3_acc_hlm_M2)
-@
-
-\subsubsection{Plot}
-
-<<fig=TRUE>>=
-library(ggplot2)
-library(ggthemes)
-fixed.frame <- 
-  data.frame(expand.grid( 
-             PrimeCondition = c("B","P", 
-                                "R", "U"))) %>%
-  mutate(pred = predict(exp3_acc_hlm_M2, newdata = ., re.form = NA))
-
-fixed.frame$odds = exp(fixed.frame$pred)
-fixed.frame$prob = fixed.frame$odds/(1+ fixed.frame$odds)
-
-fixed.frame %>%
-  mutate(PrimeType = factor(PrimeCondition, 
-    levels = unique(PrimeCondition),
-                    labels = c("Both", "Phonological", 
-                               "Semantic", "Unrelated")))%>%
-  ggplot(aes(x = PrimeType, y = prob)) +
-   geom_bar(stat = "identity", position = "dodge", width = 0.6, 
-           color = "black", fill ="slategray1" )+
- theme_few()+
-  scale_fill_manual(values = c("royalblue4", "slategray1"))+
-    xlab("Prime Type") + ylab("Predicted Target Accuracy") + 
-  ggtitle("Experiment 1: Target Retrieval Accuracy")  +
-   theme(axis.text = element_text(face = "bold", size = rel(1)),
-          axis.title = element_text(face = "bold", size = rel(1)),
-          legend.title = element_text(face = "bold", size = rel(1)),
-          plot.title = element_text(face = "bold", size = rel(1.4), hjust = .5),
-         strip.text.x = element_text(face = "bold", size = rel(1.4)))
-@
-
-\subsubsection{Multiple Choice Accuracy}
-<<>>=
-library(lme4)
-e3_hlm$McAcc = as.factor(e3_hlm$McAcc)
-e3_hlm_mcq_errors = e3_hlm %>% filter(WhichPrime != "0")
-### NULL MODEL ###
-exp3_mcq_acc = glmer(data = e3_hlm, McAcc ~  PrimeCondition +
-                        (1|Subject) + (1|Trial), family = "binomial")
-summary(exp3_mcq_acc)
-@
-
-
-\subsubsection {Multiple Choice Errors}
-
-<<>>=
-library(nnet)
-library(dplyr)
-
-e3_hlm_multinomial = e3_hlm %>% filter(!WhichPrime %in% c("0", "X"))
-
-contrasts(e3_hlm_multinomial$WhichPrime) = contr.treatment(6, base = 2)
-contrasts(e3_hlm_multinomial$PrimeCondition) = contr.treatment(4, base = 1)
-
-e3_mcq_error_multinomial = nnet::multinom(data = e3_hlm_multinomial, 
-                         WhichPrime ~ PrimeCondition +
-                        (1|Subject))
-summary(e3_mcq_error_multinomial)
-car::Anova(e3_mcq_error_multinomial)
-
-zvalues <- summary(e3_mcq_error_multinomial)$coefficients / summary(e3_mcq_error_multinomial)$standard.errors
-
-p <- (1 - pnorm(abs(zvalues), 0, 1))*2
-
-exp3_plot_data <- effects::effect("PrimeCondition", 
-                                    e3_mcq_error_multinomial,
- xlevels = list(PrimeCondition = c("B", "P","R", "U")))
- plot(exp3_plot_data)
-@
-
-\subsubsection {States}
-
-<<>>=
-### MULTINOMIAL LOGISTIC REGRESSION ###
-
-library(nnet)
-library(dplyr)
-
-e3_hlm$State = ifelse(e3_hlm$Question.RESP == "1", "Know",
-                      (ifelse(e3_hlm$Question.RESP == "2", "DontKnow",
-                       ifelse(e3_hlm$Question.RESP == "3", "Other", "TOT"))))
-
-
-e3_state_multinomial = nnet::multinom(data = e3_hlm, 
-                         State ~ PrimeCondition +
-                        (1|Subject))
-summary(e3_state_multinomial)
-car::Anova(e3_state_multinomial)
-
-exp3_state_data <- effects::effect("PrimeCondition", 
-                                    e3_state_multinomial,
- xlevels = list(PrimeCondition = c("B", "P","R", "U")))
- plot(exp3_state_data)
-
-@
-
-
-\subsection {Across Exp1 and Exp2: Multiple Choice Errors}
-
-<<>>=
-### MULTINOMIAL LOGISTIC REGRESSION ###
-
-library(nnet)
-library(dplyr)
-
-e12_hlm_multinomial = main %>% filter(StudyNo != "1")
-e12_hlm_multinomial = e12_hlm_multinomial %>% 
-  filter(!WhichPrime %in% c("0", "X"))
-
-contrasts(e12_hlm_multinomial$WhichPrime) = contr.treatment(6, base = 2)
-contrasts(e12_hlm_multinomial$PrimeCondition) = contr.treatment(4, base = 1)
-
-e12_mcq_error_multinomial = nnet::multinom(data = e12_hlm_multinomial, 
-                  WhichPrime ~ PrimeInstruction*PrimeCondition*AgeGroup +
-                        (1|Subject))
-summary(e12_mcq_error_multinomial)
-car::Anova(e12_mcq_error_multinomial)
-
-zvalues <- summary(e2_mcq_error_multinomial)$coefficients / summary(e2_mcq_error_multinomial)$standard.errors
-
-p <- (1 - pnorm(abs(zvalues), 0, 1))*2
-
-exp12_plot_data <- effects::effect("PrimeInstruction*PrimeCondition*AgeGroup", 
-                                    e12_mcq_error_multinomial,
- xlevels = list(PrimeCondition = c("B", "P","R", "U"),
-                PrimeInstruction = c("NoInstruction", "NotThePrime"),
-                AgeGroup = c("Young", "Old")))
- plot(exp12_plot_data)
-
 @
 
 \subsection {State RT data}
@@ -5515,8 +4623,8 @@ e3_stateRT = state_z_trimmed %>% filter(StudyNo == "1")
  
 @
 
-\subsubsubsection {E1}
-<<>>=
+\subsubsection {E1}
+<<fig=TRUE>>=
 e1_stateRT_agg = group_by(e1_stateRT, AgeGroup, Subject, Question.RESP) %>%
    summarize_at(vars(State.RT), mean)
 
@@ -5547,8 +4655,8 @@ e1_stateRT_rmisc %>% mutate(RetrievalState = factor(Question.RESP,
 
 @
 
-\subsubsubsection {E2}
-<<>>=
+\subsubsection {E2}
+<<fig=TRUE>>=
 e2_stateRT_agg = group_by(e2_stateRT, AgeGroup, Subject, Question.RESP) %>%
    summarize_at(vars(State.RT), mean)
 
@@ -5579,8 +4687,8 @@ e2_stateRT_rmisc %>% mutate(RetrievalState = factor(Question.RESP,
 
 @
 
-\subsubsubsection {E3}
-<<>>=
+\subsubsection {E3}
+<<fig=TRUE>>=
 e3_stateRT_agg = group_by(e3_stateRT, AgeGroup, Subject, Question.RESP) %>%
    summarize_at(vars(State.RT), mean)
 
@@ -5698,7 +4806,7 @@ summary(e3_proper_aov)
 @
 
 \subsection * {Word Type, Experiment and Prime Type}
-<<>>=
+<<fig=TRUE>>=
 library(ggplot2)
 library(ggthemes)
 word_type_prime_E1 %>% 
@@ -5718,7 +4826,7 @@ ggplot(aes(x = PrimeCondition, y = Accuracy,
 @
 
 \subsection * {Word Type and AgeGroup}
-<<>>=
+<<fig=TRUE>>=
 library(ggplot2)
 library(ggthemes)
 word_type_age %>% filter(ExperimentName == "tot not the prime") %>%
@@ -5738,7 +4846,7 @@ ggplot(aes(x = AgeGroup, y = Accuracy,
 @
 
 \subsection * {Word Type and Prime}
-<<>>=
+<<fig=TRUE>>=
 library(ggplot2)
 library(ggthemes)
 word_type_prime %>% 
@@ -5761,10 +4869,9 @@ ggplot(aes(x = PrimeCondition, y = Accuracy,
 <<>>=
 library(ggplot2)
 library(ggthemes)
-word_type_state$Question.RESP = as.factor(word_type_state$Question.RESP)
+word_type_state_sub$Question.RESP = as.factor(word_type_state_sub$Question.RESP)
 
-library(Rmisc)
-word_type_state = summarySE(word_type_state_sub, 
+word_type_state = Rmisc::summarySE(word_type_state_sub, 
                         measurevar = "Trials",
                         groupvars = c("Proper", "Question.RESP"))
 
@@ -5789,7 +4896,7 @@ ggplot(aes(x = RetrievalState, y = Trials,
 
 
 \subsection * {Word Type, Age and State}
-<<>>=
+<<fig=TRUE>>=
 library(ggplot2)
 library(ggthemes)
 
@@ -5841,8 +4948,8 @@ sjPlot::plot_model(exp1_acc_hlm_M1, type = "pred",
 
 ## OA better than YA for proper names than words
 
-sjPlot::plot_model(exp1_acc_hlm_M1, type = "pred", 
-                   terms = c("Proper","PrimeCondition"))
+#sjPlot::plot_model(exp1_acc_hlm_M1, type = "pred", 
+ #                  terms = c("Proper","PrimeCondition"))
 
 ## Words show more phon. facilitation than Proper Names
 
@@ -5853,8 +4960,8 @@ exp2_acc_hlm_M1 = glmer(data = e2_proper ,
             optCtrl=list(maxfun=100000)))
 summary(exp2_acc_hlm_M1)
 car::Anova(exp2_acc_hlm_M1)
-sjPlot::plot_model(exp2_acc_hlm_M1, type = "pred", 
-                   terms = c("AgeGroup","Proper"))
+#sjPlot::plot_model(exp2_acc_hlm_M1, type = "pred", 
+ #                  terms = c("AgeGroup","Proper"))
 
 # Not clear what this interaction is: OA worse than YA in Words
 
@@ -5866,7 +4973,7 @@ exp3_acc_hlm_M1 = glmer(data = e3_proper ,
             optCtrl=list(maxfun=100000)))
 summary(exp1_acc_hlm_M1)
 car::Anova(exp3_acc_hlm_M1)
-sjPlot::plot_model(exp3_acc_hlm_M1, type = "int")
+#sjPlot::plot_model(exp3_acc_hlm_M1, type = "int")
 
 
 exp1_plot_data <- effects::effect("PrimeCondition*Proper", 
@@ -5874,7 +4981,7 @@ exp1_plot_data <- effects::effect("PrimeCondition*Proper",
  xlevels = list(PrimeCondition = c("B", "P","R", "U"),
                 AgeGroup = c("Young", "Old"),
                 Proper = c("ProperName", "Word")))
- plot(exp1_plot_data, main = "Exp1: WordType x PrimeCondition")
+# plot(exp1_plot_data, main = "Exp1: WordType x PrimeCondition")
  
  exp1_plot_data <- effects::effect("AgeGroup*Proper", 
                                     exp1_acc_hlm_M1,
@@ -5890,12 +4997,12 @@ exp1_plot_data <- effects::effect("PrimeCondition*Proper",
                 Proper = c("ProperName", "Word")))
  t2 =plot(exp1_plot_data, main = "Exp2: WordType x Age")
 
- gridExtra::grid.arrange(t1,t2, nrow = 1, ncol = 2)
+ #gridExtra::grid.arrange(t1,t2, nrow = 1, ncol = 2)
 @
 
 \subsubsection {States: E3}
 
-<<>>=
+<<fig=TRUE>>=
 ### MULTINOMIAL LOGISTIC REGRESSION ###
 
 library(nnet)
@@ -5974,13 +5081,13 @@ s1 = plot(exp1_state_data, main = "Exp 1: WordType x Age")
 
 @
 
-<<>>=
+<<fig=TRUE>>=
 gridExtra::grid.arrange(s1,s2, nrow = 1, ncol = 2)
 @
 
 \subsubsection {E3: Multiple Choice Errors}
 
-<<>>=
+<<fig=TRUE>>=
 library(nnet)
 library(dplyr)
 
@@ -6063,9 +5170,9 @@ exp1_plot_data <- effects::effect("Proper*AgeGroup",
 
 @
 
-<<>>=
+<<fig=TRUE>>=
  gridExtra::grid.arrange(m1,m2, nrow = 1, ncol = 2)
- @
+@
 
 
 \section {Item Analyses}
@@ -6137,7 +5244,7 @@ colnames(final_mcq) = c("AgeGroup",  "StudyNo","Target", "TargetNo",
 ## in each prime condition
 
 final_mcq = merge(final_mcq, j_overall_mcq, by = c("AgeGroup", "StudyNo", "Target", "PrimeType"))
-final_mcq <- final_mcq1[order(final_mcq1$Target),]
+final_mcq <- final_mcq[order(final_mcq$Target),]
 
 
 final_mcq$AgeGroup <- as.factor(as.character(final_mcq$AgeGroup))
@@ -6307,9 +5414,8 @@ exp1_stateprime_aov = aov(data = exp1_state_prime,
                           Trials ~ AgeGroup*PrimeCondition*State + 
                           Error(Target/(AgeGroup*PrimeCondition*State)))
 summary(exp1_stateprime_aov)
-sjstats::eta_sq(car::Anova(exp1_stateprime_aov), partial = TRUE)
-library(ez)
-ezANOVA(data = exp1_state_prime, wid = .(Subject),
+ library(ez)
+ezANOVA(data = exp1_state_prime, wid = .(Target),
         dv = .(Trials), within =.(PrimeCondition, State),
         between = .(AgeGroup))
 
@@ -6510,7 +5616,7 @@ exp2_stateprime_aov = aov(data = exp2_state_prime,
 summary(exp2_stateprime_aov)
 
 library(ez)
-ezANOVA(data = exp1_state_prime, wid = .(Subject),
+ezANOVA(data = exp1_state_prime, wid = .(Target),
         dv = .(Trials), within =.(PrimeCondition, State),
         between = .(AgeGroup))
 
@@ -6573,7 +5679,7 @@ e2mcq_o_u = e2_mcq_u %>% filter(AgeGroup == "Old")
 t.test(e2mcq_y_u$MCQAcc, e2mcq_o_u$MCQAcc)
 
 
-ezANOVA(data = exp2_mcq_acc, wid = .(Subject),
+ezANOVA(data = exp2_mcq_acc, wid = .(Target),
         dv = .(MCQAcc), within =.(PrimeType),
         between = .(AgeGroup))
 
@@ -6600,7 +5706,7 @@ exp2_mcq_aov = aov(data = exp2_mcq,
                         Error(Target/(AgeGroup*PrimeType*ChosenPrime)))
 summary(exp2_mcq_aov)
 library(ez)
-ezANOVA(data = exp2_mcq, wid = .(Subject),
+ezANOVA(data = exp2_mcq, wid = .(Target),
         dv = .(Proportion), within =.(PrimeType, ChosenPrime),
         between = .(AgeGroup))
 
@@ -6715,7 +5821,7 @@ exp3_state_prime$Target = as.factor(as.character(exp3_state_prime$Target))
 
 ## just state
 exp3_state_aov = aov(data = exp3_state, Trials ~ State + 
-                                        Error(Subject/State))
+                                        Error(Target/State))
 summary(exp3_state_aov)
 
 options(contrasts = c('contr.sum', 'contr.poly'))
@@ -6732,7 +5838,7 @@ exp3_stateprime_aov = aov(data = exp3_state_prime,
 summary(exp3_stateprime_aov)
 
 library(ez)
-ezANOVA(data = exp3_state_prime, wid = .(Subject),
+ezANOVA(data = exp3_state_prime, wid = .(Target),
         dv = .(Trials), within =.(PrimeCondition, State))
 
 options(contrasts = c('contr.sum', 'contr.poly'))
@@ -6770,7 +5876,7 @@ t.test(e3_mcq_r$MCQAcc, e3_mcq_u$MCQAcc, paired = TRUE) ##sig
 t.test(e3_mcq_r$MCQAcc, e3_mcq_p$MCQAcc, paired = TRUE) 
 
 
-ezANOVA(data = exp3_mcq_acc, wid = .(Subject),
+ezANOVA(data = exp3_mcq_acc, wid = .(Target),
         dv = .(MCQAcc), within =.(PrimeType))
 
 
@@ -6795,7 +5901,7 @@ exp3_mcq_aov = aov(data = exp3_mcq, Proportion ~ PrimeType*ChosenPrime +
                           Error(Target/(PrimeType*ChosenPrime)))
 summary(exp3_mcq_aov)
 library(ez)
-ezANOVA(data = exp3_mcq, wid = .(Subject),
+ezANOVA(data = exp3_mcq, wid = .(Target),
         dv = .(Proportion), within =.(PrimeType, ChosenPrime))
 
 options(contrasts = c('contr.sum', 'contr.poly'))
@@ -6849,10 +5955,10 @@ library(tidyr)
 library(dplyr)
 statepercent <- j_statepercent %>%
   gather(StatePrime, Percent, 
-         r_know_new, r_dontknow_new,r_other_new, r_TOT_new,
-         p_know_new, p_dontknow_new,p_other_new, p_TOT_new,
-         b_know_new, b_dontknow_new,b_other_new, b_TOT_new,
-         u_know_new, u_dontknow_new,u_other_new, u_TOT_new) %>%
+         r_know, r_dontknow,r_other, r_TOT,
+         p_know, p_dontknow,p_other, p_TOT,
+         b_know, b_dontknow,b_other, b_TOT,
+         u_know, u_dontknow,u_other, u_TOT) %>%
   separate(StatePrime, c('Prime', 'State'), sep = "_") %>%
   arrange(value.Target)
 
@@ -6863,7 +5969,6 @@ colnames(statepercent) = c("AgeGroup",  "StudyNo", "Target", "TargetNo",
 statepercent$AgeGroup <- as.factor(statepercent$AgeGroup)
 statepercent$Target <- as.factor(statepercent$Target)
 statepercent$StudyNo <- as.factor(statepercent$StudyNo)
-statepercent$PrimeInstruction <- as.factor(statepercent$PrimeInstruction)
 statepercent$PrimeCondition <- as.factor(statepercent$PrimeCondition)
 statepercent$State <- as.factor(statepercent$State)
 statepercent$Percent <- as.numeric(as.character(statepercent$Percent))
@@ -7024,7 +6129,7 @@ t.test(target_y$Percent, target_o$Percent, paired = FALSE)
 @
 
 \subsubsection{plot}
-<<>>=
+<<fig=TRUE>>=
 exp1_statepercent= Rmisc::summarySE(statepercent_exp1, 
                         measurevar = "Percent",
                         groupvars = c("State", "AgeGroup", "PrimeCondition"))
@@ -7195,7 +6300,7 @@ t.test(target_p$Percent, target_u$Percent, paired = TRUE)
 
 \subsubsection{plot}
 
-<<>>=
+<<fig=TRUE>>=
 exp2_statepercent= Rmisc::summarySE(statepercent_exp2, 
                         measurevar = "Percent",
                         groupvars = c("State", "AgeGroup", "PrimeCondition"))
@@ -7314,7 +6419,7 @@ summary(e3_TOT_aov)
 
 \subsubsection {plot}
 
-<<>>=
+<<fig=TRUE>>=
 exp3_statepercent= Rmisc::summarySE(statepercent_exp3, 
                         measurevar = "Percent",
                         groupvars = c("State","AgeGroup", "PrimeCondition"))
@@ -7350,35 +6455,4 @@ e3_percentplot
 @
 
 
-\section {Demographics}
-
-<<>>=
-setwd("~/JuliePaperAnalysis/AggregateDemographics")
-e1_demo = read.csv("E1_demographics_Agg.csv", header = TRUE, sep = ",")
-
-psych::describe(e1_demo)
-
-t.test(e1_demo$Old_Education, e1_demo$Young_Education)
-## we only have shipley for 12 older adults 121-132. 
-library(dplyr)
-e1_old_shipleydata = e1_demo %>% filter(OldSubject %in% c("121", "122", "123","124","125", "126",
-                                                          "127", "128", "129", "130", "131","132"))
-e1_shipley_old = mean(e1_demo$ShipleyOld, na.rm = TRUE)
-e1_shipley_young = mean(e1_demo$ShipleyYoung, na.rm = TRUE)
-
-t.test(e1_old_shipleydata$ShipleyOld, e1_demo$ShipleyYoung)
-
-
-e2_demo = read.csv("E2_Demographics_Agg.csv", header = TRUE, sep = ",")
-
-psych::describe(e2_demo)
-
-
-t.test(e2_demo$Old_Education, e2_demo$Young_Education)
-
-e2_shipley_old = mean(e2_demo$ShipleyOld, na.rm = TRUE)
-e2_shipley_young = mean(e2_demo$ShipleyYoung, na.rm = TRUE)
-
-t.test(e2_demo$ShipleyOld, e2_demo$ShipleyYoung)
-@
 \end{document}
